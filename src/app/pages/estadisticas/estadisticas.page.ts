@@ -80,4 +80,10 @@ export class EstadisticasPage {
       }))
       .sort((a, b) => b.monto - a.monto);
   }
+
+  saldoDisponible = computed(() => {
+  const p = this.presupuestoService.presupuesto();
+  if (!p) return 0;
+  return p.monto - this.gastosService.totalMes();
+});
 }

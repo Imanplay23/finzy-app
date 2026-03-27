@@ -27,8 +27,8 @@
       <ion-item lines="none">
         <ion-label>Saldo Disponible</ion-label>
         <ion-note slot="end"
-          [style.color]="presupuestoService.saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
-          {{ presupuestoService.saldoDisponible() | currency }}
+          [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
+          {{ saldoDisponible() | currency }}
         </ion-note>
       </ion-item>
     </ion-card-content>

@@ -27,8 +27,8 @@
         </div>
         <div class="resumen-item">
           <small>Disponible</small>
-          <strong [style.color]="presupuestoService.saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
-            {{ presupuestoService.saldoDisponible() | currency }}
+          <strong [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
+            {{ saldoDisponible() | currency }}
           </strong>
         </div>
       </div>

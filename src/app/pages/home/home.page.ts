@@ -14,6 +14,8 @@ import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { CATEGORIAS_DEFAULT } from '../../core/models/categoria.model';
 import { NuevoGastoModalComponent } from './components/nuevo-gasto-modal/nuevo-gasto-modal.component';
 import { AlertController } from '@ionic/angular/standalone';
+import { computed } from '@angular/core';
+import { ToastController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +34,7 @@ export class HomePage {
   presupuestoService = inject(PresupuestoService);
   private modalCtrl = inject(ModalController);
   private alertCtrl = inject(AlertController);
+  private toastCtrl = inject(ToastController);
 
   categorias = CATEGORIAS_DEFAULT;
 
@@ -51,14 +54,46 @@ export class HomePage {
     return this.categorias.find(c => c.id === id)?.nombre ?? 'Otros';
   }
 
-  async abrirNuevoGasto() {
-    const modal = await this.modalCtrl.create({
-      component: NuevoGastoModalComponent,
-      breakpoints: [0, 0.75, 1],
-      initialBreakpoint: 0.75,
-    });
-    await modal.present();
+saldoDisponible = computed(() => {
+  const p = this.presupuestoService.presupuesto();
+  if (!p) return null;
+  return p.monto - this.gastosService.totalMes();
+});
+
+async abrirNuevoGasto() {
+  const modal = await this.modalCtrl.create({
+    component: NuevoGastoModalComponent,
+    breakpoints: [0, 0.75, 1],
+    initialBreakpoint: 0.75,
+  });
+  await modal.present();
+  await modal.onDidDismiss();
+  this.verificarPresupuesto();
+}
+
+private async verificarPresupuesto() {
+  const p = this.presupuestoService.presupuesto();
+  if (!p) return;
+
+  const porcentaje = (this.gastosService.totalMes() / p.monto) * 100;
+  let mensaje = '';
+  let color = '';
+
+  if (porcentaje >= 100) {
+    mensaje = '⚠️ ¡Superaste tu presupuesto mensual!';
+    color = 'danger';
+  } else if (porcentaje >= 80) {
+    mensaje = `⚠️ Llevas el ${porcentaje.toFixed(0)}% de tu presupuesto`;
+    color = 'warning';
   }
+
+  if (mensaje) {
+    const toast = await this.toastCtrl.create({
+      message: mensaje, duration: 3000, color, position: 'top'
+    });
+    await toast.present();
+  }
+}
 
 async eliminarGasto(id: string) {
   const alert = await this.alertCtrl.create({

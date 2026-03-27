@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe, NgIf } from '@angular/common';
 import {
@@ -31,6 +31,12 @@ export class PresupuestoPage {
     this.presupuestoService.guardar(this.nuevoMonto);
     this.nuevoMonto = null;
   }
+
+  saldoDisponible = computed(() => {
+  const p = this.presupuestoService.presupuesto();
+  if (!p) return 0;
+  return p.monto - this.gastosService.totalMes();
+});
 
   get porcentajeUsado(): number {
     const p = this.presupuestoService.presupuesto();
