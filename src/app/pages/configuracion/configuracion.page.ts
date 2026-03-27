@@ -1,35 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
-  IonHeader, IonToolbar, IonTitle, IonContent,
-  IonButtons, IonMenuButton, IonList, IonItem,
-  IonLabel, IonToggle
+  IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
+  IonMenuButton, IonList, IonItem, IonLabel, IonToggle,
+  IonListHeader, IonNote, IonIcon
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { moonOutline, sunnyOutline, informationCircleOutline } from 'ionicons/icons';
+import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
   selector: 'app-configuracion',
   standalone: true,
   imports: [
-    IonHeader, IonToolbar, IonTitle, IonContent,
-    IonButtons, IonMenuButton, IonList, IonItem,
-    IonLabel, IonToggle
+    IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
+    IonMenuButton, IonList, IonItem, IonLabel, IonToggle,
+    IonListHeader, IonNote, IonIcon
   ],
-  template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-title>Configuración</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <ion-list>
-        <ion-item>
-          <ion-label>Versión</ion-label>
-          <ion-label slot="end" color="medium">1.0.0</ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  `
+  templateUrl: './configuracion.page.html',
 })
-export class ConfiguracionPage {}
+export class ConfiguracionPage {
+  themeService = inject(ThemeService);
+
+  constructor() {
+    addIcons({ moonOutline, sunnyOutline, informationCircleOutline });
+  }
+}
