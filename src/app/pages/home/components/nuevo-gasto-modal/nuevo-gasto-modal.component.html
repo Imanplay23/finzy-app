@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelar()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Nuevo Gasto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="guardar()" [strong]="true">Guardar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="stacked">Descripción</ion-label>
+    <ion-input [(ngModel)]="descripcion" placeholder="Ej: pague la luz"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Monto</ion-label>
+    <ion-input type="number" [(ngModel)]="monto" placeholder="0.00"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Categoría</ion-label>
+    <ion-select [(ngModel)]="categoriaId" interface="popover">
+      <ion-select-option *ngFor="let cat of categorias" [value]="cat.id">
+        {{ cat.nombre }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Fecha y hora</ion-label>
+    <ion-datetime
+      presentation="date-time"
+      [(ngModel)]="fecha"
+      [max]="fecha">
+    </ion-datetime>
+  </ion-item>
+
+</ion-content>

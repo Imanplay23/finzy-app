@@ -1,0 +1,36 @@
+.welcome-card {
+  background: var(--ion-card-background);
+  border-radius: 16px;
+  padding: 24px;
+
+  h2 { margin: 8px 0 4px; }
+  p  { color: var(--ion-color-medium); margin: 0; }
+}
+
+.resumen-row {
+  display: flex;
+  gap: 12px;
+
+  .resumen-item {
+    flex: 1;
+    background: var(--ion-card-background);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+
+    small { color: var(--ion-color-medium); font-size: 12px; }
+    strong { font-size: 18px; margin-top: 4px; }
+  }
+}
+
+.section-header {
+  h3 { margin: 0 0 8px; font-weight: 600; }
+}
+
+.cat-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}

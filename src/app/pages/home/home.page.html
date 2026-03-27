@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Banner bienvenida -->
+  <div class="welcome-card ion-text-center ion-padding ion-margin-bottom">
+    <ion-icon name="wallet-outline" style="font-size: 48px; color: var(--ion-color-primary)"></ion-icon>
+    <h2>¡Bienvenido!</h2>
+    <p>Mantén el control de tus gastos de manera fácil y efectiva</p>
+  </div>
+
+  <!-- Resumen rápido -->
+  <div class="resumen-row ion-margin-bottom" *ngIf="presupuestoService.presupuesto()">
+    <div class="resumen-item">
+      <small>Gastado</small>
+      <strong>{{ gastosService.totalMes() | currency }}</strong>
+    </div>
+    <div class="resumen-item">
+      <small>Disponible</small>
+      <strong [style.color]="presupuestoService.saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
+        {{ presupuestoService.saldoDisponible() | currency }}
+      </strong>
+    </div>
+  </div>
+
+  <!-- Lista de gastos -->
+  <div class="section-header">
+    <h3>Lista de Gastos</h3>
+  </div>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let gasto of gastosService.gastos()">
+      <ion-item>
+        <div slot="start" class="cat-dot"
+          [style.background]="getCategoriaColor(gasto.categoriaId)">
+        </div>
+        <ion-label>
+          <h2>{{ gasto.descripcion }}</h2>
+          <p>{{ getCategoriaNombre(gasto.categoriaId) }} · {{ gasto.fecha | date:'dd/MM/yyyy' }} {{ gasto.hora }}</p>
+        </ion-label>
+        <ion-note slot="end" color="primary">
+          {{ gasto.monto | currency }}
+        </ion-note>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="eliminarGasto(gasto.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- FAB -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="abrirNuevoGasto()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
