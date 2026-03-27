@@ -36,44 +36,134 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
-.ion-palette-dark {
-  --ion-background-color: #121212;
-  --ion-background-color-rgb: 18, 18, 18;
-  --ion-card-background: #1e1e1e;
-  --ion-item-background: #1e1e1e;
-  --ion-toolbar-background: #1a1a1a;
-  --ion-tab-bar-background: #1a1a1a;
-  --ion-text-color: #ffffff;
-  --ion-color-medium: #999999;
-  --ion-color-step-50:  #1e1e1e;
-  --ion-color-step-100: #2a2a2a;
-  --ion-color-step-150: #363636;
-  --ion-color-step-200: #414141;
-
-  ion-content  { --background: #121212; }
-  ion-list     { background: transparent !important; }
-  ion-item     { --background: #1e1e1e; --border-color: #2a2a2a; }
+// ─── MODO CLARO (default) ───────────────────────────────────────────────────
+:root {
+  --ion-background-color:        #f4f5f8;
+  --ion-background-color-rgb:    244, 245, 248;
+  --ion-text-color:              #1a1a1a;
+  --ion-text-color-rgb:          26, 26, 26;
+  --ion-color-medium:            #666666;
+  --ion-card-background:         #ffffff;
+  --ion-item-background:         #ffffff;
+  --ion-toolbar-background:      #ffffff;
+  --ion-tab-bar-background:      #ffffff;
+  --ion-border-color:            #e0e0e0;
+  --ion-color-step-50:           #f4f5f8;
+  --ion-color-step-100:          #e8eaf0;
+  --ion-color-step-150:          #dcdee8;
+  --ion-color-step-200:          #d0d2e0;
+  --ion-color-step-250:          #c4c6d8;
+  --ion-color-step-300:          #b8bad0;
 }
 
-:root:not(.ion-palette-dark) {
-  --ion-background-color: #f4f5f8;
-  --ion-background-color-rgb: 244, 245, 248;
+// ─── MODO OSCURO ─────────────────────────────────────────────────────────────
+.ion-palette-dark {
+  --ion-background-color:        #121212;
+  --ion-background-color-rgb:    18, 18, 18;
+  --ion-text-color:              #ffffff;
+  --ion-text-color-rgb:          255, 255, 255;
+  --ion-color-medium:            #999999;
+  --ion-card-background:         #1e1e1e;
+  --ion-item-background:         #1e1e1e;
+  --ion-toolbar-background:      #1a1a1a;
+  --ion-tab-bar-background:      #1a1a1a;
+  --ion-border-color:            #2a2a2a;
+  --ion-color-step-50:           #1e1e1e;
+  --ion-color-step-100:          #2a2a2a;
+  --ion-color-step-150:          #363636;
+  --ion-color-step-200:          #414141;
+  --ion-color-step-250:          #4d4d4d;
+  --ion-color-step-300:          #595959;
+}
 
-  --ion-card-background: #ffffff;
-  --ion-item-background: #ffffff;
+// ─── ESTILOS BASE (ambos modos) ───────────────────────────────────────────────
+ion-content {
+  --background: var(--ion-background-color);
+}
 
-  --ion-toolbar-background: #ffffff;
-  --ion-tab-bar-background: #ffffff;
+ion-list {
+  background: transparent !important;
+}
 
-  --ion-text-color: #1a1a1a;
-  --ion-color-medium: #666666;
+ion-item {
+  --background:    var(--ion-item-background);
+  --color:         var(--ion-text-color);
+  --border-color:  var(--ion-border-color);
+}
 
-  --ion-color-step-50:  #f4f5f8;
-  --ion-color-step-100: #e8eaf0;
-  --ion-color-step-150: #dcdee8;
-  --ion-color-step-200: #d0d2e0;
+ion-card {
+  background: var(--ion-card-background);
+  color:       var(--ion-text-color);
+  box-shadow:  0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+}
 
-  ion-content { --background: #f4f5f8; }
-  ion-list    { background: transparent !important; }
-  ion-item    { --background: #ffffff; --border-color: #e8eaf0; }
+ion-toolbar {
+  --background: var(--ion-toolbar-background);
+  --color:      var(--ion-text-color);
+
+  ion-menu-button,
+  ion-back-button,
+  ion-button {
+    color: var(--ion-text-color);
+  }
+}
+
+// ─── MENÚ LATERAL ─────────────────────────────────────────────────────────────
+ion-menu {
+  --background: var(--ion-item-background);
+
+  ion-content {
+    --background: var(--ion-item-background);
+  }
+
+  ion-list-header {
+    color:       var(--ion-color-medium);
+    font-size:   12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  ion-item {
+    --background:       var(--ion-item-background);
+    --color:            var(--ion-text-color);
+    --border-color:     transparent;
+    --padding-start:    20px;
+    border-radius:      10px;
+    margin: 2px 8px;
+
+    ion-icon {
+      color: var(--ion-text-color);
+      font-size: 20px;
+    }
+
+    ion-label {
+      color: var(--ion-text-color);
+    }
+
+    &.selected {
+      --background: rgba(var(--ion-color-primary-rgb), 0.15);
+
+      ion-icon,
+      ion-label {
+        color: var(--ion-color-primary) !important;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// ─── TRANSICIÓN SUAVE AL CAMBIAR TEMA ─────────────────────────────────────────
+* {
+  transition:
+    background-color 0.3s ease,
+    color 0.2s ease,
+    border-color 0.3s ease !important;
+}
+
+// Excluir transición en elementos donde causa bugs visuales
+ion-icon,
+canvas {
+  transition: none !important;
 }
