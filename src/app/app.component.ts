@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgFor } from '@angular/common';
 import {
@@ -10,6 +10,7 @@ import { addIcons } from 'ionicons';
 import {
   homeOutline, walletOutline, barChartOutline, settingsOutline
 } from 'ionicons/icons';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -51,6 +52,7 @@ import {
   `,
 })
 export class AppComponent {
+  private themeService = inject(ThemeService);
   pages = [
     { title: 'Inicio',        url: '/home',         icon: 'home-outline'      },
     { title: 'Presupuesto',   url: '/presupuesto',  icon: 'wallet-outline'    },

@@ -6,16 +6,15 @@ export class ThemeService {
   private _darkMode = signal<boolean>(false);
   darkMode = this._darkMode.asReadonly();
 
-  constructor() {
-    // Cargar preferencia guardada o usar preferencia del sistema
-    const guardado = localStorage.getItem('darkMode');
-    if (guardado !== null) {
-      this.setDarkMode(JSON.parse(guardado));
-    } else {
-      const prefiereDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.setDarkMode(prefiereDark);
-    }
+constructor() {
+  const guardado = localStorage.getItem('darkMode');
+  if (guardado !== null) {
+    this.setDarkMode(JSON.parse(guardado));
+  } else {
+    const prefiereDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    this.setDarkMode(prefiereDark);
   }
+}
 
   toggle() {
     this.setDarkMode(!this._darkMode());
