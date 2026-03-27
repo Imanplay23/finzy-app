@@ -1,7 +1,6 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { DatabaseService } from './database.service';
 import { Presupuesto } from '../models/presupuesto.model';
-import { GastosService } from './gastos.service';
 
 const KEY = 'presupuesto_actual';
 
@@ -9,19 +8,9 @@ const KEY = 'presupuesto_actual';
 export class PresupuestoService {
 
   private _presupuesto = signal<Presupuesto | null>(null);
-
   presupuesto = this._presupuesto.asReadonly();
 
-  saldoDisponible = computed(() => {
-    const p = this._presupuesto();
-    if (!p) return 0;
-    return p.monto - this.gastosService.totalMes();
-  });
-
-  constructor(
-    private db: DatabaseService,
-    private gastosService: GastosService
-  ) {
+  constructor(private db: DatabaseService) {
     this.cargar();
   }
 
