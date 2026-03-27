@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe, NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
   IonMenuButton, IonItem, IonLabel, IonInput, IonButton,
@@ -25,6 +26,7 @@ export class PresupuestoPage {
   presupuestoService = inject(PresupuestoService);
   gastosService = inject(GastosService);
   private toastCtrl = inject(ToastController);
+  private router = inject(Router);
 
   nuevoMonto: number | null = null;
 
@@ -48,6 +50,14 @@ async guardar() {
     duration: 2000,
     color: 'success',
     position: 'top',
+    buttons: [
+        {
+          text: 'Ir a Inicio',
+          handler: () => {
+            this.router.navigate(['/home']);
+          }
+        }
+      ]
   });
   await toast.present();
 }
