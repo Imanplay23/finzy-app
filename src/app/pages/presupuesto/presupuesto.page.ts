@@ -8,6 +8,7 @@ import {
 } from '@ionic/angular/standalone';
 import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { GastosService } from '../../core/services/gastos.service';
+import { ToastController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-presupuesto',
@@ -23,14 +24,33 @@ import { GastosService } from '../../core/services/gastos.service';
 export class PresupuestoPage {
   presupuestoService = inject(PresupuestoService);
   gastosService = inject(GastosService);
+  private toastCtrl = inject(ToastController);
 
   nuevoMonto: number | null = null;
 
-  guardar() {
-    if (!this.nuevoMonto || this.nuevoMonto <= 0) return;
-    this.presupuestoService.guardar(this.nuevoMonto);
-    this.nuevoMonto = null;
+async guardar() {
+  if (!this.nuevoMonto || this.nuevoMonto <= 0) {
+    const toast = await this.toastCtrl.create({
+      message: 'Ingresa un monto válido mayor a 0',
+      duration: 2000,
+      color: 'danger',
+      position: 'top',
+    });
+    await toast.present();
+    return;
   }
+
+  this.presupuestoService.guardar(this.nuevoMonto);
+  this.nuevoMonto = null;
+
+  const toast = await this.toastCtrl.create({
+    message: '✅ Presupuesto guardado correctamente',
+    duration: 2000,
+    color: 'success',
+    position: 'top',
+  });
+  await toast.present();
+}
 
   saldoDisponible = computed(() => {
   const p = this.presupuestoService.presupuesto();

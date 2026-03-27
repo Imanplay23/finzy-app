@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { NgFor, NgIf, CurrencyPipe, DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular/standalone';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
@@ -35,6 +36,7 @@ export class HomePage {
   private modalCtrl = inject(ModalController);
   private alertCtrl = inject(AlertController);
   private toastCtrl = inject(ToastController);
+  private router = inject(Router);
 
   categorias = CATEGORIAS_DEFAULT;
 
@@ -61,6 +63,25 @@ saldoDisponible = computed(() => {
 });
 
 async abrirNuevoGasto() {
+  if (!this.presupuestoService.presupuesto()) {
+    const toast = await this.toastCtrl.create({
+      message: '⚠️ Debes establecer un presupuesto primero',
+      duration: 3000,
+      color: 'warning',
+      position: 'top',
+      buttons: [
+        {
+          text: 'Ir a Presupuesto',
+          handler: () => {
+            this.router.navigate(['/presupuesto']);
+          }
+        }
+      ]
+    });
+    await toast.present();
+    return;
+  }
+
   const modal = await this.modalCtrl.create({
     component: NuevoGastoModalComponent,
     breakpoints: [0, 0.75, 1],

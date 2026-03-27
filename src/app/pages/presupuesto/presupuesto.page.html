@@ -8,18 +8,18 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
   <!-- Resumen actual -->
-  <ion-card *ngIf="presupuestoService.presupuesto()">
+  <!-- <ion-card *ngIf="presupuestoService.presupuesto()">
     <ion-card-header>
       <ion-card-title>Este mes</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-
       <div class="resumen-row">
         <div class="resumen-item">
           <small>Presupuesto</small>
-          <strong>{{ presupuestoService.presupuesto()!.monto | currency }}</strong>
+          <strong
+            >{{ presupuestoService.presupuesto()!.monto | currency }}</strong
+          >
         </div>
         <div class="resumen-item">
           <small>Total Gastado</small>
@@ -35,23 +35,24 @@
 
       <!-- Barra de progreso -->
       <div class="progress-bar-bg">
-        <div class="progress-bar-fill"
+        <div
+          class="progress-bar-fill"
           [style.width.%]="porcentajeUsado"
-          [style.background]="porcentajeUsado >= 90 ? '#eb445a' : porcentajeUsado >= 70 ? '#ffc409' : '#2dd36f'">
-        </div>
+          [style.background]="porcentajeUsado >= 90 ? '#eb445a' : porcentajeUsado >= 70 ? '#ffc409' : '#2dd36f'"
+        ></div>
       </div>
       <!-- <small class="ion-text-center" style="display:block; margin-top: 4px">
         {{ porcentajeUsado | number:'1.0-0' }}% utilizado
-      </small> -->
-
+      </small> --
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
 
   <!-- Formulario -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>
-        {{ presupuestoService.presupuesto() ? 'Actualizar presupuesto' : 'Establecer presupuesto' }}
+        {{ presupuestoService.presupuesto() ? 'Actualizar presupuesto' :
+        'Establecer presupuesto' }}
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -60,14 +61,19 @@
         <ion-input
           type="number"
           [(ngModel)]="nuevoMonto"
-          placeholder="Ingrese el presupuesto">
+          placeholder="Ingrese el presupuesto"
+        >
         </ion-input>
       </ion-item>
 
-      <ion-button expand="block" class="ion-margin-top" (click)="guardar()">
+      <ion-button
+        expand="block"
+        class="ion-margin-top"
+        (click)="guardar()"
+        [disabled]="!nuevoMonto || nuevoMonto <= 0"
+      >
         Guardar Presupuesto
       </ion-button>
     </ion-card-content>
   </ion-card>
-
 </ion-content>
