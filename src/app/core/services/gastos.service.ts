@@ -54,4 +54,9 @@ export class GastosService {
     this.db.delete(TABLA, id);
     this.cargar();
   }
+
+  editar(gasto: Gasto): void {
+  this.db.save(TABLA, gasto);
+  this.cargar();
+}
 }

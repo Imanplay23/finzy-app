@@ -9,7 +9,7 @@ import {
   IonItemOptions, IonItemOption, IonBadge, IonText
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, trashOutline, walletOutline } from 'ionicons/icons';
+import { addOutline, trashOutline, walletOutline, createOutline } from 'ionicons/icons';
 import { GastosService } from '../../core/services/gastos.service';
 import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { CATEGORIAS_DEFAULT } from '../../core/models/categoria.model';
@@ -17,6 +17,7 @@ import { NuevoGastoModalComponent } from './components/nuevo-gasto-modal/nuevo-g
 import { AlertController } from '@ionic/angular/standalone';
 import { computed } from '@angular/core';
 import { ToastController } from '@ionic/angular/standalone';
+import { Gasto } from 'src/app/core/models/gastos.model';
 
 @Component({
   selector: 'app-home',
@@ -40,7 +41,7 @@ export class HomePage {
   categorias = CATEGORIAS_DEFAULT;
 
   constructor() {
-    addIcons({walletOutline,trashOutline,addOutline});
+    addIcons({walletOutline,addOutline,createOutline,trashOutline});
   }
 
   getCategoriaColor(id: string): string {
@@ -129,6 +130,16 @@ async eliminarGasto(id: string) {
     ]
   });
   await alert.present();
+}
+
+async editarGasto(gasto: Gasto) {
+  const modal = await this.modalCtrl.create({
+    component: NuevoGastoModalComponent,
+    componentProps: { gasto },
+    breakpoints: [0, 0.75, 1],
+    initialBreakpoint: 0.75,
+  });
+  await modal.present();
 }
 
 }
