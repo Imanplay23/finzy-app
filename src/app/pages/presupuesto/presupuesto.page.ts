@@ -1,20 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { CurrencyPipe, NgIf } from '@angular/common';
+import {
+  IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
+  IonMenuButton, IonItem, IonLabel, IonInput, IonButton,
+  IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonNote
+} from '@ionic/angular/standalone';
+import { PresupuestoService } from '../../core/services/presupuesto.service';
+import { GastosService } from '../../core/services/gastos.service';
 
 @Component({
   selector: 'app-presupuesto',
-  templateUrl: './presupuesto.page.html',
-  styleUrls: ['./presupuesto.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [
+    FormsModule, CurrencyPipe, NgIf,
+    IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
+    IonMenuButton, IonItem, IonLabel, IonInput, IonButton,
+    IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonNote
+  ],
+  templateUrl: './presupuesto.page.html',
 })
-export class PresupuestoPage implements OnInit {
+export class PresupuestoPage {
+  presupuestoService = inject(PresupuestoService);
+  gastosService = inject(GastosService);
 
-  constructor() { }
+  nuevoMonto: number | null = null;
 
-  ngOnInit() {
+  guardar() {
+    if (!this.nuevoMonto || this.nuevoMonto <= 0) return;
+    this.presupuestoService.guardar(this.nuevoMonto);
+    this.nuevoMonto = null;
   }
 
+  get porcentajeUsado(): number {
+    const p = this.presupuestoService.presupuesto();
+    if (!p || p.monto === 0) return 0;
+    return Math.min((this.gastosService.totalMes() / p.monto) * 100, 100);
+  }
 }

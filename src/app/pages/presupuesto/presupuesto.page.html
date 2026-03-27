@@ -1,13 +1,73 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>presupuesto</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Presupuesto</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">presupuesto</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+
+  <!-- Resumen actual -->
+  <ion-card *ngIf="presupuestoService.presupuesto()">
+    <ion-card-header>
+      <ion-card-title>Este mes</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+
+      <div class="resumen-row">
+        <div class="resumen-item">
+          <small>Presupuesto</small>
+          <strong>{{ presupuestoService.presupuesto()!.monto | currency }}</strong>
+        </div>
+        <div class="resumen-item">
+          <small>Total Gastado</small>
+          <strong>{{ gastosService.totalMes() | currency }}</strong>
+        </div>
+        <div class="resumen-item">
+          <small>Disponible</small>
+          <strong [style.color]="presupuestoService.saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
+            {{ presupuestoService.saldoDisponible() | currency }}
+          </strong>
+        </div>
+      </div>
+
+      <!-- Barra de progreso -->
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill"
+          [style.width.%]="porcentajeUsado"
+          [style.background]="porcentajeUsado >= 90 ? '#eb445a' : porcentajeUsado >= 70 ? '#ffc409' : '#2dd36f'">
+        </div>
+      </div>
+      <!-- <small class="ion-text-center" style="display:block; margin-top: 4px">
+        {{ porcentajeUsado | number:'1.0-0' }}% utilizado
+      </small> -->
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Formulario -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        {{ presupuestoService.presupuesto() ? 'Actualizar presupuesto' : 'Establecer presupuesto' }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Monto mensual</ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="nuevoMonto"
+          placeholder="Ingrese el presupuesto">
+        </ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="ion-margin-top" (click)="guardar()">
+        Guardar Presupuesto
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
