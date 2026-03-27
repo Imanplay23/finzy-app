@@ -10,11 +10,11 @@
 <ion-content class="ion-padding">
 
   <!-- Banner bienvenida -->
-  <div class="welcome-card ion-text-center ion-padding ion-margin-bottom">
+  <ion-card class="welcome-card ion-text-center ion-padding ion-margin-bottom">
     <ion-icon name="wallet-outline" style="font-size: 48px; color: var(--ion-color-primary)"></ion-icon>
     <h2>¡Bienvenido!</h2>
     <p>Mantén el control de tus gastos de manera fácil y efectiva</p>
-  </div>
+  </ion-card>
 
   <!-- Resumen rápido -->
   <!-- <div class="resumen-row ion-margin-bottom" *ngIf="presupuestoService.presupuesto()">
@@ -32,16 +32,20 @@
   </div> -->
 
   <!-- Lista de gastos -->
-  <div class="section-header">
+  <ion-item class="section-header">
     <h3>Lista de Gastos</h3>
-  </div>
+    <ion-button slot="end" (click)="abrirNuevoGasto()">
+      <ion-icon name="add-outline"></ion-icon>
+      Nuevo Gasto
+    </ion-button>
+  </ion-item>
 
   <ion-list>
     <ion-item-sliding *ngFor="let gasto of gastosService.gastos()">
       <ion-item>
-        <div slot="start" class="cat-dot"
+        <ion-card slot="start" class="cat-dot"
           [style.background]="getCategoriaColor(gasto.categoriaId)">
-        </div>
+        </ion-card>
         <ion-label>
           <h2>{{ gasto.descripcion }}</h2>
           <p>{{ getCategoriaNombre(gasto.categoriaId) }} · {{ gasto.fecha | date:'dd/MM/yyyy' }} {{ gasto.hora }}</p>
@@ -60,10 +64,8 @@
   </ion-list>
 
   <!-- FAB -->
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="abrirNuevoGasto()">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <!-- <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    
+  </ion-fab> -->
 
 </ion-content>

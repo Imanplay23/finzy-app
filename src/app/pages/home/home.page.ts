@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NgFor, NgIf, CurrencyPipe, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular/standalone';
+import { ModalController, IonButton, IonCard } from '@ionic/angular/standalone';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
   IonMenuButton, IonList, IonItem, IonLabel, IonNote,
@@ -21,13 +21,12 @@ import { ToastController } from '@ionic/angular/standalone';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
+  imports: [IonButton,
     NgFor, NgIf, CurrencyPipe, DatePipe,
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
     IonMenuButton, IonList, IonItem, IonLabel, IonNote,
     IonFab, IonFabButton, IonIcon, IonItemSliding,
-    IonItemOptions, IonItemOption, IonBadge, IonText
-  ],
+    IonItemOptions, IonItemOption, IonBadge, IonText, IonCard],
   templateUrl: './home.page.html',
 })
 export class HomePage {
