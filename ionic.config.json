@@ -1,0 +1,7 @@
+{
+  "name": "finzy-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
