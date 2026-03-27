@@ -1,6 +1,8 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { DatabaseService } from './database.service';
 import { Gasto } from '../models/gastos.model';
+import { ToastController } from '@ionic/angular/standalone';
+import { PresupuestoService } from './presupuesto.service';
 
 const TABLA = 'gastos';
 
@@ -8,6 +10,8 @@ const TABLA = 'gastos';
 export class GastosService {
 
   private _gastos = signal<Gasto[]>([]);
+  private toastCtrl = inject(ToastController);
+  private presupuestoService = inject(PresupuestoService); // ← ojo: importar después
 
   // Signal público (solo lectura)
   gastos = this._gastos.asReadonly();
@@ -37,14 +41,44 @@ export class GastosService {
   }
 
   agregar(gasto: Omit<Gasto, 'id' | 'creadoEn'>): void {
-    const nuevo: Gasto = {
-      ...gasto,
-      id: crypto.randomUUID(),
-      creadoEn: Date.now(),
-    };
-    this.db.save(TABLA, nuevo);
-    this.cargar();
+  const nuevo: Gasto = {
+    ...gasto,
+    id: crypto.randomUUID(),
+    creadoEn: Date.now(),
+  };
+  this.db.save(TABLA, nuevo);
+  this.cargar();
+  this.verificarPresupuesto();
+}
+
+private async verificarPresupuesto() {
+  const p = this.presupuestoService.presupuesto();
+  if (!p) return;
+
+  const total = this.totalMes();
+  const porcentaje = (total / p.monto) * 100;
+
+  let mensaje = '';
+  let color = '';
+
+  if (porcentaje >= 100) {
+    mensaje = '⚠️ ¡Superaste tu presupuesto mensual!';
+    color = 'danger';
+  } else if (porcentaje >= 80) {
+    mensaje = `⚠️ Llevas el ${porcentaje.toFixed(0)}% de tu presupuesto`;
+    color = 'warning';
   }
+
+  if (mensaje) {
+    const toast = await this.toastCtrl.create({
+      message: mensaje,
+      duration: 3000,
+      color,
+      position: 'top',
+    });
+    await toast.present();
+  }
+}
 
   eliminar(id: string): void {
     this.db.delete(TABLA, id);
