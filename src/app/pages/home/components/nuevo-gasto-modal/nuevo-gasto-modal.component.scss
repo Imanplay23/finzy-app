@@ -1,0 +1,29 @@
+.form-card {
+  background: var(--ion-card-background);
+  border-radius: 16px;
+  overflow: hidden;
+
+  ion-item {
+    --background: var(--ion-card-background);
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+  }
+}
+
+.fecha-hora-row {
+  display: flex;
+
+  .fecha-item {
+    flex: 2;
+    justify-content: center;
+  }
+}
+
+ion-footer {
+  background: var(--ion-toolbar-background);
+
+  ion-button {
+    --border-radius: 12px;
+    font-weight: 600;
+  }
+}
