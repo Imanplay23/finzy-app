@@ -21,9 +21,9 @@ import { Gasto } from '../../../../core/models/gastos.model';
     FormsModule, NgFor,
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
     IonButton, IonItem, IonLabel, IonInput, IonSelect,
-    IonSelectOption, IonIcon, IonFooter, IonDatetimeButton,
+    IonSelectOption, IonIcon, IonDatetimeButton,
     IonModal, IonDatetime
-  ],
+],
   templateUrl: './nuevo-gasto-modal.component.html',
   styleUrls: ['./nuevo-gasto-modal.component.scss']
 })
