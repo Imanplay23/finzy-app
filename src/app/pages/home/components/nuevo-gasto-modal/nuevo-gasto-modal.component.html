@@ -41,37 +41,23 @@
     </ion-item>
 
     <!-- Fecha y hora nativas — amigables en móvil -->
-  <ion-item lines="full" class="fecha-item">
-    <ion-label position="stacked">Fecha</ion-label>
-    <ion-datetime-button datetime="picker-fecha"></ion-datetime-button>
-    <ion-modal [keepContentsMounted]="true">
-      <ng-template>
-        <ion-datetime
-          id="picker-fecha"
-          presentation="date"
-          [(ngModel)]="fechaInput"
-          [max]="hoy"
-          locale="es-DO">
-        </ion-datetime>
-      </ng-template>
-    </ion-modal>
-  </ion-item>
+    <ion-item lines="full">
+      <ion-label position="stacked">Fecha</ion-label>
+      <input
+        type="date"
+        [(ngModel)]="fechaInput"
+        [max]="hoy"
+        class="native-input"
+      />
+    </ion-item>
 
-  <ion-item lines="full" class="hora-item">
-    <ion-label position="stacked">Hora</ion-label>
-    <ion-datetime-button datetime="picker-hora"></ion-datetime-button>
-    <ion-modal [keepContentsMounted]="true">
-      <ng-template>
-        <ion-datetime
-          id="picker-hora"
-          presentation="time"
-          [(ngModel)]="horaInput"
-          locale="es-DO">
-        </ion-datetime>
-      </ng-template>
-    </ion-modal>
-  </ion-item>
+    <ion-item lines="full">
+      <ion-label position="stacked">Hora</ion-label>
+      <input type="time" [(ngModel)]="horaInput" class="native-input" />
+    </ion-item>
   </ion-card>
+
+  <!--Boton de guardar-->
   <ion-button expand="block" (click)="guardar()">
     <ion-icon slot="start" name="save-outline"></ion-icon>
     {{ esEdicion ? "GUARDAR CAMBIOS" : "AGREGAR GASTO" }}

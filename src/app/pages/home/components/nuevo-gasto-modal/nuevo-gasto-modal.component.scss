@@ -27,3 +27,23 @@ ion-footer {
     font-weight: 600;
   }
 }
+
+.native-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ion-text-color);
+  font-size: 16px;
+  padding: 8px 0;
+  width: 100%;
+  font-family: inherit;
+
+  // Fix icono calendario/reloj en modo claro
+  color-scheme: light dark;
+
+  &::-webkit-calendar-picker-indicator {
+    filter: var(--picker-icon-filter);
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}

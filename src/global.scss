@@ -109,6 +109,14 @@ ion-toolbar {
   }
 }
 
+:root:not(.ion-palette-dark) {
+  --picker-icon-filter: invert(0.4); // oscuro sobre fondo claro
+}
+
+.ion-palette-dark {
+  --picker-icon-filter: invert(1); // claro sobre fondo oscuro
+}
+
 // ─── MENÚ LATERAL ─────────────────────────────────────────────────────────────
 ion-menu {
   --background: var(--ion-item-background);
