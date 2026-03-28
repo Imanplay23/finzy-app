@@ -27,7 +27,6 @@ import {
   IonList,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { trendingUpOutline, pieChartOutline } from 'ionicons/icons';
 import { GastosService } from '../../core/services/gastos.service';
 import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { CATEGORIAS_DEFAULT } from '../../core/models/categoria.model';
@@ -39,6 +38,8 @@ import {
   medkitOutline,
   schoolOutline,
   ellipsisHorizontalOutline,
+  trendingUpOutline, 
+  pieChartOutline
 } from 'ionicons/icons';
 
 Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
