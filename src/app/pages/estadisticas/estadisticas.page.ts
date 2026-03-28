@@ -38,9 +38,8 @@ import {
   medkitOutline,
   schoolOutline,
   ellipsisHorizontalOutline,
-  trendingUpOutline, 
-  pieChartOutline
-} from 'ionicons/icons';
+  statsChartOutline, 
+  barChartOutline, pieChartOutline } from 'ionicons/icons';
 
 Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
 
@@ -78,16 +77,15 @@ export class EstadisticasPage {
 
   constructor() {
     addIcons({
+      barChartOutline,
+      statsChartOutline,
       fastFoodOutline,
       busOutline,
       homeOutline,
       gameControllerOutline,
       medkitOutline,
       schoolOutline,
-      ellipsisHorizontalOutline,
-      pieChartOutline,
-      trendingUpOutline
-    });
+      ellipsisHorizontalOutline});
   }
 
   // Datos para el donut

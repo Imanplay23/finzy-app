@@ -38,7 +38,7 @@
   <ion-card *ngIf="gastosService.gastosMesActual().length > 0">
     <ion-card-header>
       <ion-card-title>
-        <ion-icon name="pie-chart-outline"></ion-icon>
+        <ion-icon name="bar-chart-outline"></ion-icon>
         Gastos por Categoría
       </ion-card-title>
       <small>Este mes</small>
@@ -56,7 +56,7 @@
   <ion-card *ngIf="mayoresGastos.length > 0">
     <ion-card-header>
       <ion-card-title>
-        <ion-icon name="trending-up-outline"></ion-icon>
+        <ion-icon name="stats-chart-outline"></ion-icon>
         Mayores Gastos
       </ion-card-title>
       <small>Este mes</small>
@@ -79,7 +79,7 @@
 
   <!-- Sin datos -->
   <div class="ion-text-center ion-padding" *ngIf="gastosService.gastosMesActual().length === 0">
-    <ion-icon name="pie-chart-outline" style="font-size: 64px; color: var(--ion-color-medium)"></ion-icon>
+    <ion-icon name="bar-chart-outline" style="font-size: 64px; color: var(--ion-color-medium)"></ion-icon>
     <p style="color: var(--ion-color-medium)">Sin gastos este mes</p>
   </div>
 
