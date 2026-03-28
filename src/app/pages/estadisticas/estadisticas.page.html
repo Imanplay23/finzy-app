@@ -9,73 +9,83 @@
 
 <ion-content class="ion-padding">
 
-  <!-- Resumen -->
-  <ion-card *ngIf="presupuestoService.presupuesto()">
-    <ion-card-content>
-      <ion-item lines="full">
-        <ion-label>Presupuesto</ion-label>
-        <ion-note slot="end">
-          {{ presupuestoService.presupuesto()!.monto | currency }}
-        </ion-note>
-      </ion-item>
-      <ion-item lines="full">
-        <ion-label>Total Gastado</ion-label>
-        <ion-note slot="end">
-          {{ gastosService.totalMes() | currency }}
-        </ion-note>
-      </ion-item>
-      <ion-item lines="none">
-        <ion-label>Saldo Disponible</ion-label>
-        <ion-note slot="end"
-          [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
-          {{ saldoDisponible() | currency }}
-        </ion-note>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-
-  <!-- Gráfico donut -->
-<ion-card *ngIf="gastosService.gastosMesActual().length > 0 && chartData.datasets[0].data.length > 0">
-  <ion-card-header>
-    <ion-card-title>Gastos por Categoría</ion-card-title>
-    <small>Este mes</small>
-  </ion-card-header>
-  <ion-card-content>
-    <canvas baseChart
-      [data]="chartData"
-      [options]="chartOptions"
-      type="doughnut">
-    </canvas>
-  </ion-card-content>
-</ion-card>
-
-  <!-- Mayores gastos -->
-  <ion-card *ngIf="mayoresGastos.length > 0">
-    <ion-card-header>
-      <ion-card-title>
-        Mayores Gastos
-      </ion-card-title>
-      <small>Este mes</small>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list lines="full">
-        <ion-item *ngFor="let item of mayoresGastos">
-          <ion-icon slot="start" [name]="item.icono" [style.color]="item.color"></ion-icon>
-          <ion-label>
-            <h3>{{ item.nombre }}</h3>
-            <p>{{ item.porcentaje | number:'1.0-0' }}% del total</p>
-          </ion-label>
-          <ion-note slot="end" color="primary">
-            {{ item.monto | currency }}
+  @if (presupuestoService.presupuesto()) {
+    <ion-card>
+      <ion-card-content>
+        <ion-item lines="full">
+          <ion-label>Presupuesto</ion-label>
+          <ion-note slot="end">
+            {{ presupuestoService.presupuesto()!.monto | currency }}
           </ion-note>
         </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+        <ion-item lines="full">
+          <ion-label>Total Gastado</ion-label>
+          <ion-note slot="end">
+            {{ gastosService.totalMes() | currency }}
+          </ion-note>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>Saldo Disponible</ion-label>
+          <ion-note slot="end"
+            [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
+            {{ saldoDisponible() | currency }}
+          </ion-note>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  }
 
-  <!-- Sin datos -->
-  <div class="ion-text-center ion-padding" *ngIf="gastosService.gastosMesActual().length === 0">
-    <p style="color: var(--ion-color-medium)">Sin gastos este mes</p>
-  </div>
+  @if (chartSeries.length > 0) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Gastos por Categoría</ion-card-title>
+        <small>Este mes</small>
+      </ion-card-header>
+      <ion-card-content>
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [labels]="chartOptions.labels"
+          [colors]="chartOptions.colors"
+          [legend]="chartOptions.legend"
+          [dataLabels]="chartOptions.dataLabels"
+          [plotOptions]="chartOptions.plotOptions"
+          [stroke]="chartOptions.stroke"
+          [theme]="chartOptions.theme">
+        </apx-chart>
+      </ion-card-content>
+    </ion-card>
+  }
+
+  @if (mayoresGastos.length > 0) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Mayores Gastos</ion-card-title>
+        <small>Este mes</small>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="full">
+          @for (item of mayoresGastos; track item.id) {
+            <ion-item>
+              <div slot="start" class="cat-dot" [style.background]="item.color"></div>
+              <ion-label>
+                <h3>{{ item.nombre }}</h3>
+                <p>{{ item.porcentaje | number:'1.0-0' }}% del total</p>
+              </ion-label>
+              <ion-note slot="end" color="primary">
+                {{ item.monto | currency }}
+              </ion-note>
+            </ion-item>
+          }
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  }
+
+  @if (gastosService.gastosMesActual().length === 0) {
+    <div class="ion-text-center ion-padding">
+      <p style="color: var(--ion-color-medium)">Sin gastos este mes</p>
+    </div>
+  }
 
 </ion-content>
