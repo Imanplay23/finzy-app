@@ -41,33 +41,36 @@
     </ion-item>
 
     <!-- Fecha y hora nativas — amigables en móvil -->
-    <ion-item class="fecha-hora-row">
-      <ion-item lines="full" class="fecha-item">
-        <ion-label position="stacked">Fecha y Hora</ion-label>
-        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+  <ion-item lines="full" class="fecha-item">
+    <ion-label position="stacked">Fecha</ion-label>
+    <ion-datetime-button datetime="picker-fecha"></ion-datetime-button>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime
+          id="picker-fecha"
+          presentation="date"
+          [(ngModel)]="fechaInput"
+          [max]="hoy"
+          locale="es-DO">
+        </ion-datetime>
+      </ng-template>
+    </ion-modal>
+  </ion-item>
 
-        <ion-modal [keepContentsMounted]="true">
-          <ng-template>
-            <ion-datetime
-              id="datetime"
-              presentation="date-time"
-              value="2023-11-02T01:22:00"
-              [formatOptions]="{
-        date: {
-          weekday: 'short',
-          month: 'long',
-          day: '2-digit',
-        },
-        time: {
-          hour: '2-digit',
-          minute: '2-digit',
-        },
-      }"
-            ></ion-datetime>
-          </ng-template>
-        </ion-modal>
-      </ion-item>
-    </ion-item>
+  <ion-item lines="full" class="hora-item">
+    <ion-label position="stacked">Hora</ion-label>
+    <ion-datetime-button datetime="picker-hora"></ion-datetime-button>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime
+          id="picker-hora"
+          presentation="time"
+          [(ngModel)]="horaInput"
+          locale="es-DO">
+        </ion-datetime>
+      </ng-template>
+    </ion-modal>
+  </ion-item>
   </ion-card>
   <ion-button expand="block" (click)="guardar()">
     <ion-icon slot="start" name="save-outline"></ion-icon>
