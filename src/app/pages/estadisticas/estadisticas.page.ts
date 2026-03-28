@@ -32,8 +32,8 @@ import { GastosService } from '../../core/services/gastos.service';
 import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { CATEGORIAS_DEFAULT } from '../../core/models/categoria.model';
 import {
-  restaurantOutline,
-  carOutline,
+  fastFoodOutline,
+  busOutline,
   homeOutline,
   gameControllerOutline,
   medkitOutline,
@@ -77,8 +77,8 @@ export class EstadisticasPage {
 
   constructor() {
     addIcons({
-      restaurantOutline,
-      carOutline,
+      fastFoodOutline,
+      busOutline,
       homeOutline,
       gameControllerOutline,
       medkitOutline,
