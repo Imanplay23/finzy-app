@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgFor } from '@angular/common';
-import { ModalController, ToastController } from '@ionic/angular/standalone';
+import { ModalController, ToastController, IonCard } from '@ionic/angular/standalone';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
   IonButton, IonItem, IonLabel, IonInput, IonSelect,
@@ -17,7 +17,7 @@ import { Gasto } from '../../../../core/models/gastos.model';
 @Component({
   selector: 'app-nuevo-gasto-modal',
   standalone: true,
-  imports: [
+  imports: [IonCard, 
     FormsModule, NgFor,
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
     IonButton, IonItem, IonLabel, IonInput, IonSelect,

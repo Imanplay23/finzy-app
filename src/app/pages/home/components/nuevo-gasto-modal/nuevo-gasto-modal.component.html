@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div class="form-card">
+  <ion-card class="form-card">
     <ion-item lines="full">
       <ion-label position="stacked">Descripción</ion-label>
       <ion-input
@@ -46,15 +46,31 @@
         <ion-label position="stacked">Fecha y Hora</ion-label>
         <ion-datetime-button
           mode="ios"
+          datetime="datetime"
         ></ion-datetime-button>
         <ion-modal [keepContentsMounted]="true">
           <ng-template>
-            <ion-datetime id="datetime"></ion-datetime>
+            <ion-datetime
+              id="datetime"
+              presentation="date-time"
+              value="2023-11-02T01:22:00"
+              [formatOptions]="{
+        date: {
+          weekday: 'short',
+          month: 'long',
+          day: '2-digit',
+        },
+        time: {
+          hour: '2-digit',
+          minute: '2-digit',
+        },
+      }"
+            ></ion-datetime>
           </ng-template>
         </ion-modal>
       </ion-item>
     </ion-item>
-  </div>
+  </ion-card>
   <ion-button expand="block" (click)="guardar()">
     <ion-icon slot="start" name="save-outline"></ion-icon>
     {{ esEdicion ? "GUARDAR CAMBIOS" : "AGREGAR GASTO" }}
