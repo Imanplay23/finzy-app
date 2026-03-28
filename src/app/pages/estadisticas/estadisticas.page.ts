@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
   DoughnutController,
+  PieController
 } from 'chart.js';
 import {
   IonHeader,
@@ -39,7 +40,13 @@ import {
   schoolOutline,
   ellipsisHorizontalOutline, statsChartOutline, barChartOutline } from 'ionicons/icons';
 
-Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
+Chart.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  DoughnutController,
+  PieController
+);
 
 @Component({
   selector: 'app-estadisticas',
@@ -78,24 +85,28 @@ export class EstadisticasPage {
   }
 
   // Datos para el donut
-  get chartData(): ChartData<'doughnut'> {
-    const porCat = this.gastosService.gastosPorCategoria();
-    const labels: string[] = [];
-    const data: number[] = [];
-    const colors: string[] = [];
+get chartData(): ChartData<'doughnut'> {
+  const porCat = this.gastosService.gastosPorCategoria();
+  const labels: string[] = [];
+  const data: number[] = [];
+  const colors: string[] = [];
 
-    for (const [id, monto] of Object.entries(porCat)) {
-      const cat = this.categorias.find((c) => c.id === id);
-      labels.push(cat?.nombre ?? id);
-      data.push(monto);
-      colors.push(cat?.color ?? '#999');
-    }
-
-    return {
-      labels,
-      datasets: [{ data, backgroundColor: colors, borderWidth: 2 }],
-    };
+  if (!porCat || Object.keys(porCat).length === 0) {
+    return { labels: [], datasets: [{ data: [], backgroundColor: [] }] };
   }
+
+  for (const [id, monto] of Object.entries(porCat)) {
+    const cat = this.categorias.find(c => c.id === id);
+    labels.push(cat?.nombre ?? id);
+    data.push(monto);
+    colors.push(cat?.color ?? '#999');
+  }
+
+  return {
+    labels,
+    datasets: [{ data, backgroundColor: colors, borderWidth: 2 }]
+  };
+}
 
   chartOptions: ChartOptions<'doughnut'> = {
     responsive: true,
