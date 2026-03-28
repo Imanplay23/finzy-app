@@ -19,10 +19,6 @@ import {
   IonSelect,
   IonSelectOption,
   IonIcon,
-  IonFooter,
-  IonDatetimeButton,
-  IonModal,
-  IonDatetime,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { saveOutline, closeOutline } from 'ionicons/icons';
@@ -49,7 +45,6 @@ import { Gasto } from '../../../../core/models/gastos.model';
     IonSelect,
     IonSelectOption,
     IonIcon,
-    IonDatetime,
   ],
   templateUrl: './nuevo-gasto-modal.component.html',
   styleUrls: ['./nuevo-gasto-modal.component.scss'],
