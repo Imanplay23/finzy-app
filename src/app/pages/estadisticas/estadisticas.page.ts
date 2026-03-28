@@ -39,7 +39,8 @@ import {
   schoolOutline,
   ellipsisHorizontalOutline,
   statsChartOutline, 
-  barChartOutline, pieChartOutline } from 'ionicons/icons';
+  barChartOutline,
+} from 'ionicons/icons';
 
 Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
 
