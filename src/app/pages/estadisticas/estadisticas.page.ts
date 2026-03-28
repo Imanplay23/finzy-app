@@ -84,6 +84,8 @@ export class EstadisticasPage {
       medkitOutline,
       schoolOutline,
       ellipsisHorizontalOutline,
+      pieChartOutline,
+      trendingUpOutline
     });
   }
 
