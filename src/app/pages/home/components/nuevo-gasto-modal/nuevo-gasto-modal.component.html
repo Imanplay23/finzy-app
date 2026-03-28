@@ -44,10 +44,8 @@
     <ion-item class="fecha-hora-row">
       <ion-item lines="full" class="fecha-item">
         <ion-label position="stacked">Fecha y Hora</ion-label>
-        <ion-datetime-button
-          mode="ios"
-          datetime="datetime"
-        ></ion-datetime-button>
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
         <ion-modal [keepContentsMounted]="true">
           <ng-template>
             <ion-datetime
