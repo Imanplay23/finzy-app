@@ -1,106 +1,110 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
-
-/* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
-
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+// ── Google Fonts ─────────────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-// @import '@ionic/angular/css/palettes/dark.system.css';
-
-// ─── MODO CLARO (default) ───────────────────────────────────────────────────
+// ── Variables globales ────────────────────────────────────────
 :root {
-  --ion-background-color:        #f4f5f8;
-  --ion-background-color-rgb:    244, 245, 248;
-  --ion-text-color:              #1a1a1a;
-  --ion-text-color-rgb:          26, 26, 26;
-  --ion-color-medium:            #666666;
-  --ion-card-background:         #ffffff;
-  --ion-item-background:         #ffffff;
-  --ion-toolbar-background:      #ffffff;
-  --ion-tab-bar-background:      #ffffff;
-  --ion-border-color:            #e0e0e0;
-  --ion-color-step-50:           #f4f5f8;
-  --ion-color-step-100:          #e8eaf0;
-  --ion-color-step-150:          #dcdee8;
-  --ion-color-step-200:          #d0d2e0;
-  --ion-color-step-250:          #c4c6d8;
-  --ion-color-step-300:          #b8bad0;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  // Colores primarios
+  --ion-color-primary:          #4F6EF7;
+  --ion-color-primary-rgb:      79, 110, 247;
+  --ion-color-primary-shade:    #3a57d4;
+  --ion-color-primary-tint:     #6b85f8;
+
+  // Colores semánticos
+  --color-success:  #2dd36f;
+  --color-danger:   #eb445a;
+  --color-warning:  #ffc409;
+
+  // Radios
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  20px;
+  --radius-xl:  28px;
+
+  // Sombras
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.18);
+
+  // Picker icons
+  --picker-icon-filter: invert(0.4);
 }
 
-// ─── MODO OSCURO ─────────────────────────────────────────────────────────────
+// ── MODO CLARO ────────────────────────────────────────────────
+:root:not(.ion-palette-dark) {
+  --ion-background-color:       #F0F2FA;
+  --ion-background-color-rgb:   240, 242, 250;
+  --ion-text-color:             #0F1123;
+  --ion-text-color-rgb:         15, 17, 35;
+  --ion-color-medium:           #7A7F9A;
+  --ion-card-background:        #FFFFFF;
+  --ion-item-background:        #FFFFFF;
+  --ion-toolbar-background:     #FFFFFF;
+  --ion-border-color:           #E8EAF4;
+  --ion-color-step-50:          #F0F2FA;
+  --ion-color-step-100:         #E4E6F2;
+  --ion-color-step-150:         #D8DAE8;
+  --ion-color-step-200:         #CCCEDE;
+  --picker-icon-filter:         invert(0.4);
+}
+
+// ── MODO OSCURO ───────────────────────────────────────────────
 .ion-palette-dark {
-  --ion-background-color:        #121212;
-  --ion-background-color-rgb:    18, 18, 18;
-  --ion-text-color:              #ffffff;
-  --ion-text-color-rgb:          255, 255, 255;
-  --ion-color-medium:            #999999;
-  --ion-card-background:         #1e1e1e;
-  --ion-item-background:         #1e1e1e;
-  --ion-toolbar-background:      #1a1a1a;
-  --ion-tab-bar-background:      #1a1a1a;
-  --ion-border-color:            #2a2a2a;
-  --ion-color-step-50:           #1e1e1e;
-  --ion-color-step-100:          #2a2a2a;
-  --ion-color-step-150:          #363636;
-  --ion-color-step-200:          #414141;
-  --ion-color-step-250:          #4d4d4d;
-  --ion-color-step-300:          #595959;
+  --ion-background-color:       #0D0E1A;
+  --ion-background-color-rgb:   13, 14, 26;
+  --ion-text-color:             #E8EAFF;
+  --ion-text-color-rgb:         232, 234, 255;
+  --ion-color-medium:           #6B6F8A;
+  --ion-card-background:        #161828;
+  --ion-item-background:        #161828;
+  --ion-toolbar-background:     #111220;
+  --ion-border-color:           #252740;
+  --ion-color-step-50:          #161828;
+  --ion-color-step-100:         #1E2035;
+  --ion-color-step-150:         #262840;
+  --ion-color-step-200:         #2E304B;
+  --picker-icon-filter:         invert(1);
 }
 
-// ─── ESTILOS BASE (ambos modos) ───────────────────────────────────────────────
+// ── TIPOGRAFÍA BASE ───────────────────────────────────────────
+* {
+  font-family: var(--font-family) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+// ── FONDO ─────────────────────────────────────────────────────
 ion-content {
   --background: var(--ion-background-color);
 }
 
-ion-list {
-  background: transparent !important;
-}
-
-ion-item {
-  --background:    var(--ion-item-background);
-  --color:         var(--ion-text-color);
-  --border-color:  var(--ion-border-color);
-}
-
-ion-card {
-  background: var(--ion-card-background);
-  color:       var(--ion-text-color);
-  box-shadow:  0 2px 8px rgba(0, 0, 0, 0.08);
-  border-radius: 16px;
-}
-
+// ── TOOLBAR ───────────────────────────────────────────────────
 ion-toolbar {
-  --background: var(--ion-toolbar-background);
-  --color:      var(--ion-text-color);
+  --background:    var(--ion-toolbar-background);
+  --color:         var(--ion-text-color);
+  --border-width:  0 !important;
+  box-shadow:      var(--shadow-sm);
+
+  ion-title {
+    font-size:   20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
 
   ion-menu-button,
   ion-back-button,
@@ -109,69 +113,179 @@ ion-toolbar {
   }
 }
 
-:root:not(.ion-palette-dark) {
-  --picker-icon-filter: invert(0.4); // oscuro sobre fondo claro
+// ── CARDS ─────────────────────────────────────────────────────
+ion-card {
+  background:    var(--ion-card-background);
+  color:         var(--ion-text-color);
+  border-radius: var(--radius-lg) !important;
+  box-shadow:    var(--shadow-md) !important;
+  margin:        0 0 16px 0;
+  border:        1px solid var(--ion-border-color);
+
+  ion-card-title {
+    font-size:   17px;
+    font-weight: 700;
+    color:       var(--ion-text-color);
+  }
+
+  ion-card-header {
+    padding-bottom: 4px;
+    small {
+      color:     var(--ion-color-medium);
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
 }
 
-.ion-palette-dark {
-  --picker-icon-filter: invert(1); // claro sobre fondo oscuro
+// ── LISTAS E ITEMS ────────────────────────────────────────────
+ion-list {
+  background:  transparent !important;
+  padding:     0 !important;
 }
 
-// ─── MENÚ LATERAL ─────────────────────────────────────────────────────────────
+ion-item {
+  --background:          var(--ion-item-background);
+  --color:               var(--ion-text-color);
+  --border-color:        var(--ion-border-color);
+  --padding-start:       16px;
+  --padding-end:         16px;
+  --min-height:          56px;
+
+  h2, h3 {
+    font-size:   15px;
+    font-weight: 600;
+    margin:      0;
+  }
+
+  p {
+    font-size:  12px;
+    color:      var(--ion-color-medium);
+    margin:     2px 0 0;
+  }
+}
+
+ion-note {
+  font-size:   15px;
+  font-weight: 700;
+}
+
+ion-label {
+  font-size:   14px;
+  font-weight: 500;
+
+  &[position="stacked"] {
+    font-size:   12px;
+    font-weight: 600;
+    color:       var(--ion-color-medium);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// ── BOTONES ───────────────────────────────────────────────────
+ion-button {
+  --border-radius: var(--radius-md);
+  font-weight:     600;
+  font-size:       14px;
+  letter-spacing:  0.3px;
+  height:          48px;
+  text-transform:  none;
+}
+
+// ── INPUTS ────────────────────────────────────────────────────
+ion-input {
+  font-size:   16px;
+  font-weight: 500;
+}
+
+// ── MENÚ LATERAL ─────────────────────────────────────────────
 ion-menu {
-  --background: var(--ion-item-background);
+  --background: var(--ion-toolbar-background);
 
   ion-content {
-    --background: var(--ion-item-background);
+    --background: var(--ion-toolbar-background);
   }
 
   ion-list-header {
-    color:       var(--ion-color-medium);
-    font-size:   12px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-size:      11px;
+    font-weight:    700;
+    color:          var(--ion-color-medium);
+    letter-spacing: 1.5px;
     text-transform: uppercase;
+    padding: 24px 20px 8px;
   }
 
   ion-item {
-    --background:       var(--ion-item-background);
-    --color:            var(--ion-text-color);
-    --border-color:     transparent;
-    --padding-start:    20px;
-    border-radius:      10px;
-    margin: 2px 8px;
+    --background:    transparent;
+    --color:         var(--ion-text-color);
+    --border-color:  transparent;
+    --padding-start: 16px;
+    --border-radius: var(--radius-md);
+    margin:          2px 8px;
+    border-radius:   var(--radius-md);
 
     ion-icon {
-      color: var(--ion-text-color);
+      color:     var(--ion-color-medium);
       font-size: 20px;
     }
 
     ion-label {
-      color: var(--ion-text-color);
+      font-size:   15px;
+      font-weight: 500;
+      color:       var(--ion-text-color);
     }
 
     &.selected {
-      --background: rgba(var(--ion-color-primary-rgb), 0.15);
+      --background: rgba(79, 110, 247, 0.12);
 
-      ion-icon,
-      ion-label {
+      ion-icon {
         color: var(--ion-color-primary) !important;
-        font-weight: 600;
+      }
+      ion-label {
+        color:       var(--ion-color-primary) !important;
+        font-weight: 700 !important;
       }
     }
   }
 }
 
-// ─── TRANSICIÓN SUAVE AL CAMBIAR TEMA ─────────────────────────────────────────
-* {
-  transition:
-    background-color 0.3s ease,
-    color 0.2s ease,
-    border-color 0.3s ease !important;
+// ── BADGE / CHIPS ─────────────────────────────────────────────
+ion-badge {
+  border-radius: 6px;
+  font-weight:   600;
+  font-size:     11px;
+  padding:       4px 8px;
 }
 
-// Excluir transición en elementos donde causa bugs visuales
-ion-icon,
-canvas {
-  transition: none !important;
+// ── NATIVE INPUT (fecha/hora) ─────────────────────────────────
+.native-input {
+  background:   transparent;
+  border:       none;
+  outline:      none;
+  color:        var(--ion-text-color);
+  font-size:    16px;
+  font-weight:  500;
+  font-family:  var(--font-family) !important;
+  padding:      8px 0;
+  width:        100%;
+
+  &::-webkit-calendar-picker-indicator {
+    filter:  var(--picker-icon-filter);
+    cursor:  pointer;
+    opacity: 0.7;
+  }
+}
+
+// ── TRANSICIONES ─────────────────────────────────────────────
+ion-content,
+ion-card,
+ion-item,
+ion-toolbar,
+ion-menu {
+  transition:
+    background-color 0.25s ease,
+    color 0.2s ease,
+    border-color 0.25s ease;
 }

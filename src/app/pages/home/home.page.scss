@@ -1,36 +1,65 @@
 .welcome-card {
-  background: var(--ion-card-background);
-  border-radius: 16px;
-  padding: 24px;
+  background:    linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-tint));
+  border-radius: var(--radius-xl);
+  padding:       28px 24px;
+  margin-bottom: 20px;
+  text-align:    center;
+  box-shadow:    0 8px 24px rgba(79, 110, 247, 0.3);
 
-  h2 { margin: 8px 0 4px; }
-  p  { color: var(--ion-color-medium); margin: 0; }
-}
+  ion-icon {
+    font-size: 48px;
+    color:     #ffffff;
+    margin-bottom: 8px;
+  }
 
-.resumen-row {
-  display: flex;
-  gap: 12px;
+  h2 {
+    color:       #ffffff;
+    font-size:   22px;
+    font-weight: 800;
+    margin:      4px 0;
+  }
 
-  .resumen-item {
-    flex: 1;
-    background: var(--ion-card-background);
-    border-radius: 12px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-
-    small { color: var(--ion-color-medium); font-size: 12px; }
-    strong { font-size: 18px; margin-top: 4px; }
+  p {
+    color:       rgba(255,255,255,0.8);
+    font-size:   13px;
+    margin:      0;
   }
 }
 
 .section-header {
-  h3 { margin: 0 0 8px; font-weight: 600; }
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  margin-bottom:   12px;
+
+  h3 {
+    margin:      0;
+    font-size:   18px;
+    font-weight: 700;
+  }
+
+  ion-button {
+    --border-radius: var(--radius-xl);
+    --padding-start: 14px;
+    --padding-end:   14px;
+    font-size:       13px;
+    font-weight:     600;
+    height:          38px;
+  }
 }
 
 .cat-dot {
-  width: 12px;
-  height: 12px;
+  width:         10px;
+  height:        10px;
   border-radius: 50%;
-  margin-right: 8px;
+  margin-right:  10px;
+  flex-shrink:   0;
+}
+
+ion-list {
+  background:    var(--ion-card-background) !important;
+  border-radius: var(--radius-lg) !important;
+  overflow:      hidden;
+  border:        1px solid var(--ion-border-color);
+  box-shadow:    var(--shadow-sm);
 }

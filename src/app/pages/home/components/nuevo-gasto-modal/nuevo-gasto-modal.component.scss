@@ -1,49 +1,45 @@
 .form-card {
-  background: var(--ion-card-background);
-  border-radius: 16px;
-  overflow: hidden;
+  background:    var(--ion-card-background);
+  border-radius: var(--radius-lg);
+  overflow:      hidden;
+  border:        1px solid var(--ion-border-color);
+  box-shadow:    var(--shadow-sm);
+  margin-bottom: 16px;
 
   ion-item {
-    --background: var(--ion-card-background);
-    --padding-top: 8px;
-    --padding-bottom: 8px;
-  }
-}
-
-.fecha-hora-row {
-  display: flex;
-
-  .fecha-item {
-    flex: 2;
-    justify-content: center;
+    --background:   var(--ion-card-background);
+    --border-color: var(--ion-border-color);
+    --padding-top:  6px;
+    --padding-bottom: 6px;
   }
 }
 
 ion-footer {
   background: var(--ion-toolbar-background);
+  padding:    12px 16px;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
 
   ion-button {
-    --border-radius: 12px;
-    font-weight: 600;
+    --border-radius: var(--radius-md);
+    font-weight:     700;
+    font-size:       15px;
+    height:          52px;
   }
 }
 
 .native-input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--ion-text-color);
-  font-size: 16px;
-  padding: 8px 0;
-  width: 100%;
-  font-family: inherit;
-
-  // Fix icono calendario/reloj en modo claro
-  color-scheme: light dark;
+  background:  transparent;
+  border:      none;
+  outline:     none;
+  color:       var(--ion-text-color);
+  font-size:   16px;
+  font-weight: 500;
+  padding:     8px 0;
+  width:       100%;
 
   &::-webkit-calendar-picker-indicator {
-    filter: var(--picker-icon-filter);
-    cursor: pointer;
-    opacity: 0.8;
+    filter:  var(--picker-icon-filter);
+    cursor:  pointer;
+    opacity: 0.7;
   }
 }
