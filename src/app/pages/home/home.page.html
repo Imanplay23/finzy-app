@@ -51,7 +51,7 @@
       <p>{{ getCategoriaNombre(gasto.categoriaId) }} · {{ gasto.fecha | date:'dd/MM/yyyy' }} {{ gasto.hora }}</p>
     </ion-label>
     <ion-note slot="end" color="primary">
-      {{ gasto.monto | currency }}
+      {{ gasto.monto | appCurrency }}
     </ion-note>
   </ion-item>
 

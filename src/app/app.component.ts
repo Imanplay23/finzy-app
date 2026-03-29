@@ -11,6 +11,8 @@ import {
   homeOutline, walletOutline, barChartOutline, settingsOutline
 } from 'ionicons/icons';
 import { ThemeService } from './core/services/theme.service';
+import { FontSizeService } from './core/services/font-size.service';
+import { CurrencyService } from './core/services/currency.service';
 
 @Component({
   selector: 'app-root',
@@ -53,6 +55,8 @@ import { ThemeService } from './core/services/theme.service';
 })
 export class AppComponent {
   private themeService = inject(ThemeService);
+  private fontSizeService = inject(FontSizeService);
+  private currencyService = inject(CurrencyService);
   pages = [
     { title: 'Inicio',        url: '/home',         icon: 'home-outline'      },
     { title: 'Presupuesto',   url: '/presupuesto',  icon: 'wallet-outline'    },

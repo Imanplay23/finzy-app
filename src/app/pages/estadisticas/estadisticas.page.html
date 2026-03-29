@@ -15,20 +15,20 @@
         <ion-item lines="full">
           <ion-label>Presupuesto</ion-label>
           <ion-note slot="end">
-            {{ presupuestoService.presupuesto()!.monto | currency }}
+            {{ presupuestoService.presupuesto()!.monto | appCurrency }}
           </ion-note>
         </ion-item>
         <ion-item lines="full">
           <ion-label>Total Gastado</ion-label>
           <ion-note slot="end">
-            {{ gastosService.totalMes() | currency }}
+            {{ gastosService.totalMes() | appCurrency }}
           </ion-note>
         </ion-item>
         <ion-item lines="none">
           <ion-label>Saldo Disponible</ion-label>
           <ion-note slot="end"
             [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
-            {{ saldoDisponible() | currency }}
+            {{ saldoDisponible() | appCurrency }}
           </ion-note>
         </ion-item>
       </ion-card-content>
@@ -73,7 +73,7 @@
                 <p>{{ item.porcentaje | number:'1.0-0' }}% del total</p>
               </ion-label>
               <ion-note slot="end" color="primary">
-                {{ item.monto | currency }}
+                {{ item.monto | appCurrency }}
               </ion-note>
             </ion-item>
           }

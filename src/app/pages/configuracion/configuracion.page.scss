@@ -1,0 +1,19 @@
+ion-list {
+  background:    var(--ion-card-background) !important;
+  border-radius: var(--radius-lg) !important;
+  overflow:      hidden;
+  border:        1px solid var(--ion-border-color);
+  box-shadow:    var(--shadow-sm);
+  margin-bottom: 16px;
+}
+
+ion-list-header {
+  font-size:      11px !important;
+  font-weight:    700 !important;
+  letter-spacing: 1px !important;
+  padding-top:    16px !important;
+}
+
+ion-range {
+  padding: 0 16px 8px;
+}

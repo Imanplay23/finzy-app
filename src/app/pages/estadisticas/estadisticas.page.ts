@@ -8,6 +8,7 @@ import {
 import { GastosService } from '../../core/services/gastos.service';
 import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { CATEGORIAS_DEFAULT } from '../../core/models/categoria.model';
+import { AppCurrencyPipe } from '../../core/pipes/app-currency.pipe';
 
 @Component({
   selector: 'app-estadisticas',
@@ -17,7 +18,7 @@ import { CATEGORIAS_DEFAULT } from '../../core/models/categoria.model';
     NgApexchartsModule,
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
     IonMenuButton, IonCard, IonCardContent, IonCardHeader,
-    IonCardTitle, IonItem, IonLabel, IonNote, IonList
+    IonCardTitle, IonItem, IonLabel, IonNote, IonList, AppCurrencyPipe 
   ],
   templateUrl: './estadisticas.page.html',
 })

@@ -18,6 +18,7 @@ import { AlertController } from '@ionic/angular/standalone';
 import { computed } from '@angular/core';
 import { ToastController } from '@ionic/angular/standalone';
 import { Gasto } from 'src/app/core/models/gastos.model';
+import { AppCurrencyPipe } from '../../core/pipes/app-currency.pipe';
 
 @Component({
   selector: 'app-home',
@@ -27,7 +28,7 @@ import { Gasto } from 'src/app/core/models/gastos.model';
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
     IonMenuButton, IonList, IonItem, IonLabel, IonNote,
     IonFab, IonFabButton, IonIcon, IonItemSliding,
-    IonItemOptions, IonItemOption, IonBadge, IonText, IonCard],
+    IonItemOptions, IonItemOption, IonBadge, IonText, IonCard, AppCurrencyPipe],
   templateUrl: './home.page.html',
 })
 export class HomePage {
