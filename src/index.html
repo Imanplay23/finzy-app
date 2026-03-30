@@ -18,10 +18,106 @@
   <!-- add to homescreen for ios -->
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-</head>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    #splash-screen {
+      position:        fixed;
+      inset:           0;
+      z-index:         99999;
+      background:      #0D0E1A;
+      display:         flex;
+      flex-direction:  column;
+      align-items:     center;
+      justify-content: center;
+      gap:             16px;
+      transition:      opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #splash-screen.hidden {
+      opacity:    0;
+      visibility: hidden;
+    }
+
+    #splash-screen img {
+      width:     120px;
+      height:    120px;
+      object-fit: contain;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    #splash-screen h1 {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size:   32px;
+      font-weight: 800;
+      color:       #ffffff;
+      letter-spacing: -0.5px;
+    }
+
+    #splash-screen p {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size:   14px;
+      color:       rgba(255,255,255,0.5);
+    }
+
+    .splash-dot-row {
+      display: flex;
+      gap:     8px;
+      margin-top: 32px;
+    }
+
+    .splash-dot {
+      width:         8px;
+      height:        8px;
+      border-radius: 50%;
+      background:    #4F6EF7;
+      animation:     bounce 1.2s ease-in-out infinite;
+    }
+
+    .splash-dot:nth-child(2) { animation-delay: 0.2s; }
+    .splash-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1);    opacity: 1;   }
+      50%       { transform: scale(1.08); opacity: 0.85; }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0);   opacity: 0.4; }
+      50%       { transform: translateY(-8px); opacity: 1;   }
+    }
+  </style>
+</head>
 <body>
+
+  <!-- Splash screen -->
+  <div id="splash-screen">
+    <img src="assets/icon-only.png" alt="Finzy" />
+    <h1>Finzy</h1>
+    <p>Cargando tus finanzas...</p>
+    <div class="splash-dot-row">
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+    </div>
+  </div>
+
   <app-root></app-root>
+
+  <script>
+    // Esperar a que Angular esté listo y ocultar splash
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+          splash.classList.add('hidden');
+          setTimeout(() => splash.remove(), 500);
+        }
+      }, 3000); // 2 segundos mínimo de splash
+    });
+  </script>
+
 </body>
+
 
 </html>
