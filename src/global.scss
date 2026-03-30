@@ -12,6 +12,10 @@
 // ── Google Fonts ─────────────────────────────────────────────
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
+
+:root:not(.ion-palette-dark) {
+  --logo-filter: none; // en claro se ve normal
+}
 // Font scale — controlado por FontSizeService
 :root {
   --font-scale: 1;
@@ -84,6 +88,7 @@
   --ion-color-step-150:         #262840;
   --ion-color-step-200:         #2E304B;
   --picker-icon-filter:         invert(1);
+  --logo-filter: brightness(0) invert(1); // en oscuro lo pone blanco
 }
 
 // ── TIPOGRAFÍA BASE ───────────────────────────────────────────

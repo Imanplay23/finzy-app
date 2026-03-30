@@ -4,15 +4,19 @@
   margin-bottom: 20px;
 
   .hero-logo {
-    font-size:     56px;
-    margin-bottom: 8px;
+    width:         100px;
+    height:        100px;
+    object-fit:    contain;
+    margin-bottom: 12px;
+    // Adapta el icono al tema activo
+    filter: var(--logo-filter);
   }
 
   h1 {
-    font-size:     32px;
-    font-weight:   800;
-    margin:        0 0 4px;
-    background:    linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-tint));
+    font-size:   32px;
+    font-weight: 800;
+    margin:      0 0 4px;
+    background:  linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-tint));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -48,7 +52,7 @@
   text-align:     center;
 
   small {
-    font-size:      11px;
+    font-size:      14px;
     font-weight:    600;
     color:          var(--ion-color-medium);
     text-transform: uppercase;
@@ -57,7 +61,7 @@
   }
 
   strong {
-    font-size:   16px;
+    font-size:   18px;
     font-weight: 700;
   }
 }
@@ -75,7 +79,7 @@
     margin-bottom:   6px;
 
     span {
-      font-size:   12px;
+      font-size:   18px;
       font-weight: 500;
       color:       var(--ion-color-medium);
     }
@@ -126,19 +130,19 @@
   flex-direction: column;
 
   .gasto-desc {
-    font-size:   14px;
+    font-size:   18px;
     font-weight: 600;
   }
 
   .gasto-meta {
-    font-size:  11px;
+    font-size:  14px;
     color:      var(--ion-color-medium);
     margin-top: 2px;
   }
 }
 
 .gasto-monto {
-  font-size:   15px;
+  font-size:   16px;
   font-weight: 700;
   color:       var(--ion-color-primary);
 }
