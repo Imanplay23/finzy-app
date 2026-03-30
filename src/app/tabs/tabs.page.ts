@@ -16,22 +16,22 @@ import {
       <ion-tab-bar slot="bottom">
 
         <ion-tab-button tab="inicio" href="/tabs/inicio">
-          <ion-icon name="home-outline"></ion-icon>
+          <ion-icon size="large" name="home-outline"></ion-icon>
           <ion-label>Inicio</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="gastos" href="/tabs/gastos">
-          <ion-icon name="list-outline"></ion-icon>
+          <ion-icon size="large" name="list-outline"></ion-icon>
           <ion-label>Gastos</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="presupuesto" href="/tabs/presupuesto">
-          <ion-icon name="wallet-outline"></ion-icon>
+          <ion-icon size="large" name="wallet-outline"></ion-icon>
           <ion-label>Presupuesto</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="estadisticas" href="/tabs/estadisticas">
-          <ion-icon name="bar-chart-outline"></ion-icon>
+          <ion-icon size="large" name="bar-chart-outline"></ion-icon>
           <ion-label>Estadísticas</ion-label>
         </ion-tab-button>
 
