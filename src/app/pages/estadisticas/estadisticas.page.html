@@ -15,28 +15,28 @@
             <strong>Resumen de presupuesto</strong>
           </ion-item>
           <ion-item class="resumen-item">
-            <ion-item class="resumen-icon" style="background: rgba(79,110,247,0.15)">
+            <div class="resumen-icon" style="background: rgba(79,110,247,0.15)">
               <ion-icon size="large" slot="start" name="wallet-outline" style="color: #4F6EF7"></ion-icon>
-            </ion-item>
+            </div>
             <strong>Presupuesto</strong>
             <strong slot="end">{{ presupuestoService.presupuesto()!.monto | appCurrency }}</strong>
           </ion-item>
 
           <ion-item class="resumen-item">
-            <ion-item class="resumen-icon" style="background: rgba(235,68,90,0.15)">
+            <div class="resumen-icon" style="background: rgba(235,68,90,0.15)">
               <ion-icon size="large"  slot="start" name="trending-up-outline" style="color: #eb445a"></ion-icon>
-            </ion-item>
+            </div>
             <strong>Gastado</strong>
             <strong slot="end">{{ gastosService.totalMes() | appCurrency }}</strong>
           </ion-item>
 
           <ion-item class="resumen-item">
-            <ion-item class="resumen-icon"
+            <div class="resumen-icon"
               [style.background]="saldoDisponible() < 0 ? 'rgba(235,68,90,0.15)' : 'rgba(45,211,111,0.15)'">
               <ion-icon size="large"  slot="start" name="cash-outline"
                 [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
               </ion-icon>
-            </ion-item>
+            </div>
             <strong>Disponible</strong>
             <strong slot="end" [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
               {{ saldoDisponible() | appCurrency }}
@@ -92,9 +92,9 @@
         <ion-card class="gastos-list">
           @for (item of mayoresGastos; track item.id) {
             <ion-item class="gasto-item">
-              <ion-item class="cat-icon" [style.background]="item.color + '22'">
+              <div class="cat-icon" [style.background]="item.color + '22'">
                 <ion-icon size="large" slot="start" [name]="item.icono" [style.color]="item.color"></ion-icon>
-              </ion-item>
+              </div>
 
               <ion-col class="gasto-info">
                 <ion-label class="gasto-nombre">{{ item.nombre }}</ion-label>
