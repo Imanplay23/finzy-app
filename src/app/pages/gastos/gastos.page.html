@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gastos</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      placeholder="Buscar gasto..."
+      (ionInput)="onBusqueda($event)"
+      animated="true">
+    </ion-searchbar>
+  </ion-toolbar>
+  <ion-toolbar>
+    <div class="filtros-row">
+      <ion-select
+        placeholder="Categoría"
+        (ionChange)="onCategoria($event)"
+        interface="popover"
+        value="todas">
+        <ion-select-option value="todas">Todas</ion-select-option>
+        @for (cat of categorias; track cat.id) {
+          <ion-select-option [value]="cat.id">{{ cat.nombre }}</ion-select-option>
+        }
+      </ion-select>
+
+      <ion-select
+        placeholder="Ordenar"
+        (ionChange)="onOrden($event)"
+        interface="popover"
+        value="fecha">
+        <ion-select-option value="fecha">Más reciente</ion-select-option>
+        <ion-select-option value="monto-desc">Mayor monto</ion-select-option>
+        <ion-select-option value="monto-asc">Menor monto</ion-select-option>
+      </ion-select>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  @if (gastosFiltrados().length === 0) {
+    <div class="empty-state">
+      <p>Sin gastos que mostrar</p>
+    </div>
+  }
+
+  <ion-list>
+    @for (gasto of gastosFiltrados(); track gasto.id) {
+      <ion-item-sliding>
+        <ion-item>
+          <div slot="start" class="cat-dot"
+            [style.background]="getCategoriaColor(gasto.categoriaId)">
+          </div>
+          <ion-label>
+            <h2>{{ gasto.descripcion }}</h2>
+            <p>{{ getCategoriaNombre(gasto.categoriaId) }} · {{ gasto.fecha }} {{ gasto.hora }}</p>
+          </ion-label>
+          <ion-note slot="end" color="primary">
+            {{ gasto.monto | appCurrency }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item-options side="start">
+          <ion-item-option color="primary" (click)="editarGasto(gasto)">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="eliminarGasto(gasto.id)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    }
+  </ion-list>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="abrirNuevoGasto()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

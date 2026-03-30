@@ -1,0 +1,37 @@
+.filtros-row {
+  display: flex;
+  gap:     8px;
+  padding: 0 16px 8px;
+
+  ion-select {
+    flex:          1;
+    background:    var(--ion-card-background);
+    border-radius: var(--radius-md);
+    padding:       6px 12px;
+    font-size:     13px;
+    font-weight:   600;
+    border:        1px solid var(--ion-border-color);
+  }
+}
+
+.cat-dot {
+  width:         10px;
+  height:        10px;
+  border-radius: 50%;
+  margin-right:  10px;
+  flex-shrink:   0;
+}
+
+ion-list {
+  background: transparent !important;
+}
+
+.empty-state {
+  text-align: center;
+  padding:    48px 16px;
+  color:      var(--ion-color-medium);
+}
+
+ion-fab-button {
+  --box-shadow: 0 4px 16px rgba(79, 110, 247, 0.4);
+}

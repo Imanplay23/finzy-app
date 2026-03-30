@@ -1,65 +1,156 @@
-.welcome-card {
-  background:    linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-tint));
-  border-radius: var(--radius-xl);
-  padding:       28px 24px;
-  margin-bottom: 20px;
+.hero-card {
   text-align:    center;
-  box-shadow:    0 8px 24px rgba(79, 110, 247, 0.3);
+  padding:       32px 16px 24px;
+  margin-bottom: 20px;
 
-  ion-icon {
-    font-size: 48px;
-    color:     #ffffff;
+  .hero-logo {
+    font-size:     56px;
     margin-bottom: 8px;
   }
 
-  h2 {
-    color:       #ffffff;
-    font-size:   22px;
-    font-weight: 800;
-    margin:      4px 0;
+  h1 {
+    font-size:     32px;
+    font-weight:   800;
+    margin:        0 0 4px;
+    background:    linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-tint));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   p {
-    color:       rgba(255,255,255,0.8);
-    font-size:   13px;
-    margin:      0;
+    color:     var(--ion-color-medium);
+    font-size: 14px;
+    margin:    0;
+  }
+}
+
+.resumen-card {
+  background:    var(--ion-card-background);
+  border-radius: var(--radius-xl);
+  padding:       20px;
+  margin-bottom: 24px;
+  border:        1px solid var(--ion-border-color);
+  box-shadow:    var(--shadow-md);
+}
+
+.resumen-top {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  margin-bottom:   20px;
+}
+
+.resumen-item {
+  flex:           1;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  text-align:     center;
+
+  small {
+    font-size:      11px;
+    font-weight:    600;
+    color:          var(--ion-color-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom:  4px;
+  }
+
+  strong {
+    font-size:   16px;
+    font-weight: 700;
+  }
+}
+
+.divider-v {
+  width:      1px;
+  height:     40px;
+  background: var(--ion-border-color);
+}
+
+.progress-section {
+  .progress-labels {
+    display:         flex;
+    justify-content: space-between;
+    margin-bottom:   6px;
+
+    span {
+      font-size:   12px;
+      font-weight: 500;
+      color:       var(--ion-color-medium);
+    }
+  }
+
+  .progress-bg {
+    background:    var(--ion-background-color);
+    border-radius: 99px;
+    height:        10px;
+    overflow:      hidden;
+
+    .progress-fill {
+      height:        100%;
+      border-radius: 99px;
+      transition:    width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   }
 }
 
 .section-header {
-  display:         flex;
-  align-items:     center;
-  justify-content: space-between;
-  margin-bottom:   12px;
-
   h3 {
-    margin:      0;
-    font-size:   18px;
-    font-weight: 700;
-  }
-
-  ion-button {
-    --border-radius: var(--radius-xl);
-    --padding-start: 14px;
-    --padding-end:   14px;
-    font-size:       13px;
-    font-weight:     600;
-    height:          38px;
+    font-size:     17px;
+    font-weight:   700;
+    margin:        0 0 12px;
   }
 }
 
-.cat-dot {
-  width:         10px;
-  height:        10px;
-  border-radius: 50%;
-  margin-right:  10px;
-  flex-shrink:   0;
-}
-
-ion-list {
-  background:    var(--ion-card-background) !important;
-  border-radius: var(--radius-lg) !important;
+.ultimos-gastos {
+  background:    var(--ion-card-background);
+  border-radius: var(--radius-lg);
   overflow:      hidden;
   border:        1px solid var(--ion-border-color);
   box-shadow:    var(--shadow-sm);
+}
+
+.gasto-row {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  padding:         12px 16px;
+  border-bottom:   1px solid var(--ion-border-color);
+
+  &:last-child { border-bottom: none; }
+}
+
+.gasto-info {
+  display:        flex;
+  flex-direction: column;
+
+  .gasto-desc {
+    font-size:   14px;
+    font-weight: 600;
+  }
+
+  .gasto-meta {
+    font-size:  11px;
+    color:      var(--ion-color-medium);
+    margin-top: 2px;
+  }
+}
+
+.gasto-monto {
+  font-size:   15px;
+  font-weight: 700;
+  color:       var(--ion-color-primary);
+}
+
+.empty-state {
+  text-align: center;
+  padding:    32px 16px;
+  color:      var(--ion-color-medium);
+}
+
+.empty-text {
+  text-align: center;
+  color:      var(--ion-color-medium);
+  font-size:  14px;
 }

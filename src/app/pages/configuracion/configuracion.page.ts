@@ -5,7 +5,7 @@ import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
   IonMenuButton, IonList, IonItem, IonLabel, IonToggle,
   IonListHeader, IonNote, IonIcon, IonSelect, IonSelectOption,
-  IonRange
+  IonRange, IonBackButton
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -24,7 +24,7 @@ import { FontSizeService } from '../../core/services/font-size.service';
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons,
     IonMenuButton, IonList, IonItem, IonLabel, IonToggle,
     IonListHeader, IonNote, IonIcon, IonSelect, IonSelectOption,
-    IonRange
+    IonRange, IonBackButton
   ],
   templateUrl: './configuracion.page.html',
   styleUrls: ['./configuracion.page.scss']

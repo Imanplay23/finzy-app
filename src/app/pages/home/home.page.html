@@ -1,79 +1,92 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+    <ion-title>Finzy</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="irAConfiguracion()">
+        <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-title>Inicio</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
-  <!-- Banner bienvenida -->
-  <ion-card class="welcome-card ion-text-center ion-padding ion-margin-bottom">
-    <ion-icon name="wallet-outline" style="font-size: 48px; color: var(--ion-color-primary)"></ion-icon>
-    <h2>¡Bienvenido!</h2>
-    <p>Mantén el control de tus gastos de manera fácil y efectiva</p>
-  </ion-card>
+  <!-- Hero -->
+  <div class="hero-card">
+    <img src="/src/assets/finzy.png">
+    <h1>Finzy</h1>
+    <p>Mantén el control de tus finanzas</p>
+  </div>
 
-  <!-- Resumen rápido -->
-  <!-- <div class="resumen-row ion-margin-bottom" *ngIf="presupuestoService.presupuesto()">
-    <div class="resumen-item">
-      <small>Gastado</small>
-      <strong>{{ gastosService.totalMes() | currency }}</strong>
+  <!-- Sin presupuesto -->
+  @if (!presupuestoService.presupuesto()) {
+    <div class="empty-state">
+      <p>Aún no tienes un presupuesto configurado.</p>
+      <ion-button fill="outline" routerLink="/tabs/presupuesto">
+        Configurar presupuesto
+      </ion-button>
     </div>
-    <div class="resumen-item">
-      <small>Disponible</small>
-     <strong [style.color]="(saldoDisponible() ?? 0) < 0 ? '#eb445a' : '#2dd36f'">
-  {{ saldoDisponible() | currency }}
-        {{ saldoDisponible() | currency }}
-      </strong>
+  }
+
+  <!-- Resumen -->
+  @if (presupuestoService.presupuesto()) {
+    <div class="resumen-card">
+
+      <div class="resumen-top">
+        <div class="resumen-item">
+          <small>Presupuesto</small>
+          <strong>{{ presupuestoService.presupuesto()!.monto | appCurrency }}</strong>
+        </div>
+        <div class="divider-v"></div>
+        <div class="resumen-item">
+          <small>Gastado</small>
+          <strong>{{ gastosService.totalMes() | appCurrency }}</strong>
+        </div>
+        <div class="divider-v"></div>
+        <div class="resumen-item">
+          <small>Disponible</small>
+          <strong [style.color]="(saldoDisponible() ?? 0) < 0 ? '#eb445a' : '#2dd36f'">
+           {{ (saldoDisponible() ?? 0) | appCurrency }}
+          </strong>
+        </div>
+      </div>
+
+      <!-- Barra de progreso -->
+      <div class="progress-section">
+        <div class="progress-labels">
+          <span>{{ porcentajeUsado | number:'1.0-0' }}% utilizado</span>
+          <span>{{ 100 - porcentajeUsado | number:'1.0-0' }}% restante</span>
+        </div>
+        <div class="progress-bg">
+          <div class="progress-fill"
+            [style.width.%]="porcentajeUsado"
+            [style.background]="colorBarra">
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div> -->
 
-  <!-- Lista de gastos -->
-  <ion-item class="section-header">
-    <h3>Lista de Gastos</h3>
-    <ion-button slot="end" (click)="abrirNuevoGasto()">
-      <ion-icon name="add-outline"></ion-icon>
-      Nuevo Gasto
-    </ion-button>
-  </ion-item>
-
-  <ion-list>
-<ion-item-sliding *ngFor="let gasto of gastosService.gastos()">
-  <ion-item>
-    <div slot="start" class="cat-dot"
-      [style.background]="getCategoriaColor(gasto.categoriaId)">
+    <!-- Últimos gastos -->
+    <div class="section-header">
+      <h3>Últimos gastos</h3>
     </div>
-    <ion-label>
-      <h2>{{ gasto.descripcion }}</h2>
-      <p>{{ getCategoriaNombre(gasto.categoriaId) }} · {{ gasto.fecha | date:'dd/MM/yyyy' }} {{ gasto.hora }}</p>
-    </ion-label>
-    <ion-note slot="end" color="primary">
-      {{ gasto.monto | appCurrency }}
-    </ion-note>
-  </ion-item>
 
-  <!-- Editar (izquierda) -->
-  <ion-item-options side="start">
-    <ion-item-option color="primary" (click)="editarGasto(gasto)">
-      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-    </ion-item-option>
-  </ion-item-options>
+    @if (gastosService.gastos().length === 0) {
+      <p class="empty-text">Sin gastos registrados aún.</p>
+    }
 
-  <!-- Eliminar (derecha) -->
-  <ion-item-options side="end">
-    <ion-item-option color="danger" (click)="eliminarGasto(gasto.id)">
-      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-    </ion-item-option>
-  </ion-item-options>
-</ion-item-sliding>
-  </ion-list>
-
-  <!-- FAB -->
-  <!-- <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    
-  </ion-fab> -->
-
+    <div class="ultimos-gastos">
+      @for (gasto of gastosService.gastos().slice(0, 5); track gasto.id) {
+        <div class="gasto-row">
+          <div class="gasto-info">
+            <span class="gasto-desc">{{ gasto.descripcion }}</span>
+            <span class="gasto-meta">{{ gasto.fecha }} · {{ gasto.hora }}</span>
+          </div>
+          <span class="gasto-monto">{{ gasto.monto | appCurrency }}</span>
+        </div>
+      }
+    </div>
+  }
+<img src="/src/assets/finzy.png">
 </ion-content>
