@@ -51,8 +51,8 @@
             [style.background]="getCategoriaColor(gasto.categoriaId)">
           </div>
           <ion-label>
-            <h2>{{ gasto.descripcion }}</h2>
-            <p>{{ getCategoriaNombre(gasto.categoriaId) }} · {{ gasto.fecha }} {{ gasto.hora }}</p>
+            <strong>{{ gasto.descripcion }}</strong>
+           <p>{{ getCategoriaNombre(gasto.categoriaId) }} · {{ gasto.fecha | date:'dd/MM/yyyy' }} {{ gasto.hora }}</p>
           </ion-label>
           <ion-note slot="end" color="primary">
             {{ gasto.monto | appCurrency }}
@@ -61,13 +61,13 @@
 
         <ion-item-options side="start">
           <ion-item-option color="primary" (click)="editarGasto(gasto)">
-            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            <ion-icon size="large" slot="icon-only" name="create-outline"></ion-icon>
           </ion-item-option>
         </ion-item-options>
 
         <ion-item-options side="end">
           <ion-item-option color="danger" (click)="eliminarGasto(gasto.id)">
-            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            <ion-icon size="large" slot="icon-only" name="trash-outline"></ion-icon>
           </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>

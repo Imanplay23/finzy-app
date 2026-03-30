@@ -18,6 +18,7 @@ import { AppCurrencyPipe } from '../../core/pipes/app-currency.pipe';
 import { NuevoGastoModalComponent } from '../home/components/nuevo-gasto-modal/nuevo-gasto-modal.component';
 import { Gasto } from '../../core/models/gastos.model';
 import { ToastController } from '@ionic/angular/standalone';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-gastos',
@@ -27,7 +28,7 @@ import { ToastController } from '@ionic/angular/standalone';
     IonHeader, IonToolbar, IonTitle, IonContent, IonSearchbar,
     IonList, IonItem, IonLabel, IonNote, IonItemSliding,
     IonItemOptions, IonItemOption, IonIcon, IonFab, IonFabButton,
-    IonSelect, IonSelectOption, IonButtons, IonButton
+    IonSelect, IonSelectOption, IonButtons, IonButton, DatePipe
   ],
   templateUrl: './gastos.page.html',
   styleUrls: ['./gastos.page.scss']

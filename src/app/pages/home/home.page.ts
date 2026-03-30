@@ -19,6 +19,7 @@ import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { CurrencyService } from '../../core/services/currency.service';
 import { AppCurrencyPipe } from '../../core/pipes/app-currency.pipe';
 import { DecimalPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +36,7 @@ import { DecimalPipe } from '@angular/common';
     IonButton,
     IonIcon,
     DecimalPipe,
+    DatePipe
   ],
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],

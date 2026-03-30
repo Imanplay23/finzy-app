@@ -83,7 +83,7 @@
     <div class="gasto-row">
       <div class="gasto-info">
         <strong class="gasto-desc">{{ gasto.descripcion }}</strong>
-        <strong class="gasto-meta">{{ gasto.fecha }} · {{ gasto.hora }}</strong>
+        <strong class="gasto-meta">{{ gasto.fecha | date:'dd/MM/yyyy' }} · {{ gasto.hora }}</strong>
       </div>
       <span class="gasto-monto">{{ gasto.monto | appCurrency }}</span>
     </div>

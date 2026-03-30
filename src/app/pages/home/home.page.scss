@@ -3,14 +3,14 @@
   padding:       32px 16px 24px;
   margin-bottom: 20px;
 
-  .hero-logo {
-    width:         100px;
-    height:        100px;
-    object-fit:    contain;
-    margin-bottom: 12px;
-    // Adapta el icono al tema activo
-    filter: var(--logo-filter);
-  }
+.hero-logo {
+  width:         130px;
+  height:        130px;
+  object-fit:    contain;
+  margin-bottom: 8px;
+  filter:        var(--logo-filter);
+  opacity:       0.9;
+}
 
   h1 {
     font-size:   32px;
