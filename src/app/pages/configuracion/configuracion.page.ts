@@ -18,8 +18,7 @@ import {
   IonSelect,
   IonSelectOption,
   IonRange,
-  IonBackButton,
-} from '@ionic/angular/standalone';
+  IonBackButton, IonCard } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   moonOutline,
@@ -39,7 +38,7 @@ import { ToastController } from '@ionic/angular/standalone';
 @Component({
   selector: 'app-configuracion',
   standalone: true,
-  imports: [
+  imports: [IonCard, 
     FormsModule,
     NgFor,
     IonHeader,

@@ -1,4 +1,4 @@
-ion-list {
+ion-card {
   background:    var(--ion-card-background) !important;
   border-radius: var(--radius-lg) !important;
   overflow:      hidden;
@@ -8,12 +8,25 @@ ion-list {
 }
 
 ion-list-header {
-  font-size:      11px !important;
+  font-size:      16px !important;
   font-weight:    700 !important;
   letter-spacing: 1px !important;
   padding-top:    16px !important;
+  margin-left: 10px;
 }
 
 ion-range {
   padding: 0 16px 8px;
+}
+
+ion-item {
+  margin: 10px;
+}
+
+ion-icon{
+  margin-right: 15px;
+}
+
+p {
+  font-size: 15px;
 }

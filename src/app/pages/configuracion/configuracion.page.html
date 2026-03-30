@@ -10,11 +10,12 @@
 <ion-content class="ion-padding">
 
   <!-- Apariencia -->
-  <ion-list>
+  <ion-card>
     <ion-list-header>Apariencia</ion-list-header>
 
     <ion-item>
       <ion-icon
+        size="large"
         slot="start"
         [name]="themeService.darkMode() ? 'moon-outline' : 'sunny-outline'"
         [color]="themeService.darkMode() ? 'primary' : 'warning'">
@@ -31,7 +32,7 @@
     </ion-item>
 
     <!-- Font size slider -->
-    <ion-item>
+    <!-- <ion-item>
       <ion-icon slot="start" name="text-outline" color="primary"></ion-icon>
       <ion-label>
         Tamaño de texto
@@ -49,17 +50,18 @@
         <span slot="start">A</span>
         <span slot="end" style="font-size: 20px; font-weight: 700">A</span>
       </ion-range>
-    </ion-item>
+    </ion-item> -->
 
-  </ion-list>
+  </ion-card>
 
   <!-- Divisa -->
-  <ion-list>
+  <ion-card>
     <ion-list-header>Moneda</ion-list-header>
 
     <ion-item>
-      <ion-icon slot="start" name="cash-outline" color="primary"></ion-icon>
+      <ion-icon size="large" slot="start" name="cash-outline" color="primary"></ion-icon>
       <ion-label>Divisa</ion-label>
+      <div>
       <ion-select
         slot="end"
         interface="popover"
@@ -69,10 +71,11 @@
           {{ d.bandera }} {{ d.codigo }} — {{ d.nombre }}
         </ion-select-option>
       </ion-select>
+      </div>
     </ion-item>
 
     <ion-item>
-      <ion-icon slot="start" name="refresh-outline" color="primary"></ion-icon>
+      <ion-icon size="large" slot="start" name="refresh-outline" color="primary"></ion-icon>
       <ion-label>
         Actualizar tasas
         <p>{{ currencyService.cargando() ? 'Actualizando...' : 'Tasa en tiempo real' }}</p>
@@ -82,30 +85,30 @@
       </ion-note>
     </ion-item>
 
-  </ion-list>
+  </ion-card>
 
   <!-- Info -->
-  <ion-list>
+  <ion-card>
     <ion-list-header>Información</ion-list-header>
     <ion-item>
-      <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+      <ion-icon size="large" slot="start" name="information-circle-outline"></ion-icon>
       <ion-label>Versión</ion-label>
       <ion-note slot="end">2.0.0</ion-note>
     </ion-item>
-  </ion-list>
+  </ion-card>
 
   <!-- Notificaciones -->
-  <ion-list>
+  <ion-card>
   <ion-list-header>Notificaciones</ion-list-header>
 
   <ion-item button (click)="reprogramarNotificaciones()">
-    <ion-icon slot="start" name="notifications-outline" color="primary"></ion-icon>
+    <ion-icon size="large" slot="start" name="notifications-outline" color="primary"></ion-icon>
     <ion-label>
       Reprogramar notificaciones
       <p>Recordatorio diario y resumen semanal</p>
     </ion-label>
     <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
   </ion-item>
-</ion-list>
+</ion-card>
 
 </ion-content>
