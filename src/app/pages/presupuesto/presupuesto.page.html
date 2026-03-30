@@ -1,79 +1,115 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-title>Presupuesto</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Resumen actual -->
-  <!-- <ion-card *ngIf="presupuestoService.presupuesto()">
-    <ion-card-header>
-      <ion-card-title>Este mes</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <div class="resumen-row">
-        <div class="resumen-item">
-          <small>Presupuesto</small>
-          <strong
-            >{{ presupuestoService.presupuesto()!.monto | currency }}</strong
-          >
+
+  <!-- Sin presupuesto -->
+  @if (!presupuestoService.presupuesto()) {
+    <div class="empty-hero">
+      <div class="empty-icon">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </div>
+      <h2>Sin presupuesto</h2>
+      <p>Configura tu presupuesto mensual para comenzar a controlar tus finanzas</p>
+    </div>
+  }
+
+  <!-- Con presupuesto — resumen -->
+  @if (presupuestoService.presupuesto()) {
+
+    <!-- Mes actual -->
+    <div class="mes-label">{{ mesActual | titlecase }}</div>
+
+    <!-- Card principal -->
+    <ion-card class="presupuesto-hero-card">
+      <ion-card-content>
+
+        <!-- Monto grande -->
+        <div class="monto-principal">
+          <small>Presupuesto total</small>
+          <h1>{{ presupuestoService.presupuesto()!.monto | appCurrency }}</h1>
         </div>
-        <div class="resumen-item">
-          <small>Total Gastado</small>
-          <strong>{{ gastosService.totalMes() | currency }}</strong>
+
+        <!-- Barra de progreso -->
+        <div class="progress-wrap">
+          <div class="progress-bg">
+            <div class="progress-fill"
+              [style.width.%]="porcentajeUsado"
+              [style.background]="colorBarra">
+            </div>
+          </div>
+          <div class="progress-labels">
+            <span [style.color]="colorBarra">{{ porcentajeUsado | number:'1.0-0' }}% utilizado</span>
+            <span>{{ estadoTexto }}</span>
+          </div>
         </div>
-        <div class="resumen-item">
-          <small>Disponible</small>
-          <strong [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
-            {{ saldoDisponible() | currency }}
-          </strong>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Fila de 3 stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(79,110,247,0.15)">
+          <ion-icon name="wallet-outline" style="color:#4F6EF7"></ion-icon>
         </div>
+        <small>Presupuesto</small>
+        <strong>{{ presupuestoService.presupuesto()!.monto | appCurrency }}</strong>
       </div>
 
-      <!-- Barra de progreso -->
-      <div class="progress-bar-bg">
-        <div
-          class="progress-bar-fill"
-          [style.width.%]="porcentajeUsado"
-          [style.background]="porcentajeUsado >= 90 ? '#eb445a' : porcentajeUsado >= 70 ? '#ffc409' : '#2dd36f'"
-        ></div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background: rgba(235,68,90,0.15)">
+          <ion-icon name="trending-up-outline" style="color:#eb445a"></ion-icon>
+        </div>
+        <small>Gastado</small>
+        <strong>{{ gastosService.totalMes() | appCurrency }}</strong>
       </div>
-      <!-- <small class="ion-text-center" style="display:block; margin-top: 4px">
-        {{ porcentajeUsado | number:'1.0-0' }}% utilizado
-      </small> --
-    </ion-card-content>
-  </ion-card> -->
 
-  <!-- Formulario -->
+      <div class="stat-card">
+        <div class="stat-icon"
+          [style.background]="saldoDisponible() < 0 ? 'rgba(235,68,90,0.15)' : 'rgba(45,211,111,0.15)'">
+          <ion-icon name="cash-outline"
+            [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
+          </ion-icon>
+        </div>
+        <small>Disponible</small>
+        <strong [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
+          {{ saldoDisponible() | appCurrency }}
+        </strong>
+      </div>
+    </div>
+
+  }
+
+  <!-- Formulario actualizar -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>
-        {{ presupuestoService.presupuesto() ? 'Actualizar presupuesto' :
-        'Establecer presupuesto' }}
+        {{ presupuestoService.presupuesto() ? 'Actualizar presupuesto' : 'Establecer presupuesto' }}
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-item>
+      <ion-item lines="none" class="monto-input">
         <ion-label position="stacked">Monto mensual</ion-label>
         <ion-input
           type="number"
           [(ngModel)]="nuevoMonto"
-          placeholder="Ingrese el presupuesto"
-        >
+          placeholder="0.00"
+          min="0">
         </ion-input>
       </ion-item>
-
       <ion-button
         expand="block"
         class="ion-margin-top"
         (click)="guardar()"
-        [disabled]="!nuevoMonto || nuevoMonto <= 0"
-      >
+        [disabled]="!nuevoMonto || nuevoMonto <= 0">
+        <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
         Guardar Presupuesto
       </ion-button>
     </ion-card-content>
   </ion-card>
+
 </ion-content>

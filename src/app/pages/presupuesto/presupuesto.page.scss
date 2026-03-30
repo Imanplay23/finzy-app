@@ -1,44 +1,148 @@
-.resumen-row {
-  display:       flex;
-  gap:           10px;
-  margin-bottom: 16px;
+.mes-label {
+  font-size:      12px;
+  font-weight:    700;
+  color:          var(--ion-color-medium);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom:  8px;
+}
 
-  .resumen-item {
-    flex:            1;
-    display:         flex;
-    flex-direction:  column;
-    align-items:     center;
-    text-align:      center;
-    background:      var(--ion-background-color);
-    border-radius:   var(--radius-md);
-    padding:         12px 8px;
+.presupuesto-hero-card {
+  background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-tint)) !important;
+  border:     none !important;
+  box-shadow: 0 8px 24px rgba(79, 110, 247, 0.35) !important;
 
-    small {
-      color:       var(--ion-color-medium);
-      font-size:   11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+  ion-card-content {
+    padding: 24px !important;
+  }
+}
+
+.monto-principal {
+  margin-bottom: 24px;
+
+  small {
+    font-size:   12px;
+    font-weight: 600;
+    color:       rgba(255,255,255,0.7);
+    display:     block;
+    margin-bottom: 4px;
+  }
+
+  h1 {
+    font-size:   36px;
+    font-weight: 800;
+    color:       #ffffff;
+    margin:      0;
+  }
+}
+
+.progress-wrap {
+  .progress-bg {
+    background:    rgba(255,255,255,0.25);
+    border-radius: 99px;
+    height:        10px;
+    overflow:      hidden;
+    margin-bottom: 8px;
+
+    .progress-fill {
+      height:        100%;
+      border-radius: 99px;
+      background:    #ffffff;
+      transition:    width 0.5s cubic-bezier(0.4,0,0.2,1);
     }
+  }
 
-    strong {
-      font-size:   16px;
-      font-weight: 700;
-      margin-top:  4px;
+  .progress-labels {
+    display:         flex;
+    justify-content: space-between;
+
+    span {
+      font-size:   12px;
+      font-weight: 600;
+      color:       rgba(255,255,255,0.85);
     }
   }
 }
 
-.progress-bar-bg {
-  background:    var(--ion-background-color);
-  border-radius: 99px;
-  height:        10px;
-  overflow:      hidden;
-  margin-top:    4px;
+.stats-row {
+  display:       flex;
+  gap:           10px;
+  margin-bottom: 16px;
+}
 
-  .progress-bar-fill {
-    height:        100%;
-    border-radius: 99px;
-    transition:    width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+.stat-card {
+  flex:           1;
+  background:     var(--ion-card-background);
+  border-radius:  var(--radius-lg);
+  padding:        14px 10px;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  text-align:     center;
+  gap:            4px;
+  border:         1px solid var(--ion-border-color);
+  box-shadow:     var(--shadow-sm);
+
+  small {
+    font-size:      10px;
+    font-weight:    600;
+    color:          var(--ion-color-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  strong {
+    font-size:   13px;
+    font-weight: 700;
+  }
+}
+
+.stat-icon {
+  width:           36px;
+  height:          36px;
+  border-radius:   10px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+
+  ion-icon { font-size: 18px; }
+}
+
+.monto-input {
+  --background:    var(--ion-background-color);
+  --border-radius: var(--radius-md);
+  margin-bottom:   8px;
+}
+
+.empty-hero {
+  text-align:    center;
+  padding:       48px 24px 32px;
+
+  .empty-icon {
+    width:           80px;
+    height:          80px;
+    border-radius:   24px;
+    background:      rgba(79,110,247,0.12);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    margin:          0 auto 16px;
+
+    ion-icon {
+      font-size: 40px;
+      color:     var(--ion-color-primary);
+    }
+  }
+
+  h2 {
+    font-size:     22px;
+    font-weight:   700;
+    margin:        0 0 8px;
+  }
+
+  p {
+    color:     var(--ion-color-medium);
+    font-size: 14px;
+    margin:    0;
   }
 }
