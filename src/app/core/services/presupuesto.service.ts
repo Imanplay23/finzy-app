@@ -1,32 +1,35 @@
-import { Injectable, signal } from '@angular/core';
-import { DatabaseService } from './database.service';
-import { Presupuesto } from '../models/presupuesto.model';
-
-const KEY = 'presupuesto_actual';
+import { Injectable, signal, inject } from '@angular/core';
+import { PeriodoService } from './periodo.service';
 
 @Injectable({ providedIn: 'root' })
 export class PresupuestoService {
 
-  private _presupuesto = signal<Presupuesto | null>(null);
-  presupuesto = this._presupuesto.asReadonly();
+  private periodoService = inject(PeriodoService);
 
-  constructor(private db: DatabaseService) {
-    this.cargar();
-  }
-
-  private cargar() {
-    const datos = this.db.getOne<Presupuesto>(KEY, KEY);
-    this._presupuesto.set(datos);
-  }
+  // Delega al periodo activo
+  presupuesto = () => {
+    const activo = this.periodoService.periodoActivo();
+    if (!activo) return null;
+    return {
+      monto: activo.presupuesto,
+      mes:   new Date(activo.fechaInicio).getMonth() + 1,
+      anio:  new Date(activo.fechaInicio).getFullYear(),
+    };
+  };
 
   guardar(monto: number): void {
-    const ahora = new Date();
-    const presupuesto: Presupuesto = {
-      monto,
-      mes: ahora.getMonth() + 1,
-      anio: ahora.getFullYear(),
-    };
-    this.db.saveOne(KEY, presupuesto);
-    this._presupuesto.set(presupuesto);
+    const activo = this.periodoService.periodoActivo();
+    if (activo) {
+      // Actualizar presupuesto del periodo activo
+      const actualizado = { ...activo, presupuesto: monto };
+      localStorage.setItem('periodo_activo', JSON.stringify(actualizado));
+      // Recargar
+      this.periodoService['cargar']?.();
+      // Forzar recarga
+      window.location.reload();
+    } else {
+      // Iniciar primer periodo
+      this.periodoService.iniciarPeriodo(monto);
+    }
   }
 }

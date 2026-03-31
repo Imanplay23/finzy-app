@@ -28,13 +28,13 @@ import {
   textOutline,
   refreshOutline,
   notificationsOutline,
-  chevronForwardOutline,
-} from 'ionicons/icons';
+  chevronForwardOutline, calendarOutline } from 'ionicons/icons';
 import { ThemeService } from '../../core/services/theme.service';
 import { CurrencyService, DIVISAS } from '../../core/services/currency.service';
 import { FontSizeService } from '../../core/services/font-size.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { ToastController } from '@ionic/angular/standalone';
+import { PeriodoService } from '../../core/services/periodo.service';
 @Component({
   selector: 'app-configuracion',
   standalone: true,
@@ -66,27 +66,23 @@ export class ConfiguracionPage {
   themeService = inject(ThemeService);
   currencyService = inject(CurrencyService);
   fontSizeService = inject(FontSizeService);
+  periodoService = inject(PeriodoService);
   private notificationService = inject(NotificationService);
   private toastCtrl = inject(ToastController);
   divisas = DIVISAS;
 
   constructor() {
-    addIcons({
-      textOutline,
-      cashOutline,
-      refreshOutline,
-      informationCircleOutline,
-      notificationsOutline,
-      chevronForwardOutline,
-      moonOutline,
-      sunnyOutline,
-    });
+    addIcons({calendarOutline,cashOutline,refreshOutline,informationCircleOutline,notificationsOutline,chevronForwardOutline,textOutline,moonOutline,sunnyOutline,});
   }
 
   onDivisaChange(event: any) {
     const divisa = this.divisas.find((d) => d.codigo === event.detail.value);
     if (divisa) this.currencyService.cambiarDivisa(divisa);
   }
+
+  onTipoPeriodo(event: any) {
+  this.periodoService.cambiarTipo(event.detail.value);
+}
 
   onFontSizeChange(event: any) {
     this.fontSizeService.aplicar(event.detail.value);

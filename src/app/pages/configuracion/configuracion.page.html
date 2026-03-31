@@ -12,7 +12,7 @@
   <!-- Apariencia -->
   <ion-card>
     <ion-list-header>Apariencia</ion-list-header>
-
+  <!-- Dark/light mode-->
     <ion-item>
       <ion-icon
         size="large"
@@ -30,7 +30,22 @@
         (ionChange)="themeService.toggle()">
       </ion-toggle>
     </ion-item>
-
+    <!-- Selector de tipo de periodo -->
+    <ion-item>
+  <ion-icon slot="start" name="calendar-outline" color="primary"></ion-icon>
+  <ion-label>
+    Tipo de periodo
+    <p>{{ periodoService.tipo() === 'mensual' ? 'Mensual' : 'Semanal' }}</p>
+  </ion-label>
+  <ion-select
+    slot="end"
+    interface="popover"
+    [value]="periodoService.tipo()"
+    (ionChange)="onTipoPeriodo($event)">
+    <ion-select-option value="mensual">Mensual</ion-select-option>
+    <ion-select-option value="semanal">Semanal</ion-select-option>
+  </ion-select>
+</ion-item>
     <!-- Font size slider -->
     <!-- <ion-item>
       <ion-icon slot="start" name="text-outline" color="primary"></ion-icon>

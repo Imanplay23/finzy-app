@@ -1,39 +1,38 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Presupuesto</ion-title>
+    <ion-title class="title">Presupuesto</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
-  <!-- Sin presupuesto -->
-  @if (!presupuestoService.presupuesto()) {
+  <!-- Sin periodo activo -->
+  @if (!periodoService.periodoActivo()) {
     <div class="empty-hero">
       <div class="empty-icon">
         <ion-icon name="wallet-outline"></ion-icon>
       </div>
       <h2>Sin presupuesto</h2>
-      <p>Configura tu presupuesto mensual para comenzar a controlar tus finanzas</p>
+      <p style="margin: 10px;">Configura tu presupuesto {{ labelPeriodo === 'mes' ? 'mensual' : 'semanal' }} para comenzar</p>
     </div>
   }
 
-  <!-- Con presupuesto — resumen -->
-  @if (presupuestoService.presupuesto()) {
+  <!-- Con periodo activo -->
+  @if (periodoService.periodoActivo()) {
 
-    <!-- Mes actual -->
-    <div class="mes-label">{{ mesActual | titlecase }}</div>
+    <!-- Label periodo -->
+    <div class="periodo-label">
+      <ion-icon name="time-outline"></ion-icon>
+      <span>{{ periodoLabel }}</span>
+    </div>
 
     <!-- Card principal -->
     <ion-card class="presupuesto-hero-card">
       <ion-card-content>
-
-        <!-- Monto grande -->
         <div class="monto-principal">
-          <small>Presupuesto total</small>
+          <small>Presupuesto {{ labelPeriodo === 'mes' ? 'mensual' : 'semanal' }}</small>
           <h1>{{ presupuestoService.presupuesto()!.monto | appCurrency }}</h1>
         </div>
-
-        <!-- Barra de progreso -->
         <div class="progress-wrap">
           <div class="progress-bg">
             <div class="progress-fill"
@@ -46,11 +45,10 @@
             <span>{{ estadoTexto }}</span>
           </div>
         </div>
-
       </ion-card-content>
     </ion-card>
 
-    <!-- Fila de 3 stats -->
+    <!-- Stats -->
     <div class="stats-row">
       <div class="stat-card">
         <div class="stat-icon" style="background: rgba(79,110,247,0.15)">
@@ -59,7 +57,6 @@
         <small>Presupuesto</small>
         <strong>{{ presupuestoService.presupuesto()!.monto | appCurrency }}</strong>
       </div>
-
       <div class="stat-card">
         <div class="stat-icon" style="background: rgba(235,68,90,0.15)">
           <ion-icon name="trending-up-outline" style="color:#eb445a"></ion-icon>
@@ -67,7 +64,6 @@
         <small>Gastado</small>
         <strong>{{ gastosService.totalMes() | appCurrency }}</strong>
       </div>
-
       <div class="stat-card">
         <div class="stat-icon"
           [style.background]="saldoDisponible() < 0 ? 'rgba(235,68,90,0.15)' : 'rgba(45,211,111,0.15)'">
@@ -82,18 +78,29 @@
       </div>
     </div>
 
+    <!-- Botón cerrar periodo -->
+    <ion-button
+      expand="block"
+      fill="outline"
+      color="warning"
+      class="ion-margin-bottom"
+      (click)="cerrarPeriodo()">
+      <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+      Cerrar {{ labelPeriodoCapital }}
+    </ion-button>
+
   }
 
-  <!-- Formulario actualizar -->
+  <!-- Formulario -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title style="margin: 10px;">
-        {{ presupuestoService.presupuesto() ? 'Actualizar presupuesto' : 'Establecer presupuesto' }}
+      <ion-card-title class="title">
+        {{ periodoService.periodoActivo() ? 'Actualizar presupuesto' : 'Nuevo presupuesto' }}
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item lines="none" class="monto-input">
-        <ion-label style="margin: 10px;" position="stacked">Monto mensual</ion-label>
+        <ion-label style="margin: 10px;" position="stacked">Monto {{ labelPeriodo === 'mes' ? 'mensual' : 'semanal' }}</ion-label>
         <ion-input
           type="number"
           [(ngModel)]="nuevoMonto"
@@ -111,5 +118,45 @@
       </ion-button>
     </ion-card-content>
   </ion-card>
+
+  <!-- Historial -->
+  @if (periodoService.historial().length > 0) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <div class="card-title-row" (click)="mostrarHistorial = !mostrarHistorial">
+            <ion-icon size="large" style="margin-left: 10px;" name="time-outline"></ion-icon>
+            <span style="margin: 10px;">Historial de periodos</span>
+            <ion-icon name="chevron-down-outline"
+              [style.transform]="mostrarHistorial ? 'rotate(180deg)' : 'rotate(0)'"
+              style="transition: transform 0.3s; margin-left: auto">
+            </ion-icon>
+          </div>
+        </ion-card-title>
+      </ion-card-header>
+
+      @if (mostrarHistorial) {
+        <ion-card-content>
+          <div class="historial-list">
+            @for (p of periodoService.historial(); track p.id) {
+              <div class="historial-item">
+                <div class="historial-info">
+                  <span class="historial-fecha">
+                    {{ p.fechaInicio | date:'dd/MM/yy' }} — {{ p.fechaFin | date:'dd/MM/yy' }}
+                  </span>
+                  <span class="historial-tipo">{{ p.tipo === 'mensual' ? 'Mensual' : 'Semanal' }}</span>
+                </div>
+                <div class="historial-montos">
+                  <span class="historial-gastado">{{ p.totalGastado | appCurrency }}</span>
+                  <span class="historial-presupuesto">de {{ p.presupuesto | appCurrency }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </ion-card-content>
+      }
+
+    </ion-card>
+  }
 
 </ion-content>

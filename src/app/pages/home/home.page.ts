@@ -70,6 +70,11 @@ export class HomePage {
     this.router.navigate(['/configuracion']);
   }
 
+    irAPresupuesto() {
+    this.router.navigate(['/tabs/presupuesto'])
+  }
+
+
   constructor() {
     addIcons({ settingsOutline });
   }

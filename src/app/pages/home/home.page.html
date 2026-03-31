@@ -21,7 +21,7 @@
   @if (!presupuestoService.presupuesto()) {
   <div class="empty-state">
     <p>Aún no tienes un presupuesto configurado.</p>
-    <ion-button fill="outline" routerLink="/tabs/presupuesto">
+    <ion-button style="margin: 10px;" fill="outline" (click)="irAPresupuesto()">
       Configurar presupuesto
     </ion-button>
   </div>
