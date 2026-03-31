@@ -5,62 +5,89 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
   @if (presupuestoService.presupuesto()) {
-    <ion-card>
-      <ion-card-content>
-        <ion-card class="resumen-row">
-                    <ion-item class="card-title-row">
-            <ion-icon style="margin-right: 10px;" size="large"  slot="start" name="grid-outline"></ion-icon>
-            <strong>Resumen de presupuesto</strong>
-          </ion-item>
-          <ion-item class="resumen-item">
-            <div class="resumen-icon" style="margin-right: 10px;">
-              <ion-icon size="large" slot="start" name="wallet-outline" style="color: #4F6EF7"></ion-icon>
-            </div>
-            <strong>Presupuesto</strong>
-            <strong slot="end">{{ presupuestoService.presupuesto()!.monto | appCurrency }}</strong>
-          </ion-item>
+  <ion-card>
+    <ion-item class="card-title-row">
+      <ion-icon
+        style="margin-right: 10px"
+        size="large"
+        slot="start"
+        name="grid-outline"
+      ></ion-icon>
+      <strong>Resumen de presupuesto</strong>
+    </ion-item>
+    <ion-card-content>
+      <ion-card class="resumen-row">
+        <ion-item class="resumen-item">
+          <div class="resumen-icon" style="margin-right: 10px">
+            <ion-icon
+              size="large"
+              slot="start"
+              name="wallet-outline"
+              style="color: #4f6ef7"
+            ></ion-icon>
+          </div>
+          <strong>Presupuesto</strong>
+          <strong slot="end"
+            >{{ presupuestoService.presupuesto()!.monto | appCurrency }}</strong
+          >
+        </ion-item>
 
-          <ion-item class="resumen-item">
-            <div class="resumen-icon" style="margin-right: 10px;">
-              <ion-icon size="large"  slot="start" name="trending-up-outline" style="color: #eb445a"></ion-icon>
-            </div>
-            <strong>Gastado</strong>
-            <strong slot="end">{{ gastosService.totalMes() | appCurrency }}</strong>
-          </ion-item>
+        <ion-item class="resumen-item">
+          <div class="resumen-icon" style="margin-right: 10px">
+            <ion-icon
+              size="large"
+              slot="start"
+              name="trending-up-outline"
+              style="color: #eb445a"
+            ></ion-icon>
+          </div>
+          <strong>Gastado</strong>
+          <strong slot="end"
+            >{{ gastosService.totalMes() | appCurrency }}</strong
+          >
+        </ion-item>
 
-          <ion-item class="resumen-item">
-            <div class="resumen-icon" style="margin-right: 10px;">
-              <ion-icon size="large"  slot="start" name="cash-outline"
-                [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
-              </ion-icon>
-            </div>
-            <strong>Disponible</strong>
-            <strong slot="end" [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'">
-              {{ saldoDisponible() | appCurrency }}
-            </strong>
-          </ion-item>
-
-        </ion-card>
-      </ion-card-content>
-    </ion-card>
-  }
-
-  @if (chartSeries.length > 0) {
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>
-          <ion-item class="card-title-row">
-            <ion-icon style="margin-right: 10px;" size="large"  slot="start" name="pie-chart-outline"></ion-icon>
-            <strong>Gastos por Categoría</strong>
-          </ion-item>
-        </ion-card-title>
-        <span style="margin: 10px;">Este mes</span>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-card>
-                  <apx-chart
+        <ion-item class="resumen-item">
+          <div class="resumen-icon" style="margin-right: 10px">
+            <ion-icon
+              size="large"
+              slot="start"
+              name="cash-outline"
+              [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'"
+            >
+            </ion-icon>
+          </div>
+          <strong>Disponible</strong>
+          <strong
+            slot="end"
+            [style.color]="saldoDisponible() < 0 ? '#eb445a' : '#2dd36f'"
+          >
+            {{ saldoDisponible() | appCurrency }}
+          </strong>
+        </ion-item>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+  } @if (chartSeries.length > 0) {
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-item class="card-title-row">
+          <ion-icon
+            style="margin-right: 10px"
+            size="large"
+            slot="start"
+            name="pie-chart-outline"
+          ></ion-icon>
+          <strong>Gastos por Categoría</strong>
+        </ion-item>
+      </ion-card-title>
+      <span style="margin: 10px">Este mes</span>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-card>
+        <apx-chart
           [series]="chartOptions.series"
           [chart]="chartOptions.chart"
           [labels]="chartOptions.labels"
@@ -69,51 +96,61 @@
           [dataLabels]="chartOptions.dataLabels"
           [plotOptions]="chartOptions.plotOptions"
           [stroke]="chartOptions.stroke"
-          [theme]="chartOptions.theme">
+          [theme]="chartOptions.theme"
+        >
         </apx-chart>
-        </ion-card>
-      </ion-card-content>
-    </ion-card>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+  } @if (mayoresGastos.length > 0) {
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-item class="card-title-row">
+          <ion-icon
+            style="margin-right: 10px"
+            size="large"
+            name="trending-up-outline"
+            slot="start"
+          ></ion-icon>
+          <strong>Mayores Gastos</strong>
+        </ion-item>
+      </ion-card-title>
+      <span style="margin: 10px">Este mes</span>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-card class="gastos-list">
+        @for (item of mayoresGastos; track item.id) {
+        <ion-item class="gasto-item">
+          <div class="cat-icon" style="margin-right: 10px">
+            <ion-icon
+              size="large"
+              slot="start"
+              [name]="item.icono"
+              [style.color]="item.color"
+            ></ion-icon>
+          </div>
+
+          <ion-col class="gasto-info">
+            <ion-label class="gasto-nombre">{{ item.nombre }}</ion-label>
+            <small class="gasto-pct"
+              >{{ item.porcentaje | number:'1.0-0' }}% del total</small
+            >
+          </ion-col>
+          <strong slot="end" class="gasto-monto"
+            >{{ item.monto | appCurrency }}</strong
+          >
+        </ion-item>
+        }
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+  } @if (gastosService.gastosMesActual().length === 0) {
+  <ion-card>
+    <ion-card-content class="empty-state">
+      <ion-icon size="large" slot="start" name="pie-chart-outline"></ion-icon>
+      <p>Sin gastos este mes</p>
+    </ion-card-content>
+  </ion-card>
   }
-
-  @if (mayoresGastos.length > 0) {
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>
-          <ion-item class="card-title-row">
-            <ion-icon style="margin-right: 10px;" size="large"  name="trending-up-outline" slot="start"></ion-icon>
-            <strong>Mayores Gastos</strong>
-          </ion-item>
-        </ion-card-title>
-        <span style="margin: 10px;">Este mes</span>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-card class="gastos-list">
-          @for (item of mayoresGastos; track item.id) {
-            <ion-item class="gasto-item">
-              <div class="cat-icon" style="margin-right: 10px;">
-                <ion-icon size="large" slot="start" [name]="item.icono" [style.color]="item.color"></ion-icon>
-              </div>
-
-              <ion-col class="gasto-info">
-                <ion-label class="gasto-nombre">{{ item.nombre }}</ion-label>
-                <small class="gasto-pct">{{ item.porcentaje | number:'1.0-0' }}% del total</small>
-              </ion-col>
-              <strong slot="end" class="gasto-monto">{{ item.monto | appCurrency }}</strong>
-            </ion-item>
-          }
-        </ion-card>
-      </ion-card-content>
-    </ion-card>
-  }
-
-  @if (gastosService.gastosMesActual().length === 0) {
-    <ion-card>
-      <ion-card-content class="empty-state">
-        <ion-icon size="large" slot="start" name="pie-chart-outline"></ion-icon>
-        <p>Sin gastos este mes</p>
-      </ion-card-content>
-    </ion-card>
-  }
-
 </ion-content>

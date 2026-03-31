@@ -6,16 +6,17 @@ const TABLA = 'gastos';
 
 @Injectable({ providedIn: 'root' })
 export class GastosService {
-
   private _gastos = signal<Gasto[]>([]);
   gastos = this._gastos.asReadonly();
 
   gastosMesActual = computed(() => {
     const ahora = new Date();
-    return this._gastos().filter(g => {
+    return this._gastos().filter((g) => {
       const fecha = new Date(g.fecha);
-      return fecha.getMonth() === ahora.getMonth() &&
-             fecha.getFullYear() === ahora.getFullYear();
+      return (
+        fecha.getMonth() === ahora.getMonth() &&
+        fecha.getFullYear() === ahora.getFullYear()
+      );
     });
   });
 
@@ -56,7 +57,8 @@ export class GastosService {
   }
 
   editar(gasto: Gasto): void {
-  this.db.save(TABLA, gasto);
-  this.cargar();
-}
+    console.log('editando:', gasto.id); // ← debug temporal
+    this.db.save(TABLA, gasto);
+    this.cargar();
+  }
 }

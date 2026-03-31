@@ -3,7 +3,6 @@ import { Capacitor } from '@capacitor/core';
 
 @Injectable({ providedIn: 'root' })
 export class DatabaseService {
-
   private isNative = Capacitor.isNativePlatform();
 
   // ── localStorage fallback (web) ──────────────────────────────
@@ -26,6 +25,9 @@ export class DatabaseService {
   save<T extends { id: string }>(tabla: string, item: T): void {
     const datos = this.lsGet<T>(tabla);
     const idx = datos.findIndex((d: T) => d.id === item.id);
+
+    console.log('save:', tabla, item.id, 'idx:', idx); // ← debug temporal
+
     if (idx >= 0) {
       datos[idx] = item;
     } else {
@@ -36,7 +38,10 @@ export class DatabaseService {
 
   delete(tabla: string, id: string): void {
     const datos = this.lsGet<any>(tabla);
-    this.lsSet(tabla, datos.filter((d: any) => d.id !== id));
+    this.lsSet(
+      tabla,
+      datos.filter((d: any) => d.id !== id)
+    );
   }
 
   getOne<T>(tabla: string, key: string): T | null {

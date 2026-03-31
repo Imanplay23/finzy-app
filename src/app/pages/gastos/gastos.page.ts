@@ -168,7 +168,7 @@ export class GastosPage {
     });
     await modal.present();
   }
-
+  
   async eliminarGasto(id: string) {
     const alert = await this.alertCtrl.create({
       header: '¿Eliminar gasto?',

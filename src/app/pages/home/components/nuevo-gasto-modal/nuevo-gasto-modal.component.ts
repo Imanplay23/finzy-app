@@ -84,8 +84,12 @@ export class NuevoGastoModalComponent implements OnInit {
       this.monto = this.gasto.monto;
       this.categoriaId = this.gasto.categoriaId;
       // Reconstruir ISO desde fecha guardada
-      this.fechaInput = new Date(this.gasto.fecha).toISOString();
-      this.horaInput = new Date().toISOString(); // hora actual como fallback
+      const fecha = new Date(this.gasto.fecha);
+      this.fechaInput = fecha.toISOString().split('T')[0];
+      this.horaInput = `${fecha.getHours().toString().padStart(2, '0')}:${fecha
+        .getMinutes()
+        .toString()
+        .padStart(2, '0')}`;
     }
   }
 
@@ -106,13 +110,24 @@ export class NuevoGastoModalComponent implements OnInit {
     const h12 = h % 12 || 12;
     const horaStr = `${h12}:${mm} ${ampm}`;
 
-    this.gastosService.agregar({
-      descripcion: this.descripcion.trim(),
-      monto: this.monto,
-      categoriaId: this.categoriaId,
-      fecha: this.fechaInput,
-      hora: horaStr,
-    });
+    if (this.esEdicion && this.gasto) {
+      this.gastosService.editar({
+        ...this.gasto,
+        descripcion: this.descripcion.trim(),
+        monto: this.monto,
+        categoriaId: this.categoriaId,
+        fecha: this.fechaInput,
+        hora: horaStr,
+      });
+    } else {
+      this.gastosService.agregar({
+        descripcion: this.descripcion.trim(),
+        monto: this.monto,
+        categoriaId: this.categoriaId,
+        fecha: this.fechaInput,
+        hora: horaStr,
+      });
+    }
 
     this.modalCtrl.dismiss();
   }

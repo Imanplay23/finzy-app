@@ -87,13 +87,13 @@
   <!-- Formulario actualizar -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>
+      <ion-card-title style="margin: 10px;">
         {{ presupuestoService.presupuesto() ? 'Actualizar presupuesto' : 'Establecer presupuesto' }}
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item lines="none" class="monto-input">
-        <ion-label position="stacked">Monto mensual</ion-label>
+        <ion-label style="margin: 10px;" position="stacked">Monto mensual</ion-label>
         <ion-input
           type="number"
           [(ngModel)]="nuevoMonto"
