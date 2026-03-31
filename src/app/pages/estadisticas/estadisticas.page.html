@@ -83,7 +83,7 @@
           <strong>Gastos por Categoría</strong>
         </ion-item>
       </ion-card-title>
-      <span style="margin: 10px">Este mes</span>
+      <span style="margin: 10px">{{ textoPeriodo }}</span>
     </ion-card-header>
     <ion-card-content>
       <ion-card>
@@ -116,7 +116,7 @@
           <strong>Mayores Gastos</strong>
         </ion-item>
       </ion-card-title>
-      <span style="margin: 10px">Este mes</span>
+      <span style="margin: 10px">{{ textoPeriodo }}</span>
     </ion-card-header>
     <ion-card-content>
       <ion-card class="gastos-list">
@@ -149,7 +149,7 @@
   <ion-card>
     <ion-card-content class="empty-state">
       <ion-icon size="large" slot="start" name="pie-chart-outline"></ion-icon>
-      <p>Sin gastos este mes</p>
+      <p>Sin gastos {{ textoPeriodo.toLowerCase() }}</p>
     </ion-card-content>
   </ion-card>
   }

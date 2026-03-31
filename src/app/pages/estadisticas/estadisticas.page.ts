@@ -16,14 +16,17 @@ import {
   IonLabel,
   IonNote,
   IonList,
-  IonIcon, IonFab, IonItemGroup, IonCol } from '@ionic/angular/standalone';
+  IonIcon,
+  IonFab,
+  IonItemGroup,
+  IonCol,
+} from '@ionic/angular/standalone';
 import { GastosService } from '../../core/services/gastos.service';
 import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { CATEGORIAS_DEFAULT } from '../../core/models/categoria.model';
 import { AppCurrencyPipe } from '../../core/pipes/app-currency.pipe';
 import { addIcons } from 'ionicons';
 import {
-  restaurantOutline,
   carOutline,
   homeOutline,
   gameControllerOutline,
@@ -35,11 +38,19 @@ import {
   pieChartOutline,
   cashOutline,
   airplaneOutline,
-  fastFoodOutline, gridOutline } from 'ionicons/icons';
+  fastFoodOutline,
+  gridOutline,
+} from 'ionicons/icons';
+import { PeriodoService } from '../../core/services/periodo.service';
+import { labelPeriodo } from '../../core/models/periodo.model';
+
 @Component({
   selector: 'app-estadisticas',
   standalone: true,
-  imports: [IonCol, IonItemGroup, IonFab, 
+  imports: [
+    IonCol,
+    IonItemGroup,
+    IonFab,
     IonIcon,
     CurrencyPipe,
     NgFor,
@@ -67,10 +78,25 @@ import {
 export class EstadisticasPage {
   gastosService = inject(GastosService);
   presupuestoService = inject(PresupuestoService);
+  periodoService = inject(PeriodoService);
   categorias = CATEGORIAS_DEFAULT;
 
   constructor() {
-    addIcons({gridOutline,walletOutline,trendingUpOutline,cashOutline,pieChartOutline,carOutline,homeOutline,gameControllerOutline,medkitOutline,schoolOutline,ellipsisHorizontalOutline,airplaneOutline,fastFoodOutline});
+    addIcons({
+      gridOutline,
+      walletOutline,
+      trendingUpOutline,
+      cashOutline,
+      pieChartOutline,
+      carOutline,
+      homeOutline,
+      gameControllerOutline,
+      medkitOutline,
+      schoolOutline,
+      ellipsisHorizontalOutline,
+      airplaneOutline,
+      fastFoodOutline,
+    });
   }
 
   saldoDisponible = computed(() => {
@@ -93,6 +119,26 @@ export class EstadisticasPage {
     );
   }
 
+  get textoPeriodo(): string {
+    return this.periodoService.tipo() === 'mensual'
+      ? 'Este mes'
+      : 'Esta semana';
+  }
+
+  get periodoRango(): string {
+    const activo = this.periodoService.periodoActivo();
+    if (!activo) return '';
+    const inicio = new Date(activo.fechaInicio).toLocaleDateString('es-DO', {
+      day: '2-digit',
+      month: 'short',
+    });
+    const fin = new Date(activo.fechaFin).toLocaleDateString('es-DO', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+    return `${inicio} — ${fin}`;
+  }
   get chartColors(): string[] {
     const porCat = this.gastosService.gastosPorCategoria();
     if (!porCat || Object.keys(porCat).length === 0) return [];
