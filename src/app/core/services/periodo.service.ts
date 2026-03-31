@@ -105,6 +105,10 @@ export class PeriodoService {
     return fecha >= activo.fechaInicio && fecha <= activo.fechaFin;
   }
 
+  actualizarPeriodoActivo(periodo: PeriodoActivo): void {
+  this._periodoActivo.set(periodo);
+}
+
   get proximoInicio(): string {
     const activo = this._periodoActivo();
     if (!activo) return new Date().toISOString().split('T')[0];

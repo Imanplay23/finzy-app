@@ -1,12 +1,15 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PeriodoService } from './periodo.service';
+import { DatabaseService } from './database.service';
+
+const KEY_ACTIVO = 'periodo_activo';
 
 @Injectable({ providedIn: 'root' })
 export class PresupuestoService {
 
   private periodoService = inject(PeriodoService);
+  private db             = inject(DatabaseService);
 
-  // Delega al periodo activo
   presupuesto = () => {
     const activo = this.periodoService.periodoActivo();
     if (!activo) return null;
@@ -19,14 +22,13 @@ export class PresupuestoService {
 
   guardar(monto: number): void {
     const activo = this.periodoService.periodoActivo();
+
     if (activo) {
-      // Actualizar presupuesto del periodo activo
+      // Actualizar presupuesto del periodo activo reactivamente
       const actualizado = { ...activo, presupuesto: monto };
-      localStorage.setItem('periodo_activo', JSON.stringify(actualizado));
-      // Recargar
-      this.periodoService['cargar']?.();
-      // Forzar recarga
-      window.location.reload();
+      this.db.saveOne(KEY_ACTIVO, actualizado);
+      // Forzar actualización del signal sin reload
+      this.periodoService.actualizarPeriodoActivo(actualizado);
     } else {
       // Iniciar primer periodo
       this.periodoService.iniciarPeriodo(monto);
