@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs/inicio"></ion-back-button>
     </ion-buttons>
-    <ion-title>Configuración</ion-title>
+    <ion-title style="margin: 10px;">Configuración</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -32,7 +32,7 @@
     </ion-item>
     <!-- Selector de tipo de periodo -->
     <ion-item>
-  <ion-icon slot="start" name="calendar-outline" color="primary"></ion-icon>
+  <ion-icon size="large" slot="start" name="calendar-outline" color="primary"></ion-icon>
   <ion-label>
     Tipo de periodo
     <p>{{ periodoService.tipo() === 'mensual' ? 'Mensual' : 'Semanal' }}</p>
