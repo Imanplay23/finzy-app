@@ -5,9 +5,10 @@ import { PresupuestoService } from './presupuesto.service';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-
-  private gastosService      = inject(GastosService);
+  private gastosService = inject(GastosService);
   private presupuestoService = inject(PresupuestoService);
+  private yaNotificado80 = false;
+  private yaNotificado100 = false;
 
   async init() {
     // Pedir permisos
@@ -27,35 +28,44 @@ export class NotificationService {
     const p = this.presupuestoService.presupuesto();
     if (!p) return;
 
-    const total      = this.gastosService.totalMes();
+    const total = this.gastosService.totalPeriodo();
     const porcentaje = (total / p.monto) * 100;
 
+    if (porcentaje >= 100 && !this.yaNotificado100) {
+      this.yaNotificado100 = true;
+    }
     if (porcentaje >= 100) {
       await LocalNotifications.schedule({
-        notifications: [{
-          id:    1,
-          title: '🚨 Presupuesto agotado',
-          body:  `Has gastado el 100% de tu presupuesto mensual`,
-          sound: 'default',
-          extra: { tipo: 'presupuesto' }
-        }]
+        notifications: [
+          {
+            id: 1,
+            title: '🚨 Presupuesto agotado',
+            body: `Has gastado el 100% de tu presupuesto mensual`,
+            sound: 'default',
+            extra: { tipo: 'presupuesto' },
+          },
+        ],
       });
     } else if (porcentaje >= 80) {
       await LocalNotifications.schedule({
-        notifications: [{
-          id:    2,
-          title: '⚠️ Casi sin presupuesto',
-          body:  `Llevas el ${porcentaje.toFixed(0)}% de tu presupuesto mensual`,
-          sound: 'default',
-          extra: { tipo: 'presupuesto' }
-        }]
+        notifications: [
+          {
+            id: 2,
+            title: '⚠️ Casi sin presupuesto',
+            body: `Llevas el ${porcentaje.toFixed(
+              0
+            )}% de tu presupuesto mensual`,
+            sound: 'default',
+            extra: { tipo: 'presupuesto' },
+          },
+        ],
       });
     }
   }
 
   // ── Recordatorio diario ───────────────────────────────────
   async programarRecordatorioDiario() {
-    const ahora  = new Date();
+    const ahora = new Date();
     const trigger = new Date();
     trigger.setHours(20, 0, 0, 0); // 8:00 PM
 
@@ -65,24 +75,26 @@ export class NotificationService {
     }
 
     await LocalNotifications.schedule({
-      notifications: [{
-        id:    10,
-        title: '📝 ¿Registraste tus gastos hoy?',
-        body:  'Mantén tu presupuesto al día registrando tus gastos diarios.',
-        schedule: {
-          at:       trigger,
-          repeats:  true,
-          every:    'day',
+      notifications: [
+        {
+          id: 10,
+          title: '📝 ¿Registraste tus gastos hoy?',
+          body: 'Mantén tu presupuesto al día registrando tus gastos diarios.',
+          schedule: {
+            at: trigger,
+            repeats: true,
+            every: 'day',
+          },
+          sound: 'default',
+          extra: { tipo: 'recordatorio' },
         },
-        sound: 'default',
-        extra: { tipo: 'recordatorio' }
-      }]
+      ],
     });
   }
 
   // ── Resumen semanal ───────────────────────────────────────
   async programarResumenSemanal() {
-    const ahora   = new Date();
+    const ahora = new Date();
     const trigger = new Date();
 
     // Próximo domingo a las 10:00 AM
@@ -90,25 +102,29 @@ export class NotificationService {
     trigger.setDate(ahora.getDate() + diasParaDomingo);
     trigger.setHours(10, 0, 0, 0);
 
-    const total      = this.gastosService.totalMes();
-    const p          = this.presupuestoService.presupuesto();
+    const total = this.gastosService.totalMes();
+    const p = this.presupuestoService.presupuesto();
     const disponible = p ? p.monto - total : 0;
 
     await LocalNotifications.schedule({
-      notifications: [{
-        id:    20,
-        title: '📊 Resumen semanal — Finzy',
-        body:  p
-          ? `Esta semana gastaste ${total.toFixed(2)}. Te quedan ${disponible.toFixed(2)} disponibles.`
-          : 'Revisa tus gastos de esta semana en Finzy.',
-        schedule: {
-          at:      trigger,
-          repeats: true,
-          every:   'week',
+      notifications: [
+        {
+          id: 20,
+          title: '📊 Resumen semanal — Finzy',
+          body: p
+            ? `Esta semana gastaste ${total.toFixed(
+                2
+              )}. Te quedan ${disponible.toFixed(2)} disponibles.`
+            : 'Revisa tus gastos de esta semana en Finzy.',
+          schedule: {
+            at: trigger,
+            repeats: true,
+            every: 'week',
+          },
+          sound: 'default',
+          extra: { tipo: 'resumen' },
         },
-        sound: 'default',
-        extra: { tipo: 'resumen' }
-      }]
+      ],
     });
   }
 
@@ -117,7 +133,7 @@ export class NotificationService {
     const pending = await LocalNotifications.getPending();
     if (pending.notifications.length > 0) {
       await LocalNotifications.cancel({
-        notifications: pending.notifications
+        notifications: pending.notifications,
       });
     }
   }
