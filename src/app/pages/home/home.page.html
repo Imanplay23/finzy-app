@@ -8,15 +8,18 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<!-- Hero -->
+
+<ion-content class="ion-padding">
+  <!-- Hero -->
 <div class="hero-card">
   <img src="assets/icon-only.png" alt="Finzy" class="hero-logo" />
   <h1>Finzy</h1>
   <p>Mantén el control de tus finanzas</p>
 </div>
 
-<ion-card class="resumen-total-card">
-  <ion-card-title style="margin: 10px;">Selector de billetera</ion-card-title>
+<!-- Selector de billetera -->
+<ion-card class="selector-wallet-card">
+  <ion-card-title>Selector de billetera</ion-card-title>
   <ion-card-content>
     <div class="billetera-chips">
       @for (b of billeteraService.billeteras(); track b.id) {
@@ -33,7 +36,7 @@
     </div>
   </ion-card-content>
 </ion-card>
-<!-- Selector de billetera -->
+
 
 <!-- Resumen todas las billeteras -->
 @if (billeteraService.billeteras().length > 1) {
@@ -59,8 +62,6 @@
   </ion-card-content>
 </ion-card>
 }
-
-<ion-content class="ion-padding">
   <!-- Sin presupuesto -->
   @if (!presupuestoService.presupuesto()) {
   <div class="empty-state">
