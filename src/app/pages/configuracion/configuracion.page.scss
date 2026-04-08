@@ -30,3 +30,43 @@ ion-icon{
 p {
   font-size: 15px;
 }
+
+.billetera-preview {
+  width:           50px;
+  height:          50px;
+  border-radius:   10px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  margin:    12px;
+
+  ion-icon { font-size: 30px; margin: 10px;}
+}
+
+ion-card-header {
+  margin: 15px;
+  color: white;
+  font-size: 18px;
+}
+
+ion-item-sliding {
+  border-radius: var(--radius-md);
+  overflow:      hidden;
+  margin-bottom: 2px;
+}
+
+ion-item-option {
+  width:           72px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 30px !important;
+    margin: 10px;
+  }
+}
+
+ion-item-options {
+  border-radius: 0;
+}

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title style="margin: 10px;">Finzy</ion-title>
+    <ion-title style="margin: 10px">Finzy</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="irAConfiguracion()">
         <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
@@ -8,20 +8,64 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content class="ion-padding">
-  <!-- Hero -->
+<!-- Hero -->
 <div class="hero-card">
-  <img src="assets/icon-only.png" alt="Finzy" class="hero-logo">
+  <img src="assets/icon-only.png" alt="Finzy" class="hero-logo" />
   <h1>Finzy</h1>
   <p>Mantén el control de tus finanzas</p>
 </div>
 
+<ion-card class="resumen-total-card">
+  <ion-card-title style="margin: 10px;">Selector de billetera</ion-card-title>
+  <ion-card-content>
+    <div class="billetera-chips">
+      @for (b of billeteraService.billeteras(); track b.id) {
+      <div
+        class="billetera-chip"
+        [class.active]="billeteraService.billeteraActiva().id === b.id"
+        [style.--chip-color]="b.color"
+        (click)="billeteraService.seleccionar(b)"
+      >
+        <ion-icon [name]="b.icono"></ion-icon>
+        <span>{{ b.nombre }}</span>
+      </div>
+      }
+    </div>
+  </ion-card-content>
+</ion-card>
+<!-- Selector de billetera -->
+
+<!-- Resumen todas las billeteras -->
+@if (billeteraService.billeteras().length > 1) {
+<ion-card class="resumen-total-card">
+  <ion-card-content>
+    <div class="resumen-total-header">
+      <small>Resumen general</small>
+      <strong>{{ gastosService.totalTodasBilleteras() | appCurrency }}</strong>
+    </div>
+    <div class="billeteras-row">
+      @for (b of billeteraService.billeteras(); track b.id) {
+      <div class="billetera-stat">
+        <div class="billetera-dot" [style.background]="b.color"></div>
+        <div class="billetera-stat-info">
+          <span class="billetera-nombre">{{ b.nombre }}</span>
+          <span class="billetera-monto">
+            {{ (gastosService.totalPorBilletera()[b.id] ?? 0) | appCurrency }}
+          </span>
+        </div>
+      </div>
+      }
+    </div>
+  </ion-card-content>
+</ion-card>
+}
+
+<ion-content class="ion-padding">
   <!-- Sin presupuesto -->
   @if (!presupuestoService.presupuesto()) {
   <div class="empty-state">
     <p>Aún no tienes un presupuesto configurado.</p>
-    <ion-button style="margin: 10px;" fill="outline" (click)="irAPresupuesto()">
+    <ion-button style="margin: 10px" fill="outline" (click)="irAPresupuesto()">
       Configurar presupuesto
     </ion-button>
   </div>
@@ -79,11 +123,14 @@
   }
 
   <div class="ultimos-gastos">
-    @for (gasto of gastosService.gastos().slice(0, 5); track gasto.id) {
+    @for (gasto of gastosService.gastosBilleteraActiva().slice(0, 5); track
+    gasto.id) {
     <div class="gasto-row">
       <div class="gasto-info">
         <strong class="gasto-desc">{{ gasto.descripcion }}</strong>
-        <strong class="gasto-meta">{{ gasto.fecha | date:'dd/MM/yyyy' }} · {{ gasto.hora }}</strong>
+        <strong class="gasto-meta"
+          >{{ gasto.fecha | date:'dd/MM/yyyy' }} · {{ gasto.hora }}</strong
+        >
       </div>
       <span class="gasto-monto">{{ gasto.monto | appCurrency }}</span>
     </div>

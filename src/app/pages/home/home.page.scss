@@ -158,3 +158,108 @@
   color:      var(--ion-color-medium);
   font-size:  14px;
 }
+
+.billetera-chips {
+  display:        flex;
+  gap:            8px;
+  margin-bottom:  16px;
+  overflow-x:     auto;
+  padding-bottom: 4px;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.billetera-chip {
+  display:        flex;
+  align-items:    center;
+  gap:            6px;
+  padding:        8px 14px;
+  border-radius:  99px;
+  border:         2px solid var(--chip-color, var(--ion-border-color));
+  background:     transparent;
+  cursor:         pointer;
+  white-space:    nowrap;
+  transition:     all 0.2s ease;
+  margin: 15px;
+
+  ion-icon {
+    font-size: 30px;
+    color:     var(--chip-color, var(--ion-color-medium));
+  }
+
+  span {
+    font-size:   16px;
+    font-weight: 600;
+    color:       var(--ion-color-medium);
+  }
+
+  &.active {
+    background: var(--chip-color, var(--ion-color-primary));
+    border-color: var(--chip-color, var(--ion-color-primary));
+
+    ion-icon, span {
+      color: #ffffff !important;
+    }
+  }
+}
+
+.resumen-total-card {
+  margin: 15px;
+  
+}
+
+.resumen-total-header {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  margin-bottom:   12px;
+
+  small {
+    font-size:      16px;
+    font-weight:    600;
+    color:          var(--ion-color-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  strong {
+    font-size:   18px;
+    font-weight: 800;
+  }
+}
+
+.billeteras-row {
+  display:        flex;
+  flex-direction: column;
+  gap:            8px;
+}
+
+.billetera-stat {
+  display:     flex;
+  align-items: center;
+  gap:         10px;
+}
+
+.billetera-dot {
+  width:         10px;
+  height:        10px;
+  border-radius: 50%;
+  flex-shrink:   0;
+}
+
+.billetera-stat-info {
+  display:         flex;
+  justify-content: space-between;
+  flex:            1;
+
+  .billetera-nombre {
+    font-size:   16px;
+    font-weight: 500;
+    color:       var(--ion-color-medium);
+  }
+
+  .billetera-monto {
+    font-size:   14px;
+    font-weight: 700;
+  }
+}

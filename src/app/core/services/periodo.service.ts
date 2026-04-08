@@ -1,53 +1,63 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { DatabaseService } from './database.service';
+import { BilleteraService } from './billetera.service';
 import {
   PeriodoActivo, PeriodoCerrado, TipoPeriodo,
   calcularFechaFin, calcularProximoInicio
 } from '../models/periodo.model';
 import { Gasto } from '../models/gastos.model';
 
-const KEY_ACTIVO    = 'periodo_activo';
 const KEY_HISTORIAL = 'periodos_historial';
 const KEY_TIPO      = 'periodo_tipo';
 
 @Injectable({ providedIn: 'root' })
 export class PeriodoService {
 
-  private db = inject(DatabaseService);
+  private db               = inject(DatabaseService);
+  private billeteraService = inject(BilleteraService);
 
-  private _periodoActivo  = signal<PeriodoActivo | null>(null);
-  private _historial      = signal<PeriodoCerrado[]>([]);
-  private _tipo           = signal<TipoPeriodo>('mensual');
+  private _periodoActivo = signal<PeriodoActivo | null>(null);
+  private _historial     = signal<PeriodoCerrado[]>([]);
+  private _tipo          = signal<TipoPeriodo>('mensual');
 
-  periodoActivo  = this._periodoActivo.asReadonly();
-  historial      = this._historial.asReadonly();
-  tipo           = this._tipo.asReadonly();
+  periodoActivo = this._periodoActivo.asReadonly();
+  historial     = this._historial.asReadonly();
+  tipo          = this._tipo.asReadonly();
 
-  // Fechas del periodo actual para filtrar gastos
   fechaInicio = computed(() => this._periodoActivo()?.fechaInicio ?? null);
   fechaFin    = computed(() => this._periodoActivo()?.fechaFin    ?? null);
 
   constructor() {
-    this.cargar();
+  this.cargar();
+  // Registrar callback para cuando cambie la billetera
+  this.billeteraService.registrarOnCambio(() => this.cargar());
   }
 
-  private cargar() {
-    // Tipo de periodo
+  // Key única por billetera
+  private keyActivo(): string {
+    return `periodo_activo_${this.billeteraService.billeteraActiva().id}`;
+  }
+
+  cargar() {
     const tipo = localStorage.getItem(KEY_TIPO) as TipoPeriodo;
     if (tipo) this._tipo.set(tipo);
 
-    // Periodo activo
-    const activo = this.db.getOne<PeriodoActivo>(KEY_ACTIVO, KEY_ACTIVO);
-    if (activo) {
-      this._periodoActivo.set(activo);
-    }
+    const activo = this.db.getOne<PeriodoActivo>(this.keyActivo(), this.keyActivo());
+    this._periodoActivo.set(activo);
 
-    // Historial
     const historial = this.db.getAll<PeriodoCerrado>(KEY_HISTORIAL);
     this._historial.set(historial.sort((a, b) => b.creadoEn - a.creadoEn));
   }
 
-  // Iniciar primer periodo o nuevo periodo
+  // Llamar cuando cambia la billetera activa
+  actualizarPeriodoActivo(periodo?: PeriodoActivo) {
+    if (periodo) {
+      this._periodoActivo.set(periodo);
+    } else {
+      this.cargar();
+    }
+  }
+
   iniciarPeriodo(presupuesto: number, fechaInicio?: string): void {
     const inicio = fechaInicio ?? new Date().toISOString().split('T')[0];
     const tipo   = this._tipo();
@@ -58,13 +68,13 @@ export class PeriodoService {
       fechaInicio: inicio,
       fechaFin:    calcularFechaFin(inicio, tipo),
       presupuesto,
+      billeteraId: this.billeteraService.billeteraActiva().id,
     };
 
-    this.db.saveOne(KEY_ACTIVO, nuevo);
+    this.db.saveOne(this.keyActivo(), nuevo);
     this._periodoActivo.set(nuevo);
   }
 
-  // Cerrar periodo actual y archivar gastos
   cerrarPeriodo(gastos: Gasto[]): void {
     const activo = this._periodoActivo();
     if (!activo) return;
@@ -77,19 +87,15 @@ export class PeriodoService {
       fechaInicio:  activo.fechaInicio,
       fechaFin:     activo.fechaFin,
       presupuesto:  activo.presupuesto,
+      billeteraId:  activo.billeteraId,
       totalGastado,
       gastos:       [...gastos],
       creadoEn:     Date.now(),
     };
 
-    // Guardar en historial
     this.db.save(KEY_HISTORIAL, cerrado);
-
-    // Limpiar periodo activo
-    localStorage.removeItem(KEY_ACTIVO);
+    localStorage.removeItem(this.keyActivo());
     this._periodoActivo.set(null);
-
-    // Actualizar historial en memoria
     this._historial.update(h => [cerrado, ...h]);
   }
 
@@ -98,20 +104,21 @@ export class PeriodoService {
     localStorage.setItem(KEY_TIPO, tipo);
   }
 
-  // Verificar si una fecha cae en el periodo activo
   estaEnPeriodoActivo(fecha: string): boolean {
     const activo = this._periodoActivo();
     if (!activo) return false;
     return fecha >= activo.fechaInicio && fecha <= activo.fechaFin;
   }
 
-  actualizarPeriodoActivo(periodo: PeriodoActivo): void {
-  this._periodoActivo.set(periodo);
-}
-
   get proximoInicio(): string {
     const activo = this._periodoActivo();
     if (!activo) return new Date().toISOString().split('T')[0];
     return calcularProximoInicio(activo.fechaFin);
   }
+
+  // Historial filtrado por billetera activa
+  historialBilleteraActiva = computed(() => {
+    const billeteraId = this.billeteraService.billeteraActiva().id;
+    return this._historial().filter(p => p.billeteraId === billeteraId);
+  });
 }

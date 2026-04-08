@@ -11,7 +11,7 @@
 
   <!-- Apariencia -->
   <ion-card>
-    <ion-list-header>Apariencia</ion-list-header>
+    <ion-card-header>Apariencia</ion-card-header>
   <!-- Dark/light mode-->
     <ion-item>
       <ion-icon
@@ -71,7 +71,7 @@
 
   <!-- Divisa -->
   <ion-card>
-    <ion-list-header>Moneda</ion-list-header>
+    <ion-card-header>Moneda</ion-card-header>
 
     <ion-item>
       <ion-icon size="large" slot="start" name="cash-outline" color="primary"></ion-icon>
@@ -104,7 +104,7 @@
 
   <!-- Info -->
   <ion-card>
-    <ion-list-header>Información</ion-list-header>
+    <ion-card-header>Información</ion-card-header>
     <ion-item>
       <ion-icon size="large" slot="start" name="information-circle-outline"></ion-icon>
       <ion-label>Versión</ion-label>
@@ -114,7 +114,7 @@
 
   <!-- Notificaciones -->
   <ion-card>
-  <ion-list-header>Notificaciones</ion-list-header>
+  <ion-card-header>Notificaciones</ion-card-header>
 
   <ion-item button (click)="reprogramarNotificaciones()">
     <ion-icon size="large" slot="start" name="notifications-outline" color="primary"></ion-icon>
@@ -124,6 +124,47 @@
     </ion-label>
     <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
   </ion-item>
+</ion-card>
+
+<ion-card>
+  <ion-card-header>Billeteras</ion-card-header>
+
+  @for (b of billeteraService.billeteras(); track b.id) {
+    <ion-item-sliding>
+      <ion-item>
+        <div slot="start" class="billetera-preview"
+          [style.background]="b.color + '22'">
+          <ion-icon [name]="b.icono" [style.color]="b.color"></ion-icon>
+        </div>
+        <ion-label>{{ b.nombre }}</ion-label>
+      </ion-item>
+
+      <!-- Editar — swipe izquierda -->
+      <ion-item-options side="start">
+        <ion-item-option color="primary" (click)="abrirBilleteraModal(b)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+
+      <!-- Eliminar — swipe derecha (solo si no es principal) -->
+      @if (b.id !== 'principal') {
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="eliminarBilletera(b.id)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      }
+
+    </ion-item-sliding>
+  }
+
+  @if (billeteraService.puedeAgregar()) {
+    <ion-item button (click)="abrirBilleteraModal()">
+      <ion-icon slot="start" name="add-circle-outline" color="primary"></ion-icon>
+      <ion-label color="primary">Agregar billetera</ion-label>
+    </ion-item>
+  }
+
 </ion-card>
 
 </ion-content>

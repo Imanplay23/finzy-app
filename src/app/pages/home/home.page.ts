@@ -10,21 +10,35 @@ import {
   IonIcon,
   IonCard,
   IonItem,
-  IonImg,
+  IonCardContent,
+  IonCardTitle,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { settingsOutline } from 'ionicons/icons';
+import {
+  settingsOutline,
+  walletOutline,
+  cardOutline,
+  cashOutline,
+  businessOutline,
+  phonePortraitOutline,
+  briefcaseOutline,
+  homeOutline,
+  carOutline,
+} from 'ionicons/icons';
 import { GastosService } from '../../core/services/gastos.service';
 import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { CurrencyService } from '../../core/services/currency.service';
 import { AppCurrencyPipe } from '../../core/pipes/app-currency.pipe';
 import { DecimalPipe } from '@angular/common';
 import { DatePipe } from '@angular/common';
+import { BilleteraService } from '../../core/services/billetera.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
+    IonCardTitle,
+    IonCardContent,
     IonItem,
     IonCard,
     AppCurrencyPipe,
@@ -36,7 +50,7 @@ import { DatePipe } from '@angular/common';
     IonButton,
     IonIcon,
     DecimalPipe,
-    DatePipe
+    DatePipe,
   ],
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
@@ -46,6 +60,7 @@ export class HomePage {
   gastosService = inject(GastosService);
   presupuestoService = inject(PresupuestoService);
   currencyService = inject(CurrencyService);
+  billeteraService = inject(BilleteraService);
 
   saldoDisponible = computed<number | null>(() => {
     const p = this.presupuestoService.presupuesto();
@@ -70,12 +85,21 @@ export class HomePage {
     this.router.navigate(['/configuracion']);
   }
 
-    irAPresupuesto() {
-    this.router.navigate(['/tabs/presupuesto'])
+  irAPresupuesto() {
+    this.router.navigate(['/tabs/presupuesto']);
   }
 
-
   constructor() {
-    addIcons({ settingsOutline });
+    addIcons({
+      settingsOutline,
+      walletOutline,
+      cardOutline,
+      cashOutline,
+      businessOutline,
+      phonePortraitOutline,
+      briefcaseOutline,
+      homeOutline,
+      carOutline,
+    });
   }
 }

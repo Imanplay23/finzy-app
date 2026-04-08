@@ -83,36 +83,30 @@ export class GastosPage {
   filtroCategoria = signal('todas');
   filtroOrden = signal('fecha');
 
-  gastosFiltrados = computed(() => {
-    let lista = this.gastosService.gastos();
+gastosFiltrados = computed(() => {
+  // ← debe usar gastosBilleteraActiva, no gastos()
+  let lista = this.gastosService.gastosBilleteraActiva();
 
-    // Filtro búsqueda
-    const q = this.busqueda().toLowerCase().trim();
-    if (q) {
-      lista = lista.filter(
-        (g) =>
-          g.descripcion.toLowerCase().includes(q) ||
-          this.getCategoriaNombre(g.categoriaId).toLowerCase().includes(q)
-      );
-    }
+  const q = this.busqueda().toLowerCase().trim();
+  if (q) {
+    lista = lista.filter(g =>
+      g.descripcion.toLowerCase().includes(q) ||
+      this.getCategoriaNombre(g.categoriaId).toLowerCase().includes(q)
+    );
+  }
 
-    // Filtro categoría
-    const cat = this.filtroCategoria();
-    if (cat !== 'todas') {
-      lista = lista.filter((g) => g.categoriaId === cat);
-    }
+  const cat = this.filtroCategoria();
+  if (cat !== 'todas') {
+    lista = lista.filter(g => g.categoriaId === cat);
+  }
 
-    // Orden
-    const orden = this.filtroOrden();
-    if (orden === 'monto-desc')
-      lista = [...lista].sort((a, b) => b.monto - a.monto);
-    if (orden === 'monto-asc')
-      lista = [...lista].sort((a, b) => a.monto - b.monto);
-    if (orden === 'fecha')
-      lista = [...lista].sort((a, b) => b.creadoEn - a.creadoEn);
+  const orden = this.filtroOrden();
+  if (orden === 'monto-desc') lista = [...lista].sort((a, b) => b.monto - a.monto);
+  if (orden === 'monto-asc')  lista = [...lista].sort((a, b) => a.monto - b.monto);
+  if (orden === 'fecha')      lista = [...lista].sort((a, b) => b.creadoEn - a.creadoEn);
 
-    return lista;
-  });
+  return lista;
+});
 
   constructor() {
     addIcons({ addOutline, trashOutline, createOutline, funnelOutline });

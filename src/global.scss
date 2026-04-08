@@ -311,3 +311,18 @@ ion-menu {
 .alert-cancel {
   color: var(--ion-color-medium) !important;
 }
+
+ion-item-option {
+  font-size:  13px;
+  font-weight: 600;
+  min-width:  72px;
+
+  ion-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+}
+
+ion-item-sliding {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
