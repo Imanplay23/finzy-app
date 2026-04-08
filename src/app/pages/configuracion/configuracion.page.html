@@ -3,22 +3,22 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs/inicio"></ion-back-button>
     </ion-buttons>
-    <ion-title style="margin: 10px;">Configuración</ion-title>
+    <ion-title style="margin: 10px">Configuración</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-
   <!-- Apariencia -->
   <ion-card>
     <ion-card-header>Apariencia</ion-card-header>
-  <!-- Dark/light mode-->
+    <!-- Dark/light mode-->
     <ion-item>
       <ion-icon
         size="large"
         slot="start"
         [name]="themeService.darkMode() ? 'moon-outline' : 'sunny-outline'"
-        [color]="themeService.darkMode() ? 'primary' : 'warning'">
+        [color]="themeService.darkMode() ? 'primary' : 'warning'"
+      >
       </ion-icon>
       <ion-label>
         Modo oscuro
@@ -27,25 +27,32 @@
       <ion-toggle
         slot="end"
         [checked]="themeService.darkMode()"
-        (ionChange)="themeService.toggle()">
+        (ionChange)="themeService.toggle()"
+      >
       </ion-toggle>
     </ion-item>
     <!-- Selector de tipo de periodo -->
     <ion-item>
-  <ion-icon size="large" slot="start" name="calendar-outline" color="primary"></ion-icon>
-  <ion-label>
-    Tipo de periodo
-    <p>{{ periodoService.tipo() === 'mensual' ? 'Mensual' : 'Semanal' }}</p>
-  </ion-label>
-  <ion-select
-    slot="end"
-    interface="popover"
-    [value]="periodoService.tipo()"
-    (ionChange)="onTipoPeriodo($event)">
-    <ion-select-option value="mensual">Mensual</ion-select-option>
-    <ion-select-option value="semanal">Semanal</ion-select-option>
-  </ion-select>
-</ion-item>
+      <ion-icon
+        size="large"
+        slot="start"
+        name="calendar-outline"
+        color="primary"
+      ></ion-icon>
+      <ion-label>
+        Tipo de periodo
+        <p>{{ periodoService.tipo() === 'mensual' ? 'Mensual' : 'Semanal' }}</p>
+      </ion-label>
+      <ion-select
+        slot="end"
+        interface="popover"
+        [value]="periodoService.tipo()"
+        (ionChange)="onTipoPeriodo($event)"
+      >
+        <ion-select-option value="mensual">Mensual</ion-select-option>
+        <ion-select-option value="semanal">Semanal</ion-select-option>
+      </ion-select>
+    </ion-item>
     <!-- Font size slider -->
     <!-- <ion-item>
       <ion-icon slot="start" name="text-outline" color="primary"></ion-icon>
@@ -66,74 +73,19 @@
         <span slot="end" style="font-size: 20px; font-weight: 700">A</span>
       </ion-range>
     </ion-item> -->
-
   </ion-card>
 
-  <!-- Divisa -->
   <ion-card>
-    <ion-card-header>Moneda</ion-card-header>
+    <ion-card-header>Billeteras</ion-card-header>
 
-    <ion-item>
-      <ion-icon size="large" slot="start" name="cash-outline" color="primary"></ion-icon>
-      <ion-label>Divisa</ion-label>
-      <div>
-      <ion-select
-        slot="end"
-        interface="popover"
-        [value]="currencyService.divisaActual().codigo"
-        (ionChange)="onDivisaChange($event)">
-        <ion-select-option *ngFor="let d of divisas" [value]="d.codigo">
-          {{ d.bandera }} {{ d.codigo }} — {{ d.nombre }}
-        </ion-select-option>
-      </ion-select>
-      </div>
-    </ion-item>
-
-    <ion-item>
-      <ion-icon size="large" slot="start" name="refresh-outline" color="primary"></ion-icon>
-      <ion-label>
-        Actualizar tasas
-        <p>{{ currencyService.cargando() ? 'Actualizando...' : 'Tasa en tiempo real' }}</p>
-      </ion-label>
-      <ion-note slot="end" color="primary" (click)="actualizarTasas()" style="cursor:pointer">
-        {{ currencyService.cargando() ? '...' : 'Sync' }}
-      </ion-note>
-    </ion-item>
-
-  </ion-card>
-
-  <!-- Info -->
-  <ion-card>
-    <ion-card-header>Información</ion-card-header>
-    <ion-item>
-      <ion-icon size="large" slot="start" name="information-circle-outline"></ion-icon>
-      <ion-label>Versión</ion-label>
-      <ion-note slot="end">2.0.0</ion-note>
-    </ion-item>
-  </ion-card>
-
-  <!-- Notificaciones -->
-  <ion-card>
-  <ion-card-header>Notificaciones</ion-card-header>
-
-  <ion-item button (click)="reprogramarNotificaciones()">
-    <ion-icon size="large" slot="start" name="notifications-outline" color="primary"></ion-icon>
-    <ion-label>
-      Reprogramar notificaciones
-      <p>Recordatorio diario y resumen semanal</p>
-    </ion-label>
-    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-  </ion-item>
-</ion-card>
-
-<ion-card>
-  <ion-card-header>Billeteras</ion-card-header>
-
-  @for (b of billeteraService.billeteras(); track b.id) {
+    @for (b of billeteraService.billeteras(); track b.id) {
     <ion-item-sliding>
       <ion-item>
-        <div slot="start" class="billetera-preview"
-          [style.background]="b.color + '22'">
+        <div
+          slot="start"
+          class="billetera-preview"
+          [style.background]="b.color + '22'"
+        >
           <ion-icon [name]="b.icono" [style.color]="b.color"></ion-icon>
         </div>
         <ion-label>{{ b.nombre }}</ion-label>
@@ -148,23 +100,106 @@
 
       <!-- Eliminar — swipe derecha (solo si no es principal) -->
       @if (b.id !== 'principal') {
-        <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="eliminarBilletera(b.id)">
-            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="eliminarBilletera(b.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
       }
-
     </ion-item-sliding>
-  }
-
-  @if (billeteraService.puedeAgregar()) {
+    } @if (billeteraService.puedeAgregar()) {
     <ion-item button (click)="abrirBilleteraModal()">
-      <ion-icon slot="start" name="add-circle-outline" color="primary"></ion-icon>
+      <ion-icon
+        slot="start"
+        name="add-circle-outline"
+        color="primary"
+      ></ion-icon>
       <ion-label color="primary">Agregar billetera</ion-label>
     </ion-item>
-  }
+    }
+  </ion-card>
 
-</ion-card>
+  <!-- Divisa -->
+  <ion-card>
+    <ion-card-header>Moneda</ion-card-header>
 
+    <ion-item>
+      <ion-icon
+        size="large"
+        slot="start"
+        name="cash-outline"
+        color="primary"
+      ></ion-icon>
+      <ion-label>Divisa</ion-label>
+      <div>
+        <ion-select
+          slot="end"
+          interface="popover"
+          [value]="currencyService.divisaActual().codigo"
+          (ionChange)="onDivisaChange($event)"
+        >
+          <ion-select-option *ngFor="let d of divisas" [value]="d.codigo">
+            {{ d.bandera }} {{ d.codigo }} — {{ d.nombre }}
+          </ion-select-option>
+        </ion-select>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon
+        size="large"
+        slot="start"
+        name="refresh-outline"
+        color="primary"
+      ></ion-icon>
+      <ion-label>
+        Actualizar tasas
+        <p>
+          {{ currencyService.cargando() ? 'Actualizando...' : 'Tasa en tiempo
+          real' }}
+        </p>
+      </ion-label>
+      <ion-note
+        slot="end"
+        color="primary"
+        (click)="actualizarTasas()"
+        style="cursor: pointer"
+      >
+        {{ currencyService.cargando() ? '...' : 'Sync' }}
+      </ion-note>
+    </ion-item>
+  </ion-card>
+
+  <!-- Notificaciones -->
+  <ion-card>
+    <ion-card-header>Notificaciones</ion-card-header>
+
+    <ion-item button (click)="reprogramarNotificaciones()">
+      <ion-icon
+        size="large"
+        slot="start"
+        name="notifications-outline"
+        color="primary"
+      ></ion-icon>
+      <ion-label>
+        Reprogramar notificaciones
+        <p>Recordatorio diario y resumen semanal</p>
+      </ion-label>
+      <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+    </ion-item>
+  </ion-card>
+
+  <!-- Info -->
+  <ion-card>
+    <ion-card-header>Información</ion-card-header>
+    <ion-item>
+      <ion-icon
+        size="large"
+        slot="start"
+        name="information-circle-outline"
+      ></ion-icon>
+      <ion-label>Versión</ion-label>
+      <ion-note slot="end">2.0.2</ion-note>
+    </ion-item>
+  </ion-card>
 </ion-content>
