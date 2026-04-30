@@ -93,34 +93,25 @@ export class TabsPage implements AfterViewInit {
         threshold: 15,
         gestureName: 'swipe-tabs',
         onStart: (ev) => {
+          // Verificar si el swipe empezó sobre un ion-item-sliding
           const target = ev.event.target as HTMLElement;
           const isSliding =
             target.closest('ion-item-sliding') ||
             target.closest('ion-item-options') ||
-            target.closest('ion-modal') ||
-            target.closest('ion-range') ||
-            target.closest('.scroll-row') ||
-            target.closest('.billetera-chips') ||
-            target.closest('.billetera-chip');
-          return !isSliding;
+            target.closest('.scroll-row') || // sliders de billetera modal
+            target.closest('ion-range') || // slider font size
+            target.closest('.billetera-chips'); // chips de billetera en home
+          return !isSliding; // si está en sliding, no activar el gesture
         },
         onEnd: (ev) => {
           const idx = this.tabActual;
-          const velocidad = Math.abs(ev.velocityX);
-
-          // Requiere velocidad mínima además de distancia
-          if (velocidad < 0.3) return;
 
           if (ev.deltaX < -60 && idx < this.tabs.length - 1) {
-            this.router.navigate([`/tabs/${this.tabs[idx + 1]}`], {
-              replaceUrl: false,
-            });
+            this.router.navigate([`/tabs/${this.tabs[idx + 1]}`]);
           }
 
           if (ev.deltaX > 60 && idx > 0) {
-            this.router.navigate([`/tabs/${this.tabs[idx - 1]}`], {
-              replaceUrl: false,
-            });
+            this.router.navigate([`/tabs/${this.tabs[idx - 1]}`]);
           }
         },
       },
