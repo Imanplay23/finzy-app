@@ -31,4 +31,14 @@ export class PresupuestoService {
       this.periodoService.iniciarPeriodo(monto);
     }
   }
+
+  sumar(monto: number): void {
+  const activo = this.periodoService.periodoActivo();
+  if (!activo) return;
+
+  const actualizado = { ...activo, presupuesto: activo.presupuesto + monto };
+  const key = `periodo_activo_${actualizado.billeteraId}`;
+  this.db.saveOne(key, actualizado);
+  this.periodoService.actualizarPeriodoActivo(actualizado);
+}
 }

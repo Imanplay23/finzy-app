@@ -57,7 +57,7 @@
     justify-content: space-between;
 
     span {
-      font-size:   12px;
+      font-size:   16px;
       font-weight: 600;
       color:       rgba(255,255,255,0.85);
     }
@@ -84,7 +84,7 @@
   box-shadow:     var(--shadow-sm);
 
   small {
-    font-size:      10px;
+    font-size:      12px;
     font-weight:    600;
     color:          var(--ion-color-medium);
     text-transform: uppercase;
@@ -112,6 +112,17 @@
   --background:    var(--ion-background-color);
   --border-radius: var(--radius-md);
   margin-bottom:   8px;
+
+  ion-input{
+    margin: 10px;
+    font-size: 17px;
+  }
+
+  ion-label{
+    margin: 10px;
+    font-size: 17px;
+    font-weight: 500;
+  }
 }
 
 .empty-hero {
@@ -149,6 +160,11 @@
 
 .title {
   margin: 10px;
+}
+
+.form-title {
+  margin: 12px;
+  font-size: 20;
 }
 
 .periodo-label {
@@ -222,5 +238,13 @@
   .historial-presupuesto {
     font-size: 11px;
     color:     var(--ion-color-medium);
+  }
+}
+
+.btn{
+  font-size: 16px;
+  ion-icon{
+    font-size: 24px;
+    margin-right: 10px;
   }
 }

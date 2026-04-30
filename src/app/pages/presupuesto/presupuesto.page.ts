@@ -27,8 +27,7 @@ import {
   checkmarkCircleOutline,
   lockClosedOutline,
   timeOutline,
-  chevronDownOutline,
-} from 'ionicons/icons';
+  chevronDownOutline, addCircleOutline } from 'ionicons/icons';
 import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { GastosService } from '../../core/services/gastos.service';
 import { PeriodoService } from '../../core/services/periodo.service';
@@ -75,6 +74,8 @@ export class PresupuestoPage {
 
   nuevoMonto: number | null = null;
   mostrarHistorial = false;
+  montoAgregar: number | null = null;
+  mostrarInputAgregar = false;
 
   saldoDisponible = computed(() => {
     const p = this.presupuestoService.presupuesto();
@@ -109,29 +110,25 @@ export class PresupuestoPage {
     return labelPeriodoCapital(this.periodoService.tipo());
   }
 
-get periodoLabel(): string {
-  const activo = this.periodoService.periodoActivo();
-  if (!activo) return '';
+  get periodoLabel(): string {
+    const activo = this.periodoService.periodoActivo();
+    if (!activo) return '';
 
-  const inicio = new Date(activo.fechaInicio + 'T00:00:00');
-  const fin    = new Date(activo.fechaFin    + 'T00:00:00');
+    const inicio = new Date(activo.fechaInicio + 'T00:00:00');
+    const fin = new Date(activo.fechaFin + 'T00:00:00');
 
-  const formatear = (fecha: Date) =>
-    fecha.toLocaleDateString('es-DO', { day: '2-digit', month: 'short', year: 'numeric' });
+    const formatear = (fecha: Date) =>
+      fecha.toLocaleDateString('es-DO', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      });
 
-  return `${formatear(inicio)} — ${formatear(fin)}`;
-}
+    return `${formatear(inicio)} — ${formatear(fin)}`;
+  }
 
   constructor() {
-    addIcons({
-      walletOutline,
-      trendingUpOutline,
-      cashOutline,
-      checkmarkCircleOutline,
-      lockClosedOutline,
-      timeOutline,
-      chevronDownOutline,
-    });
+    addIcons({walletOutline,timeOutline,trendingUpOutline,cashOutline,lockClosedOutline,addCircleOutline,checkmarkCircleOutline,chevronDownOutline,});
   }
 
   async guardar() {
@@ -199,5 +196,30 @@ get periodoLabel(): string {
       ],
     });
     await alert.present();
+  }
+
+  async agregarAlPresupuesto() {
+    if (!this.montoAgregar || this.montoAgregar <= 0) {
+      const toast = await this.toastCtrl.create({
+        message: 'Ingresa un monto válido mayor a 0',
+        duration: 2000,
+        color: 'danger',
+        position: 'top',
+      });
+      await toast.present();
+      return;
+    }
+
+    this.presupuestoService.sumar(this.montoAgregar);
+    this.montoAgregar = null;
+    this.mostrarInputAgregar = false;
+
+    const toast = await this.toastCtrl.create({
+      message: '✅ Monto agregado al presupuesto',
+      duration: 2000,
+      color: 'success',
+      position: 'top',
+    });
+    await toast.present();
   }
 }
