@@ -79,18 +79,24 @@ export class NuevoGastoModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.gasto) {
-      this.descripcion = this.gasto.descripcion;
-      this.monto = this.gasto.monto;
-      this.categoriaId = this.gasto.categoriaId;
-      // Reconstruir ISO desde fecha guardada
-      const fecha = new Date(this.gasto.fecha);
-      this.fechaInput = fecha.toISOString().split('T')[0];
-      this.horaInput = `${fecha.getHours().toString().padStart(2, '0')}:${fecha
-        .getMinutes()
-        .toString()
-        .padStart(2, '0')}`;
+  if (this.gasto) {
+    this.descripcion = this.gasto.descripcion;
+    this.monto       = this.gasto.monto;
+    this.categoriaId = this.gasto.categoriaId;
+    this.fechaInput  = this.gasto.fecha; // ya está en formato yyyy-MM-dd
+
+    // Reconstruir hora desde el string guardado (ej: "9:30 PM")
+    const horaStr = this.gasto.hora; // "9:30 PM"
+    if (horaStr) {
+      const [time, ampm] = horaStr.split(' ');
+      let [hh, mm] = time.split(':').map(Number);
+      if (ampm === 'PM' && hh !== 12) hh += 12;
+      if (ampm === 'AM' && hh === 12) hh = 0;
+      this.horaInput = `${hh.toString().padStart(2, '0')}:${mm.toString().padStart(2, '0')}`;
+    } else {
+      this.horaInput = new Date().toTimeString().slice(0, 5);
     }
+  }
   }
 
   cancelar() {
