@@ -109,20 +109,18 @@ export class PresupuestoPage {
     return labelPeriodoCapital(this.periodoService.tipo());
   }
 
-  get periodoLabel(): string {
-    const activo = this.periodoService.periodoActivo();
-    if (!activo) return '';
-    const inicio = new Date(activo.fechaInicio).toLocaleDateString('es-DO', {
-      day: '2-digit',
-      month: 'short',
-    });
-    const fin = new Date(activo.fechaFin).toLocaleDateString('es-DO', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-    return `${inicio} — ${fin}`;
-  }
+get periodoLabel(): string {
+  const activo = this.periodoService.periodoActivo();
+  if (!activo) return '';
+
+  const inicio = new Date(activo.fechaInicio + 'T00:00:00');
+  const fin    = new Date(activo.fechaFin    + 'T00:00:00');
+
+  const formatear = (fecha: Date) =>
+    fecha.toLocaleDateString('es-DO', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  return `${formatear(inicio)} — ${formatear(fin)}`;
+}
 
   constructor() {
     addIcons({
