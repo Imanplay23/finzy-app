@@ -27,7 +27,9 @@ import {
   checkmarkCircleOutline,
   lockClosedOutline,
   timeOutline,
-  chevronDownOutline, addCircleOutline } from 'ionicons/icons';
+  chevronDownOutline,
+  addCircleOutline,
+} from 'ionicons/icons';
 import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { GastosService } from '../../core/services/gastos.service';
 import { PeriodoService } from '../../core/services/periodo.service';
@@ -128,7 +130,16 @@ export class PresupuestoPage {
   }
 
   constructor() {
-    addIcons({walletOutline,timeOutline,trendingUpOutline,cashOutline,lockClosedOutline,addCircleOutline,checkmarkCircleOutline,chevronDownOutline,});
+    addIcons({
+      walletOutline,
+      timeOutline,
+      trendingUpOutline,
+      cashOutline,
+      lockClosedOutline,
+      addCircleOutline,
+      checkmarkCircleOutline,
+      chevronDownOutline,
+    });
   }
 
   async guardar() {
@@ -182,6 +193,7 @@ export class PresupuestoPage {
           handler: async () => {
             this.periodoService.cerrarPeriodo(gastos);
             this.gastosService.eliminarGastosDePeriodo(gastos);
+            this.gastosService.limpiarEliminados(); // ← agrega esto
             this.nuevoMonto = p?.monto ?? null;
 
             const toast = await this.toastCtrl.create({

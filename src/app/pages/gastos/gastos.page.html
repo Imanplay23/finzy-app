@@ -1,6 +1,13 @@
 <ion-header>
   <ion-toolbar>
     <ion-title style="margin: 10px;">Gastos</ion-title>
+        <ion-buttons slot="end">
+      @if (gastosService.gastosEliminados().length > 0) {
+        <ion-button (click)="toggleEliminados()">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      }
+    </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar
@@ -36,6 +43,46 @@
 </ion-header>
 
 <ion-content>
+
+  <!-- Sección eliminados -->
+  @if (mostrarEliminados()) {
+    <ion-card class="eliminados-card">
+      <ion-card-header class="card-header">
+        <ion-card-title>
+          <div class="card-title-row">
+            <ion-icon name="trash-outline" color="danger"></ion-icon>
+            <span>Eliminados recientes</span>
+            <ion-badge color="danger">
+              {{ gastosService.gastosEliminados().length }}
+            </ion-badge>
+          </div>
+        </ion-card-title>
+        <span>Se limpian al cerrar el periodo</span>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list class="delete-list">
+          @for (gasto of gastosService.gastosEliminados(); track gasto.id) {
+            <ion-item>
+              <div slot="start" class="cat-dot"
+                [style.background]="getCategoriaColor(gasto.categoriaId)">
+              </div>
+              <ion-label>
+                <h2>{{ gasto.descripcion }}</h2>
+                <p>{{ getCategoriaNombre(gasto.categoriaId) }} · {{ gasto.fecha | date:'dd/MM/yyyy' }} {{ gasto.hora }}</p>
+              </ion-label>
+              <ion-note slot="end" color="primary">
+                {{ gasto.monto | appCurrency }}
+              </ion-note>
+              <ion-button slot="end" fill="clear" color="success"
+                (click)="restaurarGasto(gasto.id)">
+                <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+              </ion-button>
+            </ion-item>
+          }
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  }
 
   @if (gastosFiltrados().length === 0) {
     <div class="empty-state">

@@ -21,15 +21,13 @@ import {
   IonButtons,
   IonButton,
   AlertController,
-  ModalController,
-} from '@ionic/angular/standalone';
+  ModalController, IonBadge, IonCard, IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   addOutline,
   trashOutline,
   createOutline,
-  funnelOutline,
-} from 'ionicons/icons';
+  funnelOutline, refreshOutline } from 'ionicons/icons';
 import { GastosService } from '../../core/services/gastos.service';
 import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { CATEGORIAS_DEFAULT } from '../../core/models/categoria.model';
@@ -43,7 +41,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 @Component({
   selector: 'app-gastos',
   standalone: true,
-  imports: [
+  imports: [IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonBadge, 
     FormsModule,
     AppCurrencyPipe,
     IonHeader,
@@ -71,7 +69,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
   styleUrls: ['./gastos.page.scss'],
 })
 export class GastosPage {
-  private gastosService = inject(GastosService);
+   gastosService = inject(GastosService);
   private presupuestoService = inject(PresupuestoService);
   private alertCtrl = inject(AlertController);
   private modalCtrl = inject(ModalController);
@@ -82,34 +80,39 @@ export class GastosPage {
   busqueda = signal('');
   filtroCategoria = signal('todas');
   filtroOrden = signal('fecha');
+  mostrarEliminados = signal(false);
 
-gastosFiltrados = computed(() => {
-  // ← debe usar gastosBilleteraActiva, no gastos()
-  let lista = this.gastosService.gastosBilleteraActiva();
+  gastosFiltrados = computed(() => {
+    // ← debe usar gastosBilleteraActiva, no gastos()
+    let lista = this.gastosService.gastosBilleteraActiva();
 
-  const q = this.busqueda().toLowerCase().trim();
-  if (q) {
-    lista = lista.filter(g =>
-      g.descripcion.toLowerCase().includes(q) ||
-      this.getCategoriaNombre(g.categoriaId).toLowerCase().includes(q)
-    );
-  }
+    const q = this.busqueda().toLowerCase().trim();
+    if (q) {
+      lista = lista.filter(
+        (g) =>
+          g.descripcion.toLowerCase().includes(q) ||
+          this.getCategoriaNombre(g.categoriaId).toLowerCase().includes(q)
+      );
+    }
 
-  const cat = this.filtroCategoria();
-  if (cat !== 'todas') {
-    lista = lista.filter(g => g.categoriaId === cat);
-  }
+    const cat = this.filtroCategoria();
+    if (cat !== 'todas') {
+      lista = lista.filter((g) => g.categoriaId === cat);
+    }
 
-  const orden = this.filtroOrden();
-  if (orden === 'monto-desc') lista = [...lista].sort((a, b) => b.monto - a.monto);
-  if (orden === 'monto-asc')  lista = [...lista].sort((a, b) => a.monto - b.monto);
-  if (orden === 'fecha')      lista = [...lista].sort((a, b) => b.creadoEn - a.creadoEn);
+    const orden = this.filtroOrden();
+    if (orden === 'monto-desc')
+      lista = [...lista].sort((a, b) => b.monto - a.monto);
+    if (orden === 'monto-asc')
+      lista = [...lista].sort((a, b) => a.monto - b.monto);
+    if (orden === 'fecha')
+      lista = [...lista].sort((a, b) => b.creadoEn - a.creadoEn);
 
-  return lista;
-});
+    return lista;
+  });
 
   constructor() {
-    addIcons({ addOutline, trashOutline, createOutline, funnelOutline });
+    addIcons({trashOutline,refreshOutline,createOutline,addOutline,funnelOutline});
   }
 
   getCategoriaColor(id: string) {
@@ -162,7 +165,7 @@ gastosFiltrados = computed(() => {
     });
     await modal.present();
   }
-  
+
   async eliminarGasto(id: string) {
     const alert = await this.alertCtrl.create({
       header: '¿Eliminar gasto?',
@@ -178,4 +181,23 @@ gastosFiltrados = computed(() => {
     });
     await alert.present();
   }
+
+  toggleEliminados() {
+  this.mostrarEliminados.update(v => !v);
+}
+
+async restaurarGasto(id: string) {
+  const alert = await this.alertCtrl.create({
+    header: '¿Restaurar gasto?',
+    message: 'El gasto volverá a tu lista activa.',
+    buttons: [
+      { text: 'Cancelar', role: 'cancel' },
+      {
+        text: 'Restaurar',
+        handler: () => this.gastosService.restaurar(id)
+      }
+    ]
+  });
+  await alert.present();
+}
 }
