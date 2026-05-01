@@ -1,0 +1,178 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/presupuesto"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Periodo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @if (!periodo) {
+    <div class="empty-state">
+      <p>Periodo no encontrado</p>
+    </div>
+  }
+
+  @if (periodo) {
+
+    <!-- Rango de fechas -->
+    <div class="periodo-label">
+      <ion-icon name="calendar-outline"></ion-icon>
+      <span>{{ periodoRango }}</span>
+      <ion-badge [color]="periodo.tipo === 'mensual' ? 'primary' : 'warning'">
+        {{ periodo.tipo === 'mensual' ? 'Mensual' : 'Semanal' }}
+      </ion-badge>
+    </div>
+
+    <!-- Card resumen -->
+    <ion-card class="resumen-hero">
+      <ion-card-content>
+
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-icon" style="background: rgba(79,110,247,0.15)">
+              <ion-icon name="wallet-outline" style="color:#4F6EF7"></ion-icon>
+            </div>
+            <span>Presupuesto</span>
+            <strong>{{ periodo.presupuesto | appCurrency }}</strong>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-icon" style="background: rgba(235,68,90,0.15)">
+              <ion-icon name="trending-up-outline" style="color:#eb445a"></ion-icon>
+            </div>
+            <span>Gastado</span>
+            <strong>{{ periodo.totalGastado | appCurrency }}</strong>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-icon"
+              [style.background]="saldoFinal < 0 ? 'rgba(235,68,90,0.15)' : 'rgba(45,211,111,0.15)'">
+              <ion-icon name="cash-outline"
+                [style.color]="saldoFinal < 0 ? '#eb445a' : '#2dd36f'">
+              </ion-icon>
+            </div>
+            <span>Saldo final</span>
+            <strong [style.color]="saldoFinal < 0 ? '#eb445a' : '#2dd36f'">
+              {{ saldoFinal | appCurrency }}
+            </strong>
+          </div>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="progress-wrap">
+          <div class="progress-labels">
+            <span [style.color]="colorBarra">{{ porcentajeUsado | number:'1.0-0' }}% utilizado</span>
+            <span>{{ periodo.gastos.length }} gastos</span>
+          </div>
+          <div class="progress-bg">
+            <div class="progress-fill"
+              [style.width.%]="porcentajeUsado"
+              [style.background]="colorBarra">
+            </div>
+          </div>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Donut por categoría -->
+    @if (periodo.gastos.length > 0) {
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <div class="card-title-row">
+              <ion-icon name="pie-chart-outline"></ion-icon>
+              <span>Gastos por Categoría</span>
+            </div>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <apx-chart
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [labels]="chartOptions.labels"
+            [colors]="chartOptions.colors"
+            [legend]="chartOptions.legend"
+            [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions"
+            [stroke]="chartOptions.stroke"
+            [theme]="chartOptions.theme">
+          </apx-chart>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Mayores gastos -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <div class="card-title-row">
+              <ion-icon name="trending-up-outline"></ion-icon>
+              <span>Mayores Gastos</span>
+            </div>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="gastos-list">
+            @for (item of mayoresGastos; track item.id) {
+              <div class="gasto-item">
+                <div class="cat-icon" [style.background]="item.color + '22'">
+                  <ion-icon [name]="item.icono" [style.color]="item.color"></ion-icon>
+                </div>
+                <div class="gasto-info">
+                  <span class="gasto-nombre">{{ item.nombre }}</span>
+                  <span class="gasto-pct">{{ item.porcentaje | number:'1.0-0' }}% del total</span>
+                </div>
+                <span class="gasto-monto">{{ item.monto | appCurrency }}</span>
+              </div>
+            }
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Lista de gastos -->
+      <ion-card>
+        <ion-card-header class="expense-list-header">
+            <span class='registro'>{{ periodo.gastos.length }} registros</span>
+          <ion-card-title>
+            <div class="card-title-row">
+              <ion-icon name="list-outline"></ion-icon>
+              <span>Lista de gastos</span>
+            </div>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            @for (gasto of periodo.gastos; track gasto.id) {
+              <ion-item>
+                <div slot="start" class="cat-dot"
+                  [style.background]="getCategoriaColor(gasto.categoriaId)">
+                </div>
+                <ion-label>
+                  <h2>{{ gasto.descripcion }}</h2>
+                  <p>{{ getCategoriaNombre(gasto.categoriaId) }} · {{ gasto.fecha }} {{ gasto.hora }}</p>
+                </ion-label>
+                <ion-note slot="end" color="primary">
+                  {{ gasto.monto | appCurrency }}
+                </ion-note>
+              </ion-item>
+            }
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    }
+
+    @if (periodo.gastos.length === 0) {
+      <ion-card>
+        <ion-card-content class="empty-state">
+          <ion-icon name="pie-chart-outline"></ion-icon>
+          <p>Sin gastos en este periodo</p>
+        </ion-card-content>
+      </ion-card>
+    }
+
+  }
+
+</ion-content>

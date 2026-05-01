@@ -24,15 +24,15 @@
 
   <!-- Label periodo -->
   <div class="periodo-label">
-    <ion-icon name="time-outline" style="font-size: 24px;"></ion-icon>
-    <span style="font-size: 16px;">{{ periodoLabel }}</span>
+    <ion-icon name="time-outline" style="font-size: 24px"></ion-icon>
+    <span style="font-size: 16px">{{ periodoLabel }}</span>
   </div>
 
   <!-- Card principal -->
   <ion-card class="presupuesto-hero-card">
     <ion-card-content>
       <div class="monto-principal">
-        <span style="font-size: 20px;"
+        <span style="font-size: 20px"
           >Presupuesto {{ labelPeriodo === 'mes' ? 'mensual' : 'semanal'
           }}</span
         >
@@ -47,7 +47,7 @@
           ></div>
         </div>
         <div class="progress-labels">
-          <span  [style.color]="colorBarra"
+          <span [style.color]="colorBarra"
             >{{ porcentajeUsado | number:'1.0-0' }}% utilizado</span
           >
           <span>{{ estadoTexto }}</span>
@@ -206,9 +206,9 @@
 
     @if (mostrarHistorial) {
     <ion-card-content>
-      <div class="historial-list">
+      <div style="margin: 10px;" class="historial-list">
         @for (p of periodoService.historial(); track p.id) {
-        <div class="historial-item">
+        <div class="historial-item" (click)="verDetallePeriodo(p.id)">
           <div class="historial-info">
             <span class="historial-fecha">
               {{ p.fechaInicio | date:'dd/MM/yy' }} — {{ p.fechaFin |
@@ -226,6 +226,7 @@
               >de {{ p.presupuesto | appCurrency }}</span
             >
           </div>
+          <ion-icon name="chevron-forward-outline" color="medium"></ion-icon>
         </div>
         }
       </div>

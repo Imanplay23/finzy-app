@@ -28,8 +28,7 @@ import {
   lockClosedOutline,
   timeOutline,
   chevronDownOutline,
-  addCircleOutline,
-} from 'ionicons/icons';
+  addCircleOutline, chevronForwardOutline } from 'ionicons/icons';
 import { PresupuestoService } from '../../core/services/presupuesto.service';
 import { GastosService } from '../../core/services/gastos.service';
 import { PeriodoService } from '../../core/services/periodo.service';
@@ -39,6 +38,7 @@ import {
   labelPeriodo,
   labelPeriodoCapital,
 } from '../../core/models/periodo.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-presupuesto',
@@ -73,6 +73,7 @@ export class PresupuestoPage {
   periodoService = inject(PeriodoService);
   private toastCtrl = inject(ToastController);
   private alertCtrl = inject(AlertController);
+  private router = inject(Router);
 
   nuevoMonto: number | null = null;
   mostrarHistorial = false;
@@ -130,16 +131,7 @@ export class PresupuestoPage {
   }
 
   constructor() {
-    addIcons({
-      walletOutline,
-      timeOutline,
-      trendingUpOutline,
-      cashOutline,
-      lockClosedOutline,
-      addCircleOutline,
-      checkmarkCircleOutline,
-      chevronDownOutline,
-    });
+    addIcons({walletOutline,timeOutline,trendingUpOutline,cashOutline,lockClosedOutline,addCircleOutline,checkmarkCircleOutline,chevronDownOutline,chevronForwardOutline,});
   }
 
   async guardar() {
@@ -234,4 +226,8 @@ export class PresupuestoPage {
     });
     await toast.present();
   }
+
+  verDetallePeriodo(id: string) {
+  this.router.navigate(['/periodo-detalle'], { queryParams: { id } });
+}
 }
