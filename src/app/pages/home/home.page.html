@@ -17,20 +17,20 @@
   <p>Mantén el control de tus finanzas</p>
 </div>
 
-<!-- Selector de billetera -->
+<!-- Selector de cuenta -->
 <ion-card class="selector-wallet-card">
-  <ion-card-title>Selector de billetera</ion-card-title>
+  <ion-card-title>Selector de cuenta</ion-card-title>
   <ion-card-content>
-    <div class="billetera-chips">
-      @for (b of billeteraService.billeteras(); track b.id) {
+    <div class="cuenta-chips">
+      @for (c of cuentaService.cuentas(); track c.id) {
       <div
-        class="billetera-chip"
-        [class.active]="billeteraService.billeteraActiva().id === b.id"
-        [style.--chip-color]="b.color"
-        (click)="billeteraService.seleccionar(b)"
+        class="cuenta-chip"
+        [class.active]="cuentaService.cuentaActiva().id === c.id"
+        [style.--chip-color]="c.color"
+        (click)="cuentaService.seleccionar(c)"
       >
-        <ion-icon [name]="b.icono"></ion-icon>
-        <span>{{ b.nombre }}</span>
+        <ion-icon [name]="c.icono"></ion-icon>
+        <span>{{ c.nombre }}</span>
       </div>
       }
     </div>
@@ -38,22 +38,22 @@
 </ion-card>
 
 
-<!-- Resumen todas las billeteras -->
-@if (billeteraService.billeteras().length > 1) {
+<!-- Resumen todas las cuentas -->
+@if (cuentaService.cuentas().length > 1) {
 <ion-card class="resumen-total-card">
   <ion-card-content>
     <div class="resumen-total-header">
       <small>Resumen general</small>
-      <strong>{{ gastosService.totalTodasBilleteras() | appCurrency }}</strong>
+      <strong>{{ gastosService.totalTodasCuentas() | appCurrency }}</strong>
     </div>
-    <div class="billeteras-row">
-      @for (b of billeteraService.billeteras(); track b.id) {
-      <div class="billetera-stat">
-        <div class="billetera-dot" [style.background]="b.color"></div>
-        <div class="billetera-stat-info">
-          <span class="billetera-nombre">{{ b.nombre }}</span>
-          <span class="billetera-monto">
-            {{ (gastosService.totalPorBilletera()[b.id] ?? 0) | appCurrency }}
+    <div class="cuentas-row">
+      @for (c of cuentaService.cuentas(); track c.id) {
+      <div class="cuenta-stat">
+        <div class="cuenta-dot" [style.background]="c.color"></div>
+        <div class="cuenta-stat-info">
+          <span class="cuenta-nombre">{{ c.nombre }}</span>
+          <span class="cuenta-monto">
+            {{ (gastosService.totalPorCuenta()[c.id] ?? 0) | appCurrency }}
           </span>
         </div>
       </div>
@@ -124,7 +124,7 @@
   }
 
   <div class="ultimos-gastos">
-    @for (gasto of gastosService.gastosBilleteraActiva().slice(0, 5); track
+    @for (gasto of gastosService.gastosCuentaActiva().slice(0, 5); track
     gasto.id) {
     <div class="gasto-row">
       <div class="gasto-info">

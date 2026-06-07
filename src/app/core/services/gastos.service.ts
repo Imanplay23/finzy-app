@@ -1,7 +1,7 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { DatabaseService } from './database.service';
 import { PeriodoService } from './periodo.service';
-import { BilleteraService } from './billetera.service';
+import { CuentaService } from './cuenta.service';
 import { Gasto } from '../models/gastos.model';
 
 const TABLA = 'gastos';
@@ -10,7 +10,7 @@ const TABLA = 'gastos';
 export class GastosService {
   private db = inject(DatabaseService);
   private periodoService = inject(PeriodoService);
-  private billeteraService = inject(BilleteraService);
+  private cuentaService = inject(CuentaService);
   private readonly KEY_ELIMINADOS = 'gastos_eliminados';
   private readonly MAX_ELIMINADOS = 20;
 
@@ -20,18 +20,18 @@ export class GastosService {
   private _gastos = signal<Gasto[]>([]);
   gastos = this._gastos.asReadonly();
 
-  // Gastos de la billetera activa
-  gastosBilleteraActiva = computed(() => {
-    const billeteraId = this.billeteraService.billeteraActiva().id;
-    return this._gastos().filter((g) => g.billeteraId === billeteraId);
+  // Gastos de la cuenta activa
+  gastosCuentaActiva = computed(() => {
+    const cuentaId = this.cuentaService.cuentaActiva().id;
+    return this._gastos().filter((g) => g.cuentaId === cuentaId);
   });
 
-  // Gastos del periodo activo de la billetera activa
+  // Gastos del periodo activo de la cuenta activa
   gastosPeriodoActual = computed(() => {
     const inicio = this.periodoService.fechaInicio();
     const fin = this.periodoService.fechaFin();
     if (!inicio || !fin) return [];
-    return this.gastosBilleteraActiva().filter(
+    return this.gastosCuentaActiva().filter(
       (g) => g.fecha >= inicio && g.fecha <= fin
     );
   });
@@ -52,8 +52,8 @@ export class GastosService {
     return mapa;
   });
 
-  // Total de todas las billeteras (para el resumen en Home)
-  totalTodasBilleteras = computed(() => {
+  // Total de todas las cuentas (para el resumen en Home)
+  totalTodasCuentas = computed(() => {
     const inicio = this.periodoService.fechaInicio();
     const fin = this.periodoService.fechaFin();
     if (!inicio || !fin) return 0;
@@ -62,7 +62,7 @@ export class GastosService {
       .reduce((acc, g) => acc + g.monto, 0);
   });
 
-  totalPorBilletera = computed(() => {
+  totalPorCuenta = computed(() => {
     const inicio = this.periodoService.fechaInicio();
     const fin = this.periodoService.fechaFin();
     if (!inicio || !fin) return {} as Record<string, number>;
@@ -70,7 +70,7 @@ export class GastosService {
     this._gastos()
       .filter((g) => g.fecha >= inicio && g.fecha <= fin)
       .forEach((g) => {
-        mapa[g.billeteraId] = (mapa[g.billeteraId] ?? 0) + g.monto;
+        mapa[g.cuentaId] = (mapa[g.cuentaId] ?? 0) + g.monto;
       });
     return mapa;
   });
@@ -86,6 +86,7 @@ export class GastosService {
     const datos = this.db.getAll<Gasto>(this.KEY_ELIMINADOS);
     this._gastosEliminados.set(datos);
   }
+
   private migrarGastosLegacy() {
     const raw = localStorage.getItem('gastos');
     if (!raw) return;
@@ -94,20 +95,20 @@ export class GastosService {
     let migrado = false;
 
     const actualizados = gastos.map((g: any) => {
-      if (!g.billeteraId) {
+      if (g.billeteraId && !g.cuentaId) {
         migrado = true;
-        return { ...g, billeteraId: 'principal' };
+        const { billeteraId, ...rest } = g;
+        return { ...rest, cuentaId: billeteraId };
+      }
+      if (!g.cuentaId) {
+        migrado = true;
+        return { ...g, cuentaId: 'principal' };
       }
       return g;
     });
 
     if (migrado) {
       localStorage.setItem('gastos', JSON.stringify(actualizados));
-      console.log(
-        `✅ Migrados ${
-          actualizados.filter((g: any) => g.billeteraId === 'principal').length
-        } gastos a billetera principal`
-      );
     }
   }
 
@@ -116,10 +117,10 @@ export class GastosService {
     this._gastos.set(datos.sort((a, b) => b.creadoEn - a.creadoEn));
   }
 
-  agregar(gasto: Omit<Gasto, 'id' | 'creadoEn' | 'billeteraId'>): void {
+  agregar(gasto: Omit<Gasto, 'id' | 'creadoEn' | 'cuentaId'>): void {
     const nuevo: Gasto = {
       ...gasto,
-      billeteraId: this.billeteraService.billeteraActiva().id,
+      cuentaId: this.cuentaService.cuentaActiva().id,
       id: crypto.randomUUID(),
       creadoEn: Date.now(),
     };
@@ -136,7 +137,6 @@ export class GastosService {
     const gasto = this._gastos().find((g) => g.id === id);
 
     if (gasto) {
-      // Agregar al historial de eliminados
       const eliminados = this.db.getAll<Gasto>(this.KEY_ELIMINADOS);
       const actualizados = [gasto, ...eliminados].slice(0, this.MAX_ELIMINADOS);
       localStorage.setItem(this.KEY_ELIMINADOS, JSON.stringify(actualizados));
@@ -152,10 +152,8 @@ export class GastosService {
     const gasto = eliminados.find((g) => g.id === id);
     if (!gasto) return;
 
-    // Devolver a la lista activa
     this.db.save(TABLA, gasto);
 
-    // Quitar del historial
     const actualizados = eliminados.filter((g) => g.id !== id);
     localStorage.setItem(this.KEY_ELIMINADOS, JSON.stringify(actualizados));
     this._gastosEliminados.set(actualizados);

@@ -24,7 +24,7 @@ export class PresupuestoService {
     if (activo) {
       const actualizado = { ...activo, presupuesto: monto };
       // Key dinámica por billetera
-      const key = `periodo_activo_${actualizado.billeteraId}`;
+      const key = `periodo_activo_${actualizado.cuentaId}`;
       this.db.saveOne(key, actualizado);
       this.periodoService.actualizarPeriodoActivo(actualizado);
     } else {
@@ -37,7 +37,7 @@ export class PresupuestoService {
   if (!activo) return;
 
   const actualizado = { ...activo, presupuesto: activo.presupuesto + monto };
-  const key = `periodo_activo_${actualizado.billeteraId}`;
+  const key = `periodo_activo_${actualizado.cuentaId}`;
   this.db.saveOne(key, actualizado);
   this.periodoService.actualizarPeriodoActivo(actualizado);
 }

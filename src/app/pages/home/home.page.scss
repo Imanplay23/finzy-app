@@ -159,7 +159,7 @@
   font-size:  14px;
 }
 
-.billetera-chips {
+.cuenta-chips {
   display:        flex;
   gap:            8px;
   margin-bottom:  16px;
@@ -169,7 +169,7 @@
   &::-webkit-scrollbar { display: none; }
 }
 
-.billetera-chip {
+.cuenta-chip {
   display:        flex;
   align-items:    center;
   gap:            6px;
@@ -205,7 +205,6 @@
 
 .resumen-total-card {
   margin: 15px;
-  
 }
 
 .resumen-total-header {
@@ -228,47 +227,46 @@
   }
 }
 
-.billeteras-row {
+.cuentas-row {
   display:        flex;
   flex-direction: column;
   gap:            8px;
 }
 
-.billetera-stat {
+.cuenta-stat {
   display:     flex;
   align-items: center;
   gap:         10px;
 }
 
-.billetera-dot {
+.cuenta-dot {
   width:         10px;
   height:        10px;
   border-radius: 50%;
   flex-shrink:   0;
 }
 
-.billetera-stat-info {
+.cuenta-stat-info {
   display:         flex;
   justify-content: space-between;
   flex:            1;
 
-  .billetera-nombre {
+  .cuenta-nombre {
     font-size:   16px;
     font-weight: 500;
     color:       var(--ion-color-medium);
   }
 
-  .billetera-monto {
+  .cuenta-monto {
     font-size:   14px;
     font-weight: 700;
   }
 }
 
-.selector-wallet-card{
-
+.selector-wallet-card {
   margin:   10px;
 
-  ion-card-title{
+  ion-card-title {
     margin: 15px;
   }
 }

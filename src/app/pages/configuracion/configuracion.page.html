@@ -53,68 +53,48 @@
         <ion-select-option value="semanal">Semanal</ion-select-option>
       </ion-select>
     </ion-item>
-    <!-- Font size slider -->
-    <!-- <ion-item>
-      <ion-icon slot="start" name="text-outline" color="primary"></ion-icon>
-      <ion-label>
-        Tamaño de texto
-        <p>{{ fontSizeService.escalaPorcentaje }}%</p>
-      </ion-label>
-    </ion-item>
-    <ion-item lines="full">
-      <ion-range
-        [min]="0.85"
-        [max]="1.3"
-        [step]="0.05"
-        [value]="fontSizeService.escala()"
-        (ionChange)="onFontSizeChange($event)"
-        color="primary">
-        <span slot="start">A</span>
-        <span slot="end" style="font-size: 20px; font-weight: 700">A</span>
-      </ion-range>
-    </ion-item> -->
   </ion-card>
 
   <ion-card>
-    <ion-card-header>Billeteras</ion-card-header>
+    <ion-card-header>Cuentas</ion-card-header>
 
-    @for (b of billeteraService.billeteras(); track b.id) {
+    @for (c of cuentaService.cuentas(); track c.id) {
     <ion-item-sliding>
       <ion-item>
         <div
           slot="start"
-          class="billetera-preview"
-          [style.background]="b.color + '22'"
+          class="cuenta-preview"
+          [style.background]="c.color + '22'"
         >
-          <ion-icon [name]="b.icono" [style.color]="b.color"></ion-icon>
+          <ion-icon [name]="c.icono" [style.color]="c.color"></ion-icon>
         </div>
-        <ion-label>{{ b.nombre }}</ion-label>
+        <ion-label>{{ c.nombre }}</ion-label>
       </ion-item>
 
       <!-- Editar — swipe izquierda -->
       <ion-item-options side="start">
-        <ion-item-option color="primary" (click)="abrirBilleteraModal(b)">
+        <ion-item-option color="primary" (click)="abrirCuentaModal(c)">
           <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-item-option>
       </ion-item-options>
 
       <!-- Eliminar — swipe derecha (solo si no es principal) -->
-      @if (b.id !== 'principal') {
+      @if (c.id !== 'principal') {
       <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="eliminarBilletera(b.id)">
+        <ion-item-option color="danger" (click)="eliminarCuenta(c.id)">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-item-option>
       </ion-item-options>
       }
     </ion-item-sliding>
-    } @if (billeteraService.puedeAgregar()) {
-    <ion-item button (click)="abrirBilleteraModal()">
+    } @if (cuentaService.puedeAgregar()) {
+    <ion-item button (click)="abrirCuentaModal()">
       <ion-icon
         slot="start"
         name="add-circle-outline"
         color="primary"
       ></ion-icon>
-      <ion-label color="primary">Agregar billetera</ion-label>
+      <ion-label color="primary">Agregar cuenta</ion-label>
     </ion-item>
     }
   </ion-card>
