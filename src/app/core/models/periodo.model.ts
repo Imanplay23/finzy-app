@@ -8,7 +8,7 @@ export interface PeriodoActivo {
   fechaInicio:  string; // ISO date: yyyy-MM-dd
   fechaFin:     string;
   presupuesto:  number;
-  billeteraId: string;
+  cuentaId: string;
 }
 
 export interface PeriodoCerrado {
@@ -20,7 +20,7 @@ export interface PeriodoCerrado {
   totalGastado: number;
   gastos:       Gasto[];
   creadoEn:     number;
-  billeteraId: string;
+  cuentaId: string;
 }
 
 // Helpers para calcular fechas

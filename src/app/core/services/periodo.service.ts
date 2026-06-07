@@ -1,6 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { DatabaseService } from './database.service';
-import { BilleteraService } from './billetera.service';
+import { CuentaService } from './cuenta.service';
 import {
   PeriodoActivo,
   PeriodoCerrado,
@@ -16,7 +16,7 @@ const KEY_TIPO = 'periodo_tipo';
 @Injectable({ providedIn: 'root' })
 export class PeriodoService {
   private db = inject(DatabaseService);
-  private billeteraService = inject(BilleteraService);
+  private cuentaService = inject(CuentaService);
 
   private _periodoActivo = signal<PeriodoActivo | null>(null);
   private _historial = signal<PeriodoCerrado[]>([]);
@@ -31,13 +31,13 @@ export class PeriodoService {
 
   constructor() {
     this.cargar();
-    // Registrar callback para cuando cambie la billetera
-    this.billeteraService.registrarOnCambio(() => this.cargar());
+    // Registrar callback para cuando cambie la cuenta
+    this.cuentaService.registrarOnCambio(() => this.cargar());
   }
 
-  // Key única por billetera
+  // Key única por cuenta
   private keyActivo(): string {
-    return `periodo_activo_${this.billeteraService.billeteraActiva().id}`;
+    return `periodo_activo_${this.cuentaService.cuentaActiva().id}`;
   }
 
   cargar() {
@@ -54,7 +54,6 @@ export class PeriodoService {
     this._historial.set(historial.sort((a, b) => b.creadoEn - a.creadoEn));
   }
 
-  // Llamar cuando cambia la billetera activa
   actualizarPeriodoActivo(periodo?: PeriodoActivo) {
     if (periodo) {
       this._periodoActivo.set(periodo);
@@ -73,7 +72,7 @@ export class PeriodoService {
       fechaInicio: inicio,
       fechaFin: calcularFechaFin(inicio, tipo),
       presupuesto,
-      billeteraId: this.billeteraService.billeteraActiva().id,
+      cuentaId: this.cuentaService.cuentaActiva().id,
     };
 
     this.db.saveOne(this.keyActivo(), nuevo);
@@ -92,7 +91,7 @@ export class PeriodoService {
       fechaInicio: activo.fechaInicio,
       fechaFin: activo.fechaFin,
       presupuesto: activo.presupuesto,
-      billeteraId: activo.billeteraId,
+      cuentaId: activo.cuentaId,
       totalGastado,
       gastos: [...gastos],
       creadoEn: Date.now(),
@@ -108,7 +107,6 @@ export class PeriodoService {
     this._tipo.set(tipo);
     localStorage.setItem(KEY_TIPO, tipo);
 
-    // Recalcular fechaFin del periodo activo si existe
     const activo = this._periodoActivo();
     if (activo) {
       const actualizado: PeriodoActivo = {
@@ -133,9 +131,9 @@ export class PeriodoService {
     return calcularProximoInicio(activo.fechaFin);
   }
 
-  // Historial filtrado por billetera activa
-  historialBilleteraActiva = computed(() => {
-    const billeteraId = this.billeteraService.billeteraActiva().id;
-    return this._historial().filter((p) => p.billeteraId === billeteraId);
+  // Historial filtrado por cuenta activa
+  historialCuentaActiva = computed(() => {
+    const cuentaId = this.cuentaService.cuentaActiva().id;
+    return this._historial().filter((p) => p.cuentaId === cuentaId);
   });
 }

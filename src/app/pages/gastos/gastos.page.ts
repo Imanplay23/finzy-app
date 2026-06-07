@@ -83,8 +83,8 @@ export class GastosPage {
   mostrarEliminados = signal(false);
 
   gastosFiltrados = computed(() => {
-    // ← debe usar gastosBilleteraActiva, no gastos()
-    let lista = this.gastosService.gastosBilleteraActiva();
+    // ← debe usar gastosCuentaActiva, no gastos()
+    let lista = this.gastosService.gastosCuentaActiva();
 
     const q = this.busqueda().toLowerCase().trim();
     if (q) {
