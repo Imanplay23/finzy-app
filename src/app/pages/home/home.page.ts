@@ -31,7 +31,7 @@ import { CurrencyService } from '../../core/services/currency.service';
 import { AppCurrencyPipe } from '../../core/pipes/app-currency.pipe';
 import { DecimalPipe } from '@angular/common';
 import { DatePipe } from '@angular/common';
-import { BilleteraService } from '../../core/services/billetera.service';
+import { CuentaService } from '../../core/services/cuenta.service';
 
 @Component({
   selector: 'app-home',
@@ -60,7 +60,7 @@ export class HomePage {
   gastosService = inject(GastosService);
   presupuestoService = inject(PresupuestoService);
   currencyService = inject(CurrencyService);
-  billeteraService = inject(BilleteraService);
+  cuentaService = inject(CuentaService);
 
   saldoDisponible = computed<number | null>(() => {
     const p = this.presupuestoService.presupuesto();

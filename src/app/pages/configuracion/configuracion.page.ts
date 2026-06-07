@@ -41,19 +41,15 @@ import { FontSizeService } from '../../core/services/font-size.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { ToastController } from '@ionic/angular/standalone';
 import { PeriodoService } from '../../core/services/periodo.service';
-import { BilleteraService } from '../../core/services/billetera.service';
-import {
-  ICONOS_BILLETERA,
-  COLORES_BILLETERA,
-  Billetera,
-} from '../../core/models/billetera.model';
+import { CuentaService } from '../../core/services/cuenta.service';
+import { Cuenta } from '../../core/models/cuenta.model';
 import { ModalController } from '@ionic/angular/standalone';
-import { BilleteraModalComponent } from './components/billetera-modal/billetera-modal.component';
+import { CuentaModalComponent } from './components/cuenta-modal/cuenta-modal.component';
 
 @Component({
   selector: 'app-configuracion',
   standalone: true,
-  imports: [IonItemSliding, IonItemOption, IonItemOptions, IonCardHeader, 
+  imports: [IonItemSliding, IonItemOption, IonItemOptions, IonCardHeader,
     IonButton,
     IonCard,
     FormsModule,
@@ -87,7 +83,7 @@ export class ConfiguracionPage {
   private notificationService = inject(NotificationService);
   private toastCtrl = inject(ToastController);
   private alertCtrl = inject(AlertController);
-  billeteraService = inject(BilleteraService);
+  cuentaService = inject(CuentaService);
   private modalCtrl = inject(ModalController);
   divisas = DIVISAS;
 
@@ -95,10 +91,10 @@ export class ConfiguracionPage {
     addIcons({calendarOutline,cashOutline,refreshOutline,informationCircleOutline,notificationsOutline,chevronForwardOutline,createOutline,trashOutline,addCircleOutline,textOutline,moonOutline,sunnyOutline,});
   }
 
-  async abrirBilleteraModal(billetera?: Billetera) {
+  async abrirCuentaModal(cuenta?: Cuenta) {
     const modal = await this.modalCtrl.create({
-      component: BilleteraModalComponent,
-      componentProps: { billetera: billetera ?? null },
+      component: CuentaModalComponent,
+      componentProps: { cuenta: cuenta ?? null },
       breakpoints: [0, 0.85, 1],
       initialBreakpoint: 0.85,
     });
@@ -108,20 +104,18 @@ export class ConfiguracionPage {
     const { data } = await modal.onDidDismiss();
     if (!data) return;
 
-    if (billetera) {
-      // Editar
-      this.billeteraService.editar({
-        ...billetera,
+    if (cuenta) {
+      this.cuentaService.editar({
+        ...cuenta,
         nombre: data.nombre,
         icono: data.icono,
         color: data.color,
       });
     } else {
-      // Crear
-      const ok = this.billeteraService.agregar(data);
+      const ok = this.cuentaService.agregar(data);
       if (!ok) {
         const toast = await this.toastCtrl.create({
-          message: 'Máximo 5 billeteras permitidas',
+          message: 'Máximo 5 cuentas permitidas',
           duration: 2000,
           color: 'warning',
           position: 'top',
@@ -131,16 +125,16 @@ export class ConfiguracionPage {
     }
   }
 
-  async eliminarBilletera(id: string) {
+  async eliminarCuenta(id: string) {
     const alert = await this.alertCtrl.create({
-      header: '¿Eliminar billetera?',
+      header: '¿Eliminar cuenta?',
       message: 'Se eliminarán todos los gastos asociados.',
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
           text: 'Eliminar',
           cssClass: 'alert-danger',
-          handler: () => this.billeteraService.eliminar(id),
+          handler: () => this.cuentaService.eliminar(id),
         },
       ],
     });
