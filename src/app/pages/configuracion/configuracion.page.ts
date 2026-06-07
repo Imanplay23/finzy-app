@@ -34,7 +34,7 @@ import {
   chevronForwardOutline,
   calendarOutline,
   trashOutline,
-  addCircleOutline, createOutline } from 'ionicons/icons';
+  addCircleOutline, createOutline, logOutOutline, personCircleOutline } from 'ionicons/icons';
 import { ThemeService } from '../../core/services/theme.service';
 import { CurrencyService, DIVISAS } from '../../core/services/currency.service';
 import { FontSizeService } from '../../core/services/font-size.service';
@@ -45,6 +45,7 @@ import { CuentaService } from '../../core/services/cuenta.service';
 import { Cuenta } from '../../core/models/cuenta.model';
 import { ModalController } from '@ionic/angular/standalone';
 import { CuentaModalComponent } from './components/cuenta-modal/cuenta-modal.component';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-configuracion',
@@ -85,10 +86,11 @@ export class ConfiguracionPage {
   private alertCtrl = inject(AlertController);
   cuentaService = inject(CuentaService);
   private modalCtrl = inject(ModalController);
+  authService = inject(AuthService);
   divisas = DIVISAS;
 
   constructor() {
-    addIcons({calendarOutline,cashOutline,refreshOutline,informationCircleOutline,notificationsOutline,chevronForwardOutline,createOutline,trashOutline,addCircleOutline,textOutline,moonOutline,sunnyOutline,});
+    addIcons({calendarOutline,cashOutline,refreshOutline,informationCircleOutline,notificationsOutline,chevronForwardOutline,createOutline,trashOutline,addCircleOutline,textOutline,moonOutline,sunnyOutline,logOutOutline,personCircleOutline,});
   }
 
   async abrirCuentaModal(cuenta?: Cuenta) {
@@ -156,6 +158,18 @@ export class ConfiguracionPage {
 
   actualizarTasas() {
     this.currencyService.cargarTasas();
+  }
+
+  async cerrarSesion() {
+    const alert = await this.alertCtrl.create({
+      header: 'Cerrar sesión',
+      message: '¿Seguro que quieres salir?',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        { text: 'Salir', cssClass: 'alert-danger', handler: () => this.authService.logout() },
+      ],
+    });
+    await alert.present();
   }
 
   async reprogramarNotificaciones() {

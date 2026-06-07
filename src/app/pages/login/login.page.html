@@ -1,0 +1,40 @@
+<ion-content class="login-content">
+  <div class="login-container">
+
+    <!-- Logo -->
+    <div class="logo-area">
+      <img src="assets/icon-only.png" alt="Finzy" class="logo" />
+      <h1 class="app-name">Finzy</h1>
+      <p class="tagline">Tu finanzas personales, bajo control</p>
+    </div>
+
+    <!-- Card de login -->
+    <div class="login-card">
+      <h2>Bienvenido</h2>
+      <p class="subtitle">Inicia sesión para continuar</p>
+
+      @if (error) {
+        <div class="error-msg">{{ error }}</div>
+      }
+
+      <ion-button
+        expand="block"
+        class="google-btn"
+        [disabled]="cargando"
+        (click)="loginGoogle()">
+        @if (cargando) {
+          <ion-spinner name="crescent" slot="start"></ion-spinner>
+          Conectando...
+        } @else {
+          <ion-icon slot="start" name="logo-google"></ion-icon>
+          Continuar con Google
+        }
+      </ion-button>
+
+      <p class="legal">
+        Al continuar aceptas los términos de uso y la política de privacidad de Finzy.
+      </p>
+    </div>
+
+  </div>
+</ion-content>
