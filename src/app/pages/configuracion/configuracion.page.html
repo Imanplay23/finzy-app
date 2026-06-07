@@ -8,18 +8,18 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+
   <!-- Apariencia -->
   <ion-card>
     <ion-card-header>Apariencia</ion-card-header>
-    <!-- Dark/light mode-->
+
     <ion-item>
       <ion-icon
         size="large"
         slot="start"
         [name]="themeService.darkMode() ? 'moon-outline' : 'sunny-outline'"
         [color]="themeService.darkMode() ? 'primary' : 'warning'"
-      >
-      </ion-icon>
+      ></ion-icon>
       <ion-label>
         Modo oscuro
         <p>{{ themeService.darkMode() ? 'Activado' : 'Desactivado' }}</p>
@@ -28,17 +28,11 @@
         slot="end"
         [checked]="themeService.darkMode()"
         (ionChange)="themeService.toggle()"
-      >
-      </ion-toggle>
+      ></ion-toggle>
     </ion-item>
-    <!-- Selector de tipo de periodo -->
+
     <ion-item>
-      <ion-icon
-        size="large"
-        slot="start"
-        name="calendar-outline"
-        color="primary"
-      ></ion-icon>
+      <ion-icon size="large" slot="start" name="calendar-outline" color="primary"></ion-icon>
       <ion-label>
         Tipo de periodo
         <p>{{ periodoService.tipo() === 'mensual' ? 'Mensual' : 'Semanal' }}</p>
@@ -55,96 +49,69 @@
     </ion-item>
   </ion-card>
 
+  <!-- Cuentas -->
   <ion-card>
     <ion-card-header>Cuentas</ion-card-header>
 
     @for (c of cuentaService.cuentas(); track c.id) {
-    <ion-item-sliding>
-      <ion-item>
-        <div
-          slot="start"
-          class="cuenta-preview"
-          [style.background]="c.color + '22'"
-        >
-          <ion-icon [name]="c.icono" [style.color]="c.color"></ion-icon>
-        </div>
-        <ion-label>{{ c.nombre }}</ion-label>
+      <ion-item-sliding>
+        <ion-item>
+          <div slot="start" class="cuenta-preview" [style.background]="c.color + '22'">
+            <ion-icon [name]="c.icono" [style.color]="c.color"></ion-icon>
+          </div>
+          <ion-label>{{ c.nombre }}</ion-label>
+        </ion-item>
+
+        <ion-item-options side="start">
+          <ion-item-option color="primary" (click)="abrirCuentaModal(c)">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+        @if (c.id !== 'principal') {
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="eliminarCuenta(c.id)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        }
+      </ion-item-sliding>
+    }
+
+    @if (cuentaService.puedeAgregar()) {
+      <ion-item button (click)="abrirCuentaModal()">
+        <ion-icon slot="start" name="add-circle-outline" color="primary"></ion-icon>
+        <ion-label color="primary">Agregar cuenta</ion-label>
       </ion-item>
-
-      <!-- Editar — swipe izquierda -->
-      <ion-item-options side="start">
-        <ion-item-option color="primary" (click)="abrirCuentaModal(c)">
-          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-
-      <!-- Eliminar — swipe derecha (solo si no es principal) -->
-      @if (c.id !== 'principal') {
-      <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="eliminarCuenta(c.id)">
-          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-      }
-    </ion-item-sliding>
-    } @if (cuentaService.puedeAgregar()) {
-    <ion-item button (click)="abrirCuentaModal()">
-      <ion-icon
-        slot="start"
-        name="add-circle-outline"
-        color="primary"
-      ></ion-icon>
-      <ion-label color="primary">Agregar cuenta</ion-label>
-    </ion-item>
     }
   </ion-card>
 
-  <!-- Divisa -->
+  <!-- Moneda -->
   <ion-card>
     <ion-card-header>Moneda</ion-card-header>
 
     <ion-item>
-      <ion-icon
-        size="large"
-        slot="start"
-        name="cash-outline"
-        color="primary"
-      ></ion-icon>
+      <ion-icon size="large" slot="start" name="cash-outline" color="primary"></ion-icon>
       <ion-label>Divisa</ion-label>
-      <div>
-        <ion-select
-          slot="end"
-          interface="popover"
-          [value]="currencyService.divisaActual().codigo"
-          (ionChange)="onDivisaChange($event)"
-        >
-          <ion-select-option *ngFor="let d of divisas" [value]="d.codigo">
-            {{ d.bandera }} {{ d.codigo }} — {{ d.nombre }}
-          </ion-select-option>
-        </ion-select>
-      </div>
+      <ion-select
+        slot="end"
+        interface="popover"
+        [value]="currencyService.divisaActual().codigo"
+        (ionChange)="onDivisaChange($event)"
+      >
+        <ion-select-option *ngFor="let d of divisas" [value]="d.codigo">
+          {{ d.bandera }} {{ d.codigo }} — {{ d.nombre }}
+        </ion-select-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-icon
-        size="large"
-        slot="start"
-        name="refresh-outline"
-        color="primary"
-      ></ion-icon>
+      <ion-icon size="large" slot="start" name="refresh-outline" color="primary"></ion-icon>
       <ion-label>
         Actualizar tasas
-        <p>
-          {{ currencyService.cargando() ? 'Actualizando...' : 'Tasa en tiempo
-          real' }}
-        </p>
+        <p>{{ currencyService.cargando() ? 'Actualizando...' : 'Tasa en tiempo real' }}</p>
       </ion-label>
-      <ion-note
-        slot="end"
-        color="primary"
-        (click)="actualizarTasas()"
-        style="cursor: pointer"
-      >
+      <ion-note slot="end" color="primary" (click)="actualizarTasas()" style="cursor: pointer">
         {{ currencyService.cargando() ? '...' : 'Sync' }}
       </ion-note>
     </ion-item>
@@ -155,12 +122,7 @@
     <ion-card-header>Notificaciones</ion-card-header>
 
     <ion-item button (click)="reprogramarNotificaciones()">
-      <ion-icon
-        size="large"
-        slot="start"
-        name="notifications-outline"
-        color="primary"
-      ></ion-icon>
+      <ion-icon size="large" slot="start" name="notifications-outline" color="primary"></ion-icon>
       <ion-label>
         Reprogramar notificaciones
         <p>Recordatorio diario y resumen semanal</p>
@@ -169,23 +131,10 @@
     </ion-item>
   </ion-card>
 
-  <!-- Info -->
-  <ion-card>
-    <ion-card-header>Información</ion-card-header>
-    <ion-item>
-      <ion-icon
-        size="large"
-        slot="start"
-        name="information-circle-outline"
-      ></ion-icon>
-      <ion-label>Versión</ion-label>
-      <ion-note slot="end">2.0.4</ion-note>
-    </ion-item>
-  </ion-card>
-
-  <!-- Cuenta de usuario -->
+  <!-- Mi cuenta (Google) -->
   <ion-card>
     <ion-card-header>Mi cuenta</ion-card-header>
+
     <ion-item>
       <ion-icon size="large" slot="start" name="person-circle-outline" color="primary"></ion-icon>
       <ion-label>
@@ -193,9 +142,22 @@
         <p>{{ authService.email }}</p>
       </ion-label>
     </ion-item>
+
     <ion-item button (click)="cerrarSesion()">
       <ion-icon size="large" slot="start" name="log-out-outline" color="danger"></ion-icon>
       <ion-label color="danger">Cerrar sesión</ion-label>
     </ion-item>
   </ion-card>
+
+  <!-- Información (siempre al final) -->
+  <ion-card>
+    <ion-card-header>Información</ion-card-header>
+
+    <ion-item>
+      <ion-icon size="large" slot="start" name="information-circle-outline"></ion-icon>
+      <ion-label>Versión</ion-label>
+      <ion-note slot="end">2.0.4</ion-note>
+    </ion-item>
+  </ion-card>
+
 </ion-content>

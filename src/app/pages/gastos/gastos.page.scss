@@ -38,7 +38,10 @@ ion-fab-button {
 }
 
 ion-searchbar {
-  color: white;
+  --color: var(--ion-text-color);
+  --placeholder-color: var(--ion-color-medium);
+  --background: var(--ion-card-background);
+  --border-radius: var(--radius-md);
 }
 
 ion-content {
