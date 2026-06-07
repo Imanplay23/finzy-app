@@ -1,0 +1,113 @@
+:host {
+  --login-bg: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+.login-content {
+  --background: var(--login-bg);
+}
+
+.login-container {
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  min-height:      100%;
+  padding:         32px 24px;
+  gap:             40px;
+}
+
+.logo-area {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            8px;
+
+  .logo {
+    width:         120px;
+    height:        120px;
+    object-fit:    contain;
+    filter:        drop-shadow(0 8px 24px rgba(79, 110, 247, 0.5));
+    animation:     float 3s ease-in-out infinite;
+  }
+
+  .app-name {
+    font-size:   40px;
+    font-weight: 800;
+    color:       #ffffff;
+    margin:      0;
+    background:  linear-gradient(135deg, #4F6EF7, #7c9ef7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .tagline {
+    color:     rgba(255,255,255,0.6);
+    font-size: 14px;
+    margin:    0;
+  }
+}
+
+.login-card {
+  width:         100%;
+  max-width:     400px;
+  background:    rgba(255,255,255,0.07);
+  border:        1px solid rgba(255,255,255,0.12);
+  border-radius: 24px;
+  padding:       32px 24px;
+  backdrop-filter: blur(16px);
+
+  h2 {
+    color:       #ffffff;
+    font-size:   24px;
+    font-weight: 700;
+    margin:      0 0 6px;
+    text-align:  center;
+  }
+
+  .subtitle {
+    color:       rgba(255,255,255,0.5);
+    font-size:   14px;
+    text-align:  center;
+    margin:      0 0 28px;
+  }
+}
+
+.error-msg {
+  background:    rgba(235, 68, 90, 0.15);
+  border:        1px solid rgba(235, 68, 90, 0.4);
+  border-radius: 10px;
+  color:         #ff6b81;
+  font-size:     13px;
+  padding:       10px 14px;
+  margin-bottom: 16px;
+  text-align:    center;
+}
+
+.google-btn {
+  --background:       #ffffff;
+  --color:            #1a1a2e;
+  --border-radius:    14px;
+  --box-shadow:       0 4px 16px rgba(0,0,0,0.3);
+  font-weight:        700;
+  font-size:          16px;
+  height:             52px;
+  margin-bottom:      16px;
+
+  ion-icon {
+    font-size: 20px;
+    color:     #4285f4;
+  }
+}
+
+.legal {
+  color:      rgba(255,255,255,0.3);
+  font-size:  11px;
+  text-align: center;
+  margin:     0;
+  line-height: 1.5;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
